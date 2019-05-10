@@ -1,0 +1,9 @@
+{
+    "db": {
+        "hostname": "localhost",
+        "username": "authuser",
+        "password": "3yW=te'-b8tnd:Zk",
+        "database": "walkinly-db"
+    },
+    "secret": "LTB9qv,j<:,.!Hh58k-r#&82m+w}$?;5}hUXfGF&"
+}
