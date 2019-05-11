@@ -1,21 +1,14 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
+import { Button } from 'react-native-elements';
 
 export default class App extends React.Component {
   state = {
-    bool: true
+    
   }
 
   handlePress = () => {
-    if (bool) {
-      this.setState({
-        bool: false
-      })
-    } else {
-      this.setState({
-        bool: true
-      })
-    }
+    
   }
 
   render() {
@@ -25,23 +18,13 @@ export default class App extends React.Component {
         <View style={styles.centerContent}>
           <Text>Map</Text>
         </View>
-        {/* <View>
-          <Button
-            style={styles.sosButton}
-            onPress={this.handlePress}
-            title="Learn More"
-            color="#841584"
-            accessibilityLabel="Learn more about this purple button"
-          />
-        </View> */}
-        <View 
-          style={styles.sosButton}
+        <Button
+          buttonStyle={styles.sosButton}
+          titleStyle={styles.sosText}
           onPress={this.handlePress}
-        >
-          <View style={styles.sosCircle}>
-            <Text style={styles.sosText}>SOS</Text>
-          </View>
-        </View>
+          raised
+          title="SOS"
+        />
       </View>
     );
   }
@@ -72,6 +55,7 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
+    borderRadius: 0,
   },
   sosCircle: {
     borderWidth: 2,
