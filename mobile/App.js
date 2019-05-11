@@ -1,13 +1,19 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+
+import SosButton from './components/SosButton';
 import SimpleMap from "./components/Map";
 
 export default class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        {/* <View style={styles.phoneInfoBar} /> */}
+        <View style={styles.phoneInfoBar}></View>
+        <View style={styles.centerContent}>
+          <Text>Map</Text>
+        </View>
         <SimpleMap />
+        <SosButton />
       </View>
     );
   }
