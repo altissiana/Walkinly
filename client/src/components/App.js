@@ -1,15 +1,27 @@
-import React, { Component } from 'react'
-import { Provider } from 'react-redux'
-import store from '../store'
+import React from "react"
+import { Provider } from "react-redux"
+import store from "../store"
+import { BrowserRouter as Router, Route } from "react-router-dom"
+import "../styles/main.css"
+import { AuthProvider } from "../lib/auth"
+import Login from "./auth/Login"
+import Register from "./auth/Register"
 
-class App extends Component {
-  render() {
+const App = props => {
     return (
-      <Provider store={store}>
-        <h1>Hello World</h1>
-      </Provider>
+        <AuthProvider>
+            <Provider store={store}>
+                <Router>
+                    <div>
+                        {/* public routes */}
+                        <Route path="/login" component={Login} />
+                        <Route path="/register" component={Register} />
+
+                    </div>
+                </Router>
+            </Provider>
+        </AuthProvider>
     )
-  }
 }
 
 export default App
