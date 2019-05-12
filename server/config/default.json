@@ -5,5 +5,6 @@
         "password": "3yW=te'-b8tnd:Zk",
         "database": "walkinly-db"
     },
-    "secret": "LTB9qv,j<:,.!Hh58k-r#&82m+w}$?;5}hUXfGF&"
+    "secret": "LTB9qv,j<:,.!Hh58k-r#&82m+w}$?;5}hUXfGF&",
+    "salt": "jYgA^;RDfZ(SYWzWv>6BgH?L[&:ccjCb"
 }
