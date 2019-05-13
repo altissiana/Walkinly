@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Image } from 'react-native'
-import { createAppContainer, createStackNavigator } from 'react-navigation'
+import { createStackNavigator, createAppContainer } from 'react-navigation'
 
 import Welcome from '../screens2/Welcome'
-import Login from '../screens2/Login'
+//import Login from '../screens2/Login'
 // import Signup from '../screens/Signup'
 // import Forgot from '../screens/Forgot'
 // import Map from '../screens/Map'
@@ -11,34 +11,31 @@ import Login from '../screens2/Login'
 
 
 
-const screens = createtackNavigator({
-    Welcome,
-    Login,
+const MainStack = createStackNavigator({
+    welcome: {
+        screen: Welcome,
+        path: '/welcome'
+    }
+    // Welcome: {
+    //     welcome: Welcome
+    // }
+
+    //login: Login,
     //Signup,
     //Forgot,
     // Map,
     // Settings,
+},
+    {
+        initialRouteName: 'welcome',
+    }
+);
 
-}, {
-        defaultNavigationOptions: {
-            headerStyle: {
-                height: theme.sizes.base * 4,
-                backgroundColor: theme.colors.white,
-                borderBottomColor: 'transparent',
-                elevation: 0,
-            },
-            // headerBackImage: <Image source={require('../assets/icons/back.png')}/>, got get a icon and call it back.png?
-            headerBackTitle: null,
-            headerLeftContainerStyle: {
-                alignItems: 'center',
-                marginLeft: theme.sizes.base * 2,
-                paddingRight: theme.sizes.base,
-            },
-            headerRightContainerStyle: {
-                alignItems: 'center',
-                paddingRight: theme.sizes.base
-            },
-        }
-    });
-
-export default createAppContainer(screens);
+// class screens extends Component {
+//     render() {
+//         return (
+//             <Welcome />
+//         )
+//     }
+// }
+export default createAppContainer(MainStack)
