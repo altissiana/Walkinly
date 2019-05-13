@@ -2,11 +2,11 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 import { AppLoading, Asset } from 'expo'
-import Navigation from './navigation2'
-import * as constants from './constants'
-import { Block } from './components'
+import Navigation from './navigation2/index'
+/* import * as constants from './constants'
+import { Block } from './components' */
 
-const images = [
+/* const images = [
   //we're importing all images
 
   require('./assets/images/grady_1.jpg'),
@@ -14,7 +14,7 @@ const images = [
   require('./assets/images/grady_3.jpg'),
   require('./assets/images/grady_4.jpeg'),
   require('./assets/images/grady_5.jpg'),
-];
+]; */
 
 export default class App extends React.Component {
   state = {
@@ -31,23 +31,8 @@ export default class App extends React.Component {
   }
 
   render() {
-    if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
-      return (
-        <AppLoading
-          startAsync={this.handleResourcesAsync}
-          onError={error => console.warn(error)}
-          onFinish={() => this.setState({ isLoadingComplete: true })}
-        />
-      )
-    }
-
     return (
-      <View style={styles.container}>
-        <Navigation />
-      </View>
+      <Navigation />
     );
   }
 }
-
-const styles = StyleSheet.create({
-});
