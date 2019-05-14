@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Linking } from 'react-native';
 import { Button } from 'react-native-elements';
 
 class SosButton extends Component {
   handlePress = () => {
-
+    Linking.openURL(`tel:5733303465`)
   }
 
   render() {
