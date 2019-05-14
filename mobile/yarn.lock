@@ -841,7 +841,7 @@
   version "0.1.0"
   resolved "https://registry.yarnpkg.com/@mapbox/point-geometry/-/point-geometry-0.1.0.tgz#8a83f9335c7860effa2eeeca254332aa0aeed8f2"
   integrity sha1-ioP5M1x4YO/6Lu7KJUMyqgru2PI=
-  
+
 "@react-navigation/core@~3.4.1":
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/@react-navigation/core/-/core-3.4.1.tgz#8c7e0e53cfb8ccaf87afb76a2733f5e5fde20cd8"
@@ -3118,7 +3118,7 @@ history@^4.9.0:
     tiny-invariant "^1.0.2"
     tiny-warning "^1.0.0"
     value-equal "^0.4.0"
-    
+
 hoist-non-react-statics@^2.3.1, hoist-non-react-statics@^2.5.0:
   version "2.5.5"
   resolved "https://registry.yarnpkg.com/hoist-non-react-statics/-/hoist-non-react-statics-2.5.5.tgz#c5903cf409c0dfd908f388e619d86b9c1174cb47"
@@ -4789,7 +4789,7 @@ react-devtools-core@3.3.4:
   dependencies:
     shell-quote "^1.6.1"
     ws "^3.3.1"
-    
+
 react-dom@^16.8.6:
   version "16.8.6"
   resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-16.8.6.tgz#71d6303f631e8b0097f56165ef608f051ff6e10f"
