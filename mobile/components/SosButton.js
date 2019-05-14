@@ -10,7 +10,7 @@ class SosButton extends Component {
   render() {
     return (
       <View style={styles.fullWidth}>
-        <Button
+        <Button 
           buttonStyle={styles.sosButton}
           titleStyle={styles.sosText}
           onPress={this.handlePress}
