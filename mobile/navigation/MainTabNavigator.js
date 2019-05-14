@@ -6,6 +6,9 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import UserSettingsScreen from '../screens/UserSettingsScreen';
 import ConnectionsScreen from '../screens/ConnectionsScreen';
+import LocalReportsScreen from '../screens/LocalReportsScreen';
+import TipsScreen from '../screens/TipsScreen';
+import UserProfileScreen from '../screens/UserProfileScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -53,8 +56,53 @@ UserSettingsStack.navigationOptions = {
   ),
 };
 
+const LocalReportsStack = createStackNavigator({
+  LocalReports: LocalReportsScreen,
+});
+
+LocalReportsStack.navigationOptions = {
+  tabBarLabel: 'Local Reports',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+    />
+  ),
+};
+
+const TipsStack = createStackNavigator({
+  Tips: TipsScreen,
+});
+
+TipsStack.navigationOptions = {
+  tabBarLabel: 'Tips',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+    />
+  ),
+};
+
+const UserProfileStack = createStackNavigator({
+  UserProfile: UserProfileScreen,
+});
+
+UserProfileStack.navigationOptions = {
+  tabBarLabel: 'User Profile',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
+    />
+  ),
+};
+
 export default createMaterialTopTabNavigator({
   HomeStack,
   ConnectionsStack,
   UserSettingsStack,
+  LocalReportsStack,
+  TipsStack,
+  UserProfileStack,
 });
