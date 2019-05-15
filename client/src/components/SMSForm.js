@@ -55,7 +55,7 @@ class SMSForm extends Component {
 
   render() {
     return (
-      <form onSubmit={this.onSubmit}
+      <form /* onSubmit={this.onSubmit} */
       className={this.state.error ? 'error sms-form' : 'sms-form'}>
         <div>
           <label htmlFor="to">To:</label>
