@@ -5,6 +5,8 @@ import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import SosButton from './components/SosButton';
 
+/* import SMSForm from '../client/src/components/SMSForm'; */
+
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
