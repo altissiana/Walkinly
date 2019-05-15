@@ -6,90 +6,107 @@ import {
     ScrollView,
     View,
     Text,
-    Animated
+    Animated,
+    Modal,
+    Block
 } from 'react-native'
 import navigation from '../navigation2/index';
 import Background from '../assets/grady3.jpg'
-import { Button } from 'react-native-material-ui';
-
-// import { ScrollView } from 'react-native-gesture-handler';
-// import { Animated } from "react-animated-css";
-
-
+import { Button } from 'react-native-elements';
+import Terms from '../components/Terms'
 
 class Welcome extends Component {
-    // constructor(props) {
-    //     super(props);
+    /* static navigationOptions = {
+        header: null
+    } */
 
-    //     this.state = {
-    //         showTerms: true
-    //     }
-    // }
-    // static navigationOptions = {
-    //     header: null
-    // }
+    state = {
+        showTerms: false
+    }
 
-    // renderTermsService() {
-    //     return (
-    //         <Animated animationIn="slideInUp" visible={this.state.showTerms}>
-    //             <View>
-    //                 <Text>Terms of Service</Text>
-    //                 <ScrollView>
-    //                     <Text>
-    //                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    //                 </Text>
-    //                     <Text>
-    //                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    //                 </Text>
-    //                     <Text>
-    //                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    //                 </Text>
-    //                     <Text>
-    //                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    //                 </Text>
-    //                     <Text>
-    //                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    //                 </Text>
-    //                     <Text>
-    //                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-    //                 </Text>
-    //                 </ScrollView>
 
-    //                 <Button title="I understand" onPress={() => this.setState({ showTerms: false })}>
-    //                 </Button>
-    //             </View>
-    //         </Animated >
-    //     )
-    // }
 
     render() {
+
         const { navigation } = this.props;
 
         return (
             <View>
                 <Image source={Background} style={{ width: '100%', position: 'absolute', zIndex: -1 }} />
                 <View style={styles.container}>
-                    <View center bottom flex={0.5}>
+                    <View>
                         <Text style={styles.welcome}>Don't Walk. Alone.</Text>
-                        <Text style={styles.welcome2}>We'll watch over you.</Text>
                     </View>
                     <View>
-                        {/* <Button title='Login' variant="contained" onPress={() => navigation.navigate('Login')}>
-                        </Button> */}
-                        <Button raised primary text="Login" title='Login' variant="contained" onPress={() => navigation.navigate('Login')} />
-                        {/* <Button title='Signup' variant="outlined" onPress={() => navigation.navigate('Signup')}>
-                        </Button> */}
-                        <Button accent primary text="Signup" title='Signup' variant="outlined" onPress={() => navigation.navigate('Signup')} />
-                        {/* <Button title='Terms of Service' onPress={() => this.setState({ showTerms: true })}>
-                        </Button> */}
-                        <Button primary text="Terms of Service" title='Terms of Service' onPress={() => this.setState({ showTerms: true })} />
+                        <Text style={styles.logo}> Walkinly </Text>
                     </View>
-                    {/* {this.renderTermsService()} */}
+                    <View style={styles.containerStyle}>
+                        <Button
+                            type="solid"
+                            title="LOGIN"
+                            onPress={() => navigation.navigate('Login')}
+                            style={{
+                                marginBottom: 20,
+                                shadowColor: "#fff",
+
+                                shadowColor: "#000",
+                                shadowOffset: {
+                                    width: 0,
+                                    height: 3,
+                                },
+                                shadowOpacity: 0.27,
+                                shadowRadius: 4.65,
+
+                                elevation: 6,
+                            }}
+                            buttonStyle={{
+                                height: 50,
+                                width: 150,
+                                backgroundColor: '#e2e4e9',
+                                border: '#e2e4e9'
+                            }}
+                            titleStyle={{ color: '#767689', fontSize: 20 }}
+                        />
+                        <Button
+                            type="outline"
+                            title="Signup"
+                            onPress={() => navigation.navigate('Signup')}
+                            style={{
+                                marginBottom: 20,
+                                shadowColor: "#cccfd8",
+                                shadowOpacity: 0.8,
+                                shadowRadius: 2,
+                                shadowOffset: {
+                                    height: 1,
+                                    width: 1
+                                }
+                            }}
+                            buttonStyle={{
+                                height: 50,
+                                width: 150,
+                                borderColor: '#6a7189',
+                            }}
+                            titleStyle={{ color: '#6a7189', fontSize: 20 }}
+                        />
+                        <Button raised
+                            type="clear"
+                            title='Terms of Service'
+                            onPress={() => this.setState({ showTerms: true })}
+                            style={{ marginBottom: 40 }}
+                            titleStyle={{ color: '#6a7189', fontSize: 20 }}
+
+                        />
+                        {this.state.showTerms ? <Terms /> : <View />}
+                    </View>
                 </View >
             </View>
         )
     }
-}
+};
+
+
+
+
 
 
 const styles = StyleSheet.create({
@@ -98,26 +115,52 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         position: 'absolute',
-        marginTop: '100%',
-        marginLeft: '20%'
+        marginTop: 480,
+        marginLeft: '25%',
+    },
+    containerStyle: {
+        marginRight: 40,
+        flex: 1,
+        flexDirection: 'column',
     },
     welcome:
     {
-        color: '#000000',
-        fontSize: 30,
+        color: 'black',
+        fontSize: 40,
+        marginTop: -350,
+        marginRight: 20,
+        fontFamily: 'AvenirNext-UltraLight',
+        shadowColor: "#92a9fe",
+        shadowOffset: {
+            width: 0,
+            height: 3,
+        },
+        shadowOpacity: 0.29,
+        shadowRadius: 4.65,
 
+        elevation: 7,
     },
-    welcome2:
+    logo:
     {
-        color: '#B0C4DE',
-        fontSize: 18,
+        color: '#e2e4e9',
+        fontSize: 30,
+        marginTop: -250,
+        marginLeft: -30,
+        fontFamily: 'Noteworthy-Bold',
+        shadowColor: "#fff",
+        shadowOffset: {
+            width: 0,
+            height: 6,
+        },
+        shadowOpacity: 0.37,
+        shadowRadius: 7.49,
+
+        elevation: 24,
 
     },
-    backgroundImage: {
+    ImageBackground: {
         flex: 1,
-        width: null,
-        height: null,
-        resizeMode: 'cover'
+        resizeMode: 'cover',
     }
 
 })
