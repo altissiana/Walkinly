@@ -1,14 +1,11 @@
 import React from 'react';
-import { Platform } from 'react-native';
 import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 
-import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import UserSettingsScreen from '../screens/UserSettingsScreen';
 import ConnectionsScreen from '../screens/ConnectionsScreen';
 import LocalReportsScreen from '../screens/LocalReportsScreen';
 import TipsScreen from '../screens/TipsScreen';
-import UserProfileScreen from '../screens/UserProfileScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -16,16 +13,6 @@ const HomeStack = createStackNavigator({
 
 HomeStack.navigationOptions = {
   tabBarLabel: 'Home',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={
-        Platform.OS === 'ios'
-          ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
-      }
-    />
-  ),
 };
 
 const ConnectionsStack = createStackNavigator({
@@ -33,13 +20,7 @@ const ConnectionsStack = createStackNavigator({
 });
 
 ConnectionsStack.navigationOptions = {
-  tabBarLabel: 'Connections',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'}
-    />
-  ),
+  tabBarLabel: 'Friends & Family',
 };
 
 const UserSettingsStack = createStackNavigator({
@@ -48,12 +29,6 @@ const UserSettingsStack = createStackNavigator({
 
 UserSettingsStack.navigationOptions = {
   tabBarLabel: 'User Settings',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-    />
-  ),
 };
 
 const LocalReportsStack = createStackNavigator({
@@ -62,12 +37,6 @@ const LocalReportsStack = createStackNavigator({
 
 LocalReportsStack.navigationOptions = {
   tabBarLabel: 'Local Reports',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-    />
-  ),
 };
 
 const TipsStack = createStackNavigator({
@@ -76,26 +45,6 @@ const TipsStack = createStackNavigator({
 
 TipsStack.navigationOptions = {
   tabBarLabel: 'Tips',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-    />
-  ),
-};
-
-const UserProfileStack = createStackNavigator({
-  UserProfile: UserProfileScreen,
-});
-
-UserProfileStack.navigationOptions = {
-  tabBarLabel: 'User Profile',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon
-      focused={focused}
-      name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'}
-    />
-  ),
 };
 
 export default createMaterialTopTabNavigator({
@@ -104,5 +53,18 @@ export default createMaterialTopTabNavigator({
   UserSettingsStack,
   LocalReportsStack,
   TipsStack,
-  UserProfileStack,
+},
+{
+  tabBarOptions: {
+    labelStyle: {
+      fontSize: 10,
+    },
+    indicatorStyle: {
+      backgroundColor: 'dodgerblue',
+      height: 3,
+    },
+    style: {
+      backgroundColor: 'black',
+    }
+  }
 });
