@@ -1,3 +1,4 @@
+require('dotenv');
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -7,10 +8,10 @@ var logger = require('morgan');
 var ejwt = require('express-jwt')
 const config = require('config')
 const pino = require('express-pino-logger')();
-const mobile = require('twilio')(
-  'AC005d10553fc35846b7e3cab0bed0a724', 
-  '35cd09289ba0c7a70f240d82c38b1547'
-);
+/* const mobile = require('twilio')(
+  process.env.TWILIO_ACCOUNT_SID, 
+  process.env.TWILIO_AUTH_TOKEN
+); */
 const client = require('twilio')(
   'AC005d10553fc35846b7e3cab0bed0a724', 
   '35cd09289ba0c7a70f240d82c38b1547'
@@ -31,7 +32,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(pino);
 
-app.post('/api/messages', (req, res) => {
+app.post('http://10.68.0.155:3001/api/messages', (req, res) => {
   res.header('Content-Type', 'application/json');
   client.messages
     .create({
