@@ -6,7 +6,7 @@ import SimpleMap from '../components/Map';
 export default class HomeScreen extends React.Component {
   render() {
     return (
-      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View style={styles.map}>
         
         <SimpleMap />
         
@@ -18,5 +18,7 @@ export default class HomeScreen extends React.Component {
 const styles = StyleSheet.create({
   map: {
     flex: 1,
-  }
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });

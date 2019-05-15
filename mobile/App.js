@@ -5,8 +5,6 @@ import { AppLoading, Asset, Font, Icon } from 'expo';
 import AppNavigator from './navigation/AppNavigator';
 import SosButton from './components/SosButton';
 
-/* import SMSForm from '../client/src/components/SMSForm'; */
-
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
@@ -61,15 +59,6 @@ export default class App extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  /* container: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    bottom: 0,
-    right: 0,
-    justifyContent: "flex-end",
-    alignItems: "center"
-  }, */
   container: {
     flex: 1,
     backgroundColor: '#fff',
