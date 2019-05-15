@@ -21,7 +21,10 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "This app uses the geolocation to determine a user's location for tracking for themselves and their 'followers'."
+      }
     }
   }
 }
