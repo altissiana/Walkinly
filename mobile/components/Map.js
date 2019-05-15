@@ -7,8 +7,8 @@ export default class SimpleMap extends React.Component {
     userLocation: {
       latitude: 0,
       longitude: 0,
-      latitudeDelta: 0.1,
-      longitudeDelta: 0.1
+      latitudeDelta: 0,
+      longitudeDelta: 0
     }
   }
 
