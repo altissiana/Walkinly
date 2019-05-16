@@ -2,14 +2,14 @@ import React, { Component } from 'react';
 import { Audio } from 'expo';
 import { StyleSheet, View, Linking } from 'react-native';
 import { Button } from 'react-native-elements';
-import alarm from '../assets/sounds/alarm.mp3'
+import alarm from '../assets/sounds/alarm.mp3';
 
 Audio.setIsEnabledAsync(true)
 
 class SosButton extends Component {
   state = {
     message: {
-      to: `7029370330`,
+      to: `5733303465`,
       body: `SOS FROM <user name>: I may be in trouble! Here's my location: <location>. Please try to contact me at <phone number>!`
     },
     submitting: false,
@@ -19,7 +19,10 @@ class SosButton extends Component {
       longitude: 0,
       latitudeDelta: 0,
       longitudeDelta: 0
-    }
+    },
+    alarmSound: new Audio.Sound(),
+    statusSOS: false,
+    labelSOS: 'SOS' 
   }
 
   getUserLocation = () => {
@@ -51,7 +54,7 @@ class SosButton extends Component {
             error: false,
             submitting: false,
             message: {
-              to: `7029370330`,
+              to: `5733303465`,
               body: `SOS FROM <user name>: I may be in trouble! Here's my location: <location>. Please try to contact me at <phone number>!`
             }
           });
@@ -65,15 +68,35 @@ class SosButton extends Component {
   }
 
   handleSOSPress = async () => {
-    this.sendSOSMessage()
-    try {
-      const alarmSound = new Audio.Sound();
-      await alarmSound.loadAsync(alarm);
-      await alarmSound.playAsync();
-    } catch (e) {
-        console.log(`cannot play the sound file`, e)
+    if (!this.state.statusSOS) {
+      this.setState({
+        labelSOS: 'STOP'
+      })
+      /* this.sendSOSMessage() */
+      try {
+        await this.state.alarmSound.loadAsync(alarm);
+        await this.state.alarmSound.playAsync();
+        await this.state.alarmSound.setIsLoopingAsync(true);
+  
+      } catch (e) {
+          console.log(`cannot play the sound file`, e);
+      }
+      /* setTimeout(() => {Linking.openURL(`tel:7609099640`)}, 1000) */
+    } else {
+      this.setState({
+        labelSOS: 'SOS'
+      })
+      try {
+        await this.state.alarmSound.setIsLoopingAsync(false)
+        await this.state.alarmSound.stopAsync();
+        await this.state.alarmSound.unloadAsync();
+      } catch (e) {
+        console.log('cannot stop the sound file', e);
+      }
     }
-    setTimeout(() => {Linking.openURL(`tel:7609099640`)}, 1000)
+    this.setState({
+      statusSOS: !this.state.statusSOS
+    })
   }
 
   render() {
@@ -84,7 +107,7 @@ class SosButton extends Component {
           titleStyle={styles.sosText}
           onPress={this.handleSOSPress}
           raised
-          title="SOS"
+          title={this.state.labelSOS}
         />
       </View>
     )
