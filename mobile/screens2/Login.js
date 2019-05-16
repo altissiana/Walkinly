@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
 import {
-    ActivityIndicator,
     Keyboard,
-    KeyboardAvoidingView,
-    StyleSheet
+    StyleSheet,
+    Text,
+    View,
+    TextInput,
+    ActivityIndicator
 } from 'react-native';
-import { Button, Block, Text } from '../components'
+import { Button } from 'react-native-elements';
 
-const VALID_EMAIL = 'contact@walkinly.com';
-const VALID_PASSWORD = 'subscribe'
+const VALID_EMAIL = ''
+const VALID_PASSWORD = ''
 
-export default class Login extends React.Component {
+class Login extends Component {
     state = {
         email: VALID_EMAIL,
         password: VALID_PASSWORD,
@@ -18,7 +20,7 @@ export default class Login extends React.Component {
         loading: false
     }
 
-    handleLogin() {
+    handleLogin = () => {
         const { navigation } = this.props;
         const { email, password } = this.state;
         const errors = [];
@@ -26,22 +28,24 @@ export default class Login extends React.Component {
         Keyboard.dismiss();
         this.setState({ loading: true });
 
+        navigation.navigate('App')
+
 
         // setTimeout(() => {
 
-        if (email !== VALID_EMAIL) {
-            errors.push('email');
-        }
-        if (password !== VALID_PASSWORD) {
-            errors.push('password');
-        }
+        //     if (email !== VALID_EMAIL) {
+        //         errors.push('email');
+        //     }
+        //     if (password !== VALID_PASSWORD) {
+        //         errors.push('password');
+        //     }
 
-        this.setState({ errors, loading: false });
+        //     this.setState({ errors, loading: false });
 
-        if (!errors.length) {
-            navigation.navigate('Browse')
-        }
-        // } 2000);
+        //     if (!errors.length) {
+        //         navigation.navigate('Browse')
+        //     }
+        // } 
     }
 
     render() {
@@ -50,53 +54,68 @@ export default class Login extends React.Component {
         const hasErrors = key => errors.includes(key) ? styles.hasErrors : null;
 
         return (
-            <KeyboardAvoidingView style={styles.login} behavior='padding'>
-                <Block padding={[0, theme.sizes.base * 2]}>
-                    <Text h1 bold>Login</Text>
-                    <Block middle>
-                        <input
-                            label='Email'
-                            style={[styles.input, hasErrors('email')]}
-                            defaultValue={this.state.email}
-                            onChangeText={text => this.setState({ email: text })}
+            <View>
+                <Text style={{ color: 'black', fontSize: 40 }}>Login</Text>
 
-                        />
-                        <input
-                            secure
-                            label='Password'
-                            style={[styles.input, hasErrors('password')]}
-                            defaultValue={this.state.password}
-                            onChangeText={text => this.setState({ password: text })}
-                        />
-                        <Button gradient onPress={() => this.handleLogin()}>
-                            {loading ?
-                                <ActivityIndicator size='small' color='white' /> :
-                                <Text bold white center>Login</Text>
-                            }
-                        </Button>
-                        <Button onPress={() => navigation.navigate('Forgot')}>
-                            <Text gray caption center style={{ textDecorationLine: 'underline' }}>Forgot your password?</Text>
-                        </Button>
-                    </Block>
-                </Block>
-            </KeyboardAvoidingView>
+                <TextInput
+                    label='Email'
+                    style={[styles.input, hasErrors('email')]}
+                    defaultValue={this.state.email}
+                    onChangeText={text => this.setState({ email: text })}
+                    style={styles.input}
+                />
+                <TextInput
+                    secure
+                    label='Password'
+                    style={[styles.input, hasErrors('password')]}
+                    defaultValue={this.state.password}
+                    onChangeText={text => this.setState({ password: text })}
+                    style={styles.input}
+                />
+                <Button
+                    buttonStyle={{
+                        height: 80,
+                        width: 200,
+                        backgroundColor: '#6a7189',
+                        marginLeft: 110
+                    }}
+                    style={styles.butts}
+                    type='solid'
+                    title='Enter'
+                    onPress={() => this.handleLogin} >
+
+
+                </Button>
+                <Button
+                    style={styles.butts}
+                    type='clear'
+                    title='Forgot your password?'
+                    onPress={() => navigation.navigate('Register')}>
+                </Button>
+
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
-    login: {
-        flex: 3,
-        justifyContent: 'center'
-
-    },
     input: {
         borderRadius: 0,
-        borderWidth: 0,
-        //borderBottomColor: theme.colors.gray2,
-        //borderBottomWidth: StyleSheet.hairlineWidth
+        borderWidth: 2,
+        borderColor: 'transparent',
+        borderBottomColor: 'black',
+        padding: 10,
+        marginTop: 40,
+        fontSize: 25
+
+    },
+    butts: {
+        marginTop: 80
     },
     hasErrors: {
-        //borderBottomColor: theme.colors.accent
+
     }
 })
+
+
+export default Login

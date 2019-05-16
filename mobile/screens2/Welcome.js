@@ -8,10 +8,9 @@ import {
     Text,
     Animated,
     Modal,
-    Block
+    Block,
+    ImageBackground
 } from 'react-native'
-import navigation from '../navigation2/index';
-import Background from '../assets/grady3.jpg'
 import { Button } from 'react-native-elements';
 import Terms from '../components/Terms'
 
@@ -29,84 +28,87 @@ class Welcome extends Component {
     render() {
 
         const { navigation } = this.props;
+        console.log(this.props)
 
         return (
-            <View>
-                <Image source={Background} style={{ width: '100%', position: 'absolute', zIndex: -1 }} />
-                <View style={styles.container}>
-                    <View>
-                        <Text style={styles.welcome}>Don't Walk. Alone.</Text>
-                    </View>
-                    <View>
-                        <Text style={styles.logo}> Walkinly </Text>
-                    </View>
-                    <View style={styles.containerStyle}>
-                        <Button
-                            type="solid"
-                            title="LOGIN"
-                            onPress={() => navigation.navigate('Login')}
-                            style={{
-                                marginBottom: 20,
-                                shadowColor: "#fff",
+            <ImageBackground
+                source={require('../assets/grady3.jpg')}
+                style={styles.img}>
+                <View>
+                    <View style={styles.container}>
+                        <View>
+                            <Text style={styles.welcome}>Don't Walk. Alone.</Text>
+                        </View>
+                        <View>
+                            <Text style={styles.logo}> Walkinly </Text>
+                        </View>
+                        <View style={styles.containerStyle}>
+                            <Button
+                                type="solid"
+                                title="LOGIN"
+                                onPress={() => navigation.navigate('login')}
+                                style={{
+                                    marginBottom: 20,
+                                    shadowColor: "#fff",
 
-                                shadowColor: "#000",
-                                shadowOffset: {
-                                    width: 0,
-                                    height: 3,
-                                },
-                                shadowOpacity: 0.27,
-                                shadowRadius: 4.65,
+                                    shadowColor: "#000",
+                                    shadowOffset: {
+                                        width: 0,
+                                        height: 3,
+                                    },
+                                    shadowOpacity: 0.27,
+                                    shadowRadius: 4.65,
 
-                                elevation: 6,
-                            }}
-                            buttonStyle={{
-                                height: 50,
-                                width: 150,
-                                backgroundColor: '#e2e4e9',
-                                border: '#e2e4e9'
-                            }}
-                            titleStyle={{ color: '#767689', fontSize: 20 }}
-                        />
-                        <Button
-                            type="outline"
-                            title="Signup"
-                            onPress={() => navigation.navigate('Signup')}
-                            style={{
-                                marginBottom: 20,
-                                shadowColor: "#cccfd8",
-                                shadowOpacity: 0.8,
-                                shadowRadius: 2,
-                                shadowOffset: {
-                                    height: 1,
-                                    width: 1
-                                }
-                            }}
-                            buttonStyle={{
-                                height: 50,
-                                width: 150,
-                                borderColor: '#6a7189',
-                            }}
-                            titleStyle={{ color: '#6a7189', fontSize: 20 }}
-                        />
-                        <Button raised
-                            type="clear"
-                            title='Terms of Service'
-                            onPress={() => this.setState({ showTerms: true })}
-                            style={{ marginBottom: 40 }}
-                            titleStyle={{ color: '#6a7189', fontSize: 20 }}
+                                    elevation: 6,
+                                }}
+                                buttonStyle={{
+                                    height: 50,
+                                    width: 150,
+                                    backgroundColor: '#e2e4e9',
+                                    /* border: '#e2e4e9' */
+                                }}
+                                titleStyle={{ color: '#767689', fontSize: 20 }}
+                            />
 
-                        />
-                        {this.state.showTerms ? <Terms /> : <View />}
-                    </View>
-                </View >
-            </View>
+                            <Button
+                                type="outline"
+                                title="Signup"
+                                onPress={() => navigation.navigate('register')}
+                                style={{
+                                    marginBottom: 20,
+                                    shadowColor: "#cccfd8",
+                                    shadowOpacity: 0.8,
+                                    shadowRadius: 2,
+                                    shadowOffset: {
+                                        height: 1,
+                                        width: 1
+                                    }
+                                }}
+                                buttonStyle={{
+                                    height: 50,
+                                    width: 150,
+                                    borderColor: '#6a7189',
+                                }}
+                                titleStyle={{ color: '#6a7189', fontSize: 20 }}
+                            />
+                            <Button raised
+                                type="clear"
+                                title='Terms of Service'
+                                onPress={() => this.setState({ showTerms: true })}
+                                style={{ marginBottom: 40 }}
+                                titleStyle={{ color: '#6a7189', fontSize: 20 }}
+
+                            />
+
+                        </View>
+                    </View >
+                    <Terms visible={this.state.showTerms} />
+                </View>
+
+            </ImageBackground>
         )
     }
 };
-
-
-
-
 
 
 const styles = StyleSheet.create({
@@ -158,9 +160,11 @@ const styles = StyleSheet.create({
         elevation: 24,
 
     },
-    ImageBackground: {
-        flex: 1,
+    img: {
+        width: '100%',
+        height: '100%',
         resizeMode: 'cover',
+
     }
 
 })
