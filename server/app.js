@@ -28,7 +28,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(pino);
 
-app.post('/api/messages', (req, res) => {
+/* app.post('/api/messages', (req, res) => {
   res.header('Content-Type', 'application/json');
   twilio.messages
     .create({
@@ -43,7 +43,7 @@ app.post('/api/messages', (req, res) => {
       console.log(err);
       res.send(JSON.stringify({ success: false }));
     });
-});
+}); */
 
 app.post('http://10.68.0.155:3001/api/messages', (req, res) => {
   res.header('Content-Type', 'application/json');
