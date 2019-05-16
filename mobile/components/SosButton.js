@@ -9,7 +9,7 @@ Audio.setIsEnabledAsync(true)
 class SosButton extends Component {
   state = {
     message: {
-      to: `5733303465`,
+      to: `7029370330`,
       body: `SOS FROM <user name>: I may be in trouble! Here's my location: <location>. Please try to contact me at <phone number>!`
     },
     submitting: false,
@@ -51,7 +51,7 @@ class SosButton extends Component {
             error: false,
             submitting: false,
             message: {
-              to: `5733303465`,
+              to: `7029370330`,
               body: `SOS FROM <user name>: I may be in trouble! Here's my location: <location>. Please try to contact me at <phone number>!`
             }
           });
