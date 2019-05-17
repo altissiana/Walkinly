@@ -34,7 +34,6 @@ const MainStack = createStackNavigator({
     },
 
 
-
 },
 
     {
