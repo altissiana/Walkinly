@@ -46,6 +46,8 @@ class Register extends Component {
 
         return (
             <View>
+                <Text style={{ color: 'black', fontSize: 40 }}>Register</Text>
+
                 <TextInput
                     label='FirstName'
                     placeholder='First Name'

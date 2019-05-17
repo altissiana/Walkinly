@@ -5,6 +5,7 @@ import Welcome from '../screens2/Welcome'
 import Login from '../screens2/Login'
 import Terms from '../screens2/Terms'
 import Register from '../screens2/Register'
+import Forgot from '../screens2/Forgot'
 
 const MainStack = createStackNavigator({
     welcome: {
@@ -17,6 +18,11 @@ const MainStack = createStackNavigator({
         path: 'login'
     },
 
+    forgot: {
+        screen: Forgot,
+        path: 'forgot'
+    },
+
     register: {
         screen: Register,
         path: 'register'
@@ -26,6 +32,8 @@ const MainStack = createStackNavigator({
         screen: Terms,
         path: 'terms'
     },
+
+
 
 },
 

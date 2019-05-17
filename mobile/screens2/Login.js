@@ -59,6 +59,7 @@ class Login extends Component {
 
                 <TextInput
                     label='Email'
+                    placeholder='Email'
                     style={[styles.input, hasErrors('email')]}
                     defaultValue={this.state.email}
                     onChangeText={text => this.setState({ email: text })}
@@ -67,6 +68,7 @@ class Login extends Component {
                 <TextInput
                     secure
                     label='Password'
+                    placeholder='Password'
                     style={[styles.input, hasErrors('password')]}
                     defaultValue={this.state.password}
                     onChangeText={text => this.setState({ password: text })}
@@ -90,7 +92,7 @@ class Login extends Component {
                     style={styles.butts}
                     type='clear'
                     title='Forgot your password?'
-                    onPress={() => navigation.navigate('Register')}>
+                    onPress={() => { navigation.navigate('forgot') }}>
                 </Button>
 
             </View>
