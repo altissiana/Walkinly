@@ -11,13 +11,13 @@ import {
     Block,
     ImageBackground
 } from 'react-native'
-import { Button } from 'react-native-elements';
-import Terms from '../components/Terms'
+import { Button } from 'react-native-elements'
+import Terms from '../screens2/Terms'
 
 class Welcome extends Component {
-    /* static navigationOptions = {
+    static navigationOptions = {
         header: null
-    } */
+    }
 
     state = {
         showTerms: false
@@ -94,7 +94,7 @@ class Welcome extends Component {
                             <Button raised
                                 type="clear"
                                 title='Terms of Service'
-                                onPress={() => this.setState({ showTerms: true })}
+                                onPress={() => navigation.navigate('terms')}
                                 style={{ marginBottom: 40 }}
                                 titleStyle={{ color: '#6a7189', fontSize: 20 }}
 
@@ -102,7 +102,6 @@ class Welcome extends Component {
 
                         </View>
                     </View >
-                    <Terms visible={this.state.showTerms} />
                 </View>
 
             </ImageBackground>
@@ -161,6 +160,7 @@ const styles = StyleSheet.create({
 
     },
     img: {
+        flex: 1,
         width: '100%',
         height: '100%',
         resizeMode: 'cover',
