@@ -9,23 +9,34 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements'
 
-const VALID_USERNAME = ''
+const VALID_FIRSTNAME = ''
+const VALID_LASTNAME = ''
 const VALID_EMAIL = ''
+const VALID_PHONENUMBER = ''
 const VALID_PASSWORD = ''
+
 
 class Register extends Component {
     state = {
-        username: VALID_USERNAME,
+        firstname: VALID_FIRSTNAME,
+        lastname: VALID_LASTNAME,
         email: VALID_EMAIL,
+        phonenumber: VALID_PHONENUMBER,
         password: VALID_PASSWORD,
         errors: [],
         loading: false
     }
 
     handleLogin = () => {
+        const { navigation } = this.props;
+        const { firstname, lastname, email, phonenumber, password } = this.state;
+        const errors = [];
+
+        Keyboard.dismiss();
+        this.setState({ loading: true });
+
+        navigation.navigate('App')
     }
-
-
     render() {
 
         const { navigation } = this.props;
@@ -36,19 +47,37 @@ class Register extends Component {
         return (
             <View>
                 <TextInput
-                    label='Username'
-                    placeholder='Username'
-                    style={[styles.input, hasErrors('username')]}
-                    defaultValue={this.state.email}
-                    onChangeText={text => this.setState({ username: text })}
+                    label='FirstName'
+                    placeholder='First Name'
+                    style={[styles.input, hasErrors('firstname')]}
+                    defaultValue={this.state.firstname}
+                    onChangeText={text => this.setState({ firstname: text })}
                     style={styles.input}
                 />
                 <TextInput
+                    label='LastName'
+                    placeholder='Last Name'
+                    style={[styles.input, hasErrors('lastname')]}
+                    defaultValue={this.state.lastname}
+                    onChangeText={text => this.setState({ lastname: text })}
+                    style={styles.input}
+                />
+                <TextInput
+                    secure
                     label='Email'
                     placeholder='Email'
                     style={[styles.input, hasErrors('email')]}
                     defaultValue={this.state.email}
                     onChangeText={text => this.setState({ email: text })}
+                    style={styles.input}
+                />
+                <TextInput
+                    secure
+                    label='PhoneNumber'
+                    placeholder='Phone Number'
+                    style={[styles.input, hasErrors('phonenumber')]}
+                    defaultValue={this.state.phonenumber}
+                    onChangeText={text => this.setState({ phonenumber: text })}
                     style={styles.input}
                 />
                 <TextInput
@@ -71,12 +100,6 @@ class Register extends Component {
                     type='solid'
                     title='Enter'
                     onPress={() => this.handleLogin}
-                />
-                <Button
-                    style={styles.butts}
-                    type='clear'
-                    title='Forgot your password?'
-                    onPress={() => navigation.navigate('Register')}
                 />
             </View>
 
