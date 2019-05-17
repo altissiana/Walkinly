@@ -7,7 +7,7 @@ import {
     TextInput,
     ActivityIndicator
 } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button } from 'react-native-elements'
 
 const VALID_EMAIL = ''
 const VALID_PASSWORD = ''
