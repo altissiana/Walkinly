@@ -9,7 +9,7 @@ import {
     TouchableOpacity,
     Dimensions
 } from 'react-native'
-import navigation from '../navigation2/index'
+import navigation from '../navigation/LoginNavigator'
 
 const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
     const paddingToBottom = 20;
