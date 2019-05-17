@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
-import { createStackNavigator, createAppContainer } from 'react-navigation'
+import { createStackNavigator } from 'react-navigation'
 
-import Welcome from '../screens2/Welcome'
-import Login from '../screens2/Login'
-import Terms from '../screens2/Terms'
-import Register from '../screens2/Register'
-import Forgot from '../screens2/Forgot'
+import Welcome from '../screens/WelcomeScreen'
+import Login from '../screens/LoginScreen'
+import Terms from '../screens/TermsScreen'
+import Register from '../screens/RegisterScreen'
+import Forgot from '../screens/ForgotScreen'
 
 const LoginStack = createStackNavigator({
     welcome: {
