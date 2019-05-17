@@ -4,24 +4,18 @@ import store from "../store"
 import { BrowserRouter as Router, Route } from "react-router-dom"
 import "../styles/main.css"
 import { AuthProvider } from "../lib/auth"
-import Login from "./auth/Login"
-import Register from "./auth/Register"
+
+import SMSForm from './SMSForm';
 
 const App = props => {
     return (
-        <AuthProvider>
-            <Provider store={store}>
-                <Router>
-                    <div>
-                        {/* public routes */}
-                        <Route path="/login" component={Login} />
-                        <Route path="/register" component={Register} />
+        <div className="App">
+            <header className="App-header">
 
-                    </div>
-                </Router>
-            </Provider>
-        </AuthProvider>
-    )
+            <SMSForm />
+            </header>
+        </div>
+        );
 }
 
 export default App
