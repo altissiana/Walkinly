@@ -12,7 +12,6 @@ import {
     ImageBackground
 } from 'react-native'
 import { Button } from 'react-native-elements'
-import Terms from '../screens2/Terms'
 
 class Welcome extends Component {
     static navigationOptions = {
@@ -23,12 +22,8 @@ class Welcome extends Component {
         showTerms: false
     }
 
-
-
     render() {
-
         const { navigation } = this.props;
-        console.log(this.props)
 
         return (
             <ImageBackground

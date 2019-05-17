@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { createStackNavigator, createAppContainer } from 'react-navigation'
 
-import Welcome from '../screens2/Welcome'
-import Login from '../screens2/Login'
-import Terms from '../screens2/Terms'
-import Register from '../screens2/Register'
+import Welcome from '../screens/WelcomeScreen'
+import Login from '../screens/LoginScreen'
+import Terms from '../screens/TermsScreen'
+import Register from '../screens/RegisterScreen'
 
-const MainStack = createStackNavigator({
+const LoginStack = createStackNavigator({
     welcome: {
         screen: Welcome,
         path: 'welcome'
@@ -34,7 +34,4 @@ const MainStack = createStackNavigator({
     }
 );
 
-export default createAppContainer(MainStack)
-
-
-/* <Route path= /welcome component={Welcome} */
+export default LoginStack
