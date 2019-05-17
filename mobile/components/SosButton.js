@@ -22,7 +22,8 @@ class SosButton extends Component {
     },
     alarmSound: new Audio.Sound(),
     statusSOS: false,
-    labelSOS: 'SOS' 
+    labelSOS: 'SOS',
+    clickableSOS: true
   }
 
   getUserLocation = () => {
@@ -68,35 +69,45 @@ class SosButton extends Component {
   }
 
   handleSOSPress = async () => {
-    if (!this.state.statusSOS) {
+    if (this.state.clickableSOS) {
       this.setState({
-        labelSOS: 'STOP'
+        clickableSOS: false
       })
-      /* this.sendSOSMessage() */
-      try {
-        await this.state.alarmSound.loadAsync(alarm);
-        await this.state.alarmSound.playAsync();
-        await this.state.alarmSound.setIsLoopingAsync(true);
-  
-      } catch (e) {
-          console.log(`cannot play the sound file`, e);
+      if (!this.state.statusSOS) {
+        this.setState({
+          labelSOS: 'STOP'
+        })
+        /* this.sendSOSMessage() */
+        try {
+          await this.state.alarmSound.loadAsync(alarm);
+          await this.state.alarmSound.playAsync();
+          await this.state.alarmSound.setIsLoopingAsync(true);
+    
+        } catch (e) {
+            console.log(`cannot play the sound file`, e);
+        }
+        /* setTimeout(() => {Linking.openURL(`tel:7609099640`)}, 1000) */
+      } else {
+        this.setState({
+          labelSOS: 'SOS'
+        })
+        try {
+          await this.state.alarmSound.setIsLoopingAsync(false)
+          await this.state.alarmSound.stopAsync();
+          await this.state.alarmSound.unloadAsync();
+        } catch (e) {
+          console.log('cannot stop the sound file', e);
+        }
       }
-      /* setTimeout(() => {Linking.openURL(`tel:7609099640`)}, 1000) */
-    } else {
       this.setState({
-        labelSOS: 'SOS'
+        statusSOS: !this.state.statusSOS
       })
-      try {
-        await this.state.alarmSound.setIsLoopingAsync(false)
-        await this.state.alarmSound.stopAsync();
-        await this.state.alarmSound.unloadAsync();
-      } catch (e) {
-        console.log('cannot stop the sound file', e);
-      }
     }
-    this.setState({
-      statusSOS: !this.state.statusSOS
-    })
+    await setTimeout(() => {
+      this.setState({
+        clickableSOS: true
+      })
+    }, 5000)
   }
 
   render() {
