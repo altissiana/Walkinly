@@ -1,11 +1,11 @@
 import React, { Component } from 'react'
 import { createStackNavigator } from 'react-navigation'
 
-import Welcome from '../screens/WelcomeScreen'
-import Login from '../screens/LoginScreen'
-import Terms from '../screens/TermsScreen'
-import Register from '../screens/RegisterScreen'
-import Forgot from '../screens/ForgotScreen'
+import Welcome from '../screens/WelcomeScreen';
+import Login from '../screens/LoginScreen';
+import Terms from '../screens/TermsScreen';
+import Register from '../screens/RegisterScreen';
+import Forgot from '../screens/ForgotScreen';
 
 const LoginStack = createStackNavigator({
     welcome: {
