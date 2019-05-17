@@ -63,8 +63,26 @@ class Terms extends Component {
                         <TouchableOpacity disabled={!this.state.accepted}
                             onPress={() => this.props.navigation.navigate('welcome')}
 
-                            // onPress={() => alert("Terms and conditions accepted")}
+                            style={{
+                                marginBottom: 20,
+                                shadowColor: "#fff",
 
+                                shadowColor: "#000",
+                                shadowOffset: {
+                                    width: 0,
+                                    height: 3,
+                                },
+                                shadowOpacity: 0.27,
+                                shadowRadius: 4.65,
+
+                                elevation: 6,
+                            }}
+                            buttonStyle={{
+                                height: 50,
+                                width: 150,
+                                backgroundColor: '#e2e4e9',
+                            }}
+                            titleStyle={{ color: '#767689', fontSize: 20 }}
 
                             style={this.state.accepted ? styles.button : styles.buttonDisabled}>
                             <Text style={styles.buttonLabel}>Accept</Text>
