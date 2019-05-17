@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
+import { createStackNavigator, createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
 
 import HomeScreen from '../screens/HomeScreen';
 import UserSettingsScreen from '../screens/UserSettingsScreen';
