@@ -49,7 +49,7 @@ export default class SimpleMap extends React.Component {
       }
     })
   }
-
+  
   render() {
     return (
       <View style={styles.container}>
