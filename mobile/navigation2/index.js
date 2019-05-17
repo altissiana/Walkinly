@@ -33,7 +33,10 @@ const MainStack = createStackNavigator({
         path: 'terms'
     },
 
-
+    tips: {
+        screen: Tips,
+        path: 'tips'
+    }
 },
 
     {
