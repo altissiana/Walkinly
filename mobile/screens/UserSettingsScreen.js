@@ -1,8 +1,8 @@
-import React from "react";
+import React, { Component } from "react";
 import { View, Text, AsyncStorage, StyleSheet } from "react-native";
 import { Button } from 'react-native-elements';
 
-export default class UserSettingsScreen extends React.Component {
+export default class UserSettingsScreen extends Component {
   static navigationOptions = {
     header: null
   }
