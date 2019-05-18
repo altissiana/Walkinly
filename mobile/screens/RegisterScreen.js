@@ -5,7 +5,8 @@ import {
     Text,
     View,
     TextInput,
-    ActivityIndicator
+    ActivityIndicator,
+    AsyncStorage
 } from 'react-native';
 import { Button } from 'react-native-elements';
 
@@ -34,6 +35,15 @@ export default class Register extends Component {
         });
     }
 
+    storeToken = async () => {
+        try {
+            await AsyncStorage.setItem('userToken', this.state.email);
+        } catch (e) {
+            console.log(e)
+            throw new Error(e)
+        }
+    }
+
     handleRegister = async () => {
         const { navigation } = this.props;
         const { firstname, lastname, email, phonenumber, password } = this.state;
@@ -42,7 +52,7 @@ export default class Register extends Component {
         Keyboard.dismiss();
         this.state.isMounted && this.setState({ loading: true });
 
-        await AsyncStorage.setItem('userToken', email);
+        this.storeToken();
         navigation.navigate('Main');
     }
 

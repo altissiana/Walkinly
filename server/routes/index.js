@@ -9,7 +9,11 @@ router.post("/register", (req, res, next) => {
   const username = req.body.email;
   const password = sha512(req.body.password + config.get("salt"));
 
-  const checksql = "SELECT count(1) as count FROM Users WHERE Email = ?";
+  const checksql = `
+  SELECT count(1) as count 
+  FROM Users 
+  WHERE Email = ?
+  `
 
   conn.query(checksql, [username], (err, results, fields) => {
     const count = results[0].count;
@@ -39,8 +43,11 @@ router.post("/login", (req, res, next) => {
   const username = req.body.username;
   const password = sha512(req.body.password + config.get("salt"));
 
-  const sql =
-    "SELECT count(1) as count FROM Users WHERE Email = ? AND password = ?";
+  const sql = `
+  SELECT count(1) as count 
+  FROM Users 
+  WHERE Email = ? AND Password = ?
+  `
 
   conn.query(sql, [username, password], (err, results, fields) => {
     const count = results[0].count;
@@ -59,8 +66,8 @@ router.post("/login", (req, res, next) => {
   });
 });
 
-router.get("/Contacts/:email", (req, res, next) => {
-  const email = req.params.email;
+router.get(`/contacts/:email`, (req, res, next) => {
+  const email = req.params.email
 
   const sql = `
   SELECT 
@@ -72,11 +79,14 @@ router.get("/Contacts/:email", (req, res, next) => {
   ON 
     u.id = c.User_id
   WHERE 
-    u.Email = ?`;
+    u.Email = ?
+  `
 
   conn.query(sql, [email], (error, results, fields) => {
-    console.log(error);
     res.json(results);
+    if (error) {
+      console.log("Contacts query error: " + error)
+    }
   });
 });
 
