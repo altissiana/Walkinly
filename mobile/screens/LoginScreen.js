@@ -5,20 +5,26 @@ import {
     Text,
     View,
     TextInput,
-    ActivityIndicator,
     AsyncStorage
 } from 'react-native';
-import { Button } from 'react-native-elements'
+import { Button } from 'react-native-elements';
 
-const VALID_EMAIL = ''
-const VALID_PASSWORD = ''
+const VALID_EMAIL = '';
+const VALID_PASSWORD = '';
 
-class Login extends Component {
+export default class Login extends Component {
     state = {
         email: VALID_EMAIL,
         password: VALID_PASSWORD,
         errors: [],
-        loading: false
+        loading: false,
+        isMounted: false
+    }
+
+    componentDidMount () {
+        this.setState({
+            isMounted: true
+        });
     }
 
     handleLogin = async () => {
@@ -26,30 +32,17 @@ class Login extends Component {
         const { email, password } = this.state;
         const errors = [];
 
+        Keyboard.dismiss();
+        this.state.isMounted && this.setState({ loading: true });
+
         await AsyncStorage.setItem('userToken', email);
         navigation.navigate('Main');
+    }
 
-        Keyboard.dismiss();
-        this.setState({ loading: true });
-
-        /* navigation.navigate('App')
-
-
-        setTimeout(() => {
-
-            if (email !== VALID_EMAIL) {
-                errors.push('email');
-            }
-            if (password !== VALID_PASSWORD) {
-                errors.push('password');
-            }
-
-            this.setState({ errors, loading: false });
-
-            if (!errors.length) {
-                navigation.navigate('Browse')
-            }
-        } */
+    componentWillUnmount () {
+        this.setState({
+            isMounted: false
+        })
     }
 
     render() {
@@ -63,6 +56,7 @@ class Login extends Component {
 
                 <TextInput
                     label='Email'
+                    placeholder='Email'
                     style={[styles.input, hasErrors('email')]}
                     defaultValue={this.state.email}
                     onChangeText={text => this.setState({ email: text })}
@@ -71,6 +65,7 @@ class Login extends Component {
                 <TextInput
                     secure
                     label='Password'
+                    placeholder='Password'
                     style={[styles.input, hasErrors('password')]}
                     defaultValue={this.state.password}
                     onChangeText={text => this.setState({ password: text })}
@@ -86,7 +81,7 @@ class Login extends Component {
                     style={styles.butts}
                     type='solid'
                     title='Enter'
-                    onPress={() => this.handleLogin} >
+                    onPress={() => this.handleLogin()} >
 
 
                 </Button>
@@ -111,15 +106,8 @@ const styles = StyleSheet.create({
         padding: 10,
         marginTop: 40,
         fontSize: 25
-
     },
     butts: {
         marginTop: 80
     },
-    hasErrors: {
-
-    }
-})
-
-
-export default Login
+});
