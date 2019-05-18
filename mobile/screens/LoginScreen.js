@@ -27,6 +27,15 @@ export default class Login extends Component {
         });
     }
 
+    storeToken = async () => {
+        try {
+            await AsyncStorage.setItem('userToken', this.state.email);
+        } catch (e) {
+            console.log(e)
+            throw new Error(e)
+        }
+    }
+
     handleLogin = async () => {
         const { navigation } = this.props;
         const { email, password } = this.state;
@@ -35,7 +44,7 @@ export default class Login extends Component {
         Keyboard.dismiss();
         this.state.isMounted && this.setState({ loading: true });
 
-        await AsyncStorage.setItem('userToken', email);
+        this.storeToken();
         navigation.navigate('Main');
     }
 
