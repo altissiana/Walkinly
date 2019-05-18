@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text } from "react-native";
+import { View, ScrollView, Text } from "react-native";
 import getConnections from "../actions/Actions";
 
 export default class ConnectionsScreen extends Component {
