@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, ScrollView, Text } from "react-native";
+import { View, ScrollView, Text, AsyncStorage } from "react-native";
 import getConnections from "../actions/Actions";
 
 export default class ConnectionsScreen extends Component {
@@ -11,9 +11,11 @@ export default class ConnectionsScreen extends Component {
   };
 
   getConnections = () => {
-    this.setState({
-      connections: getConnections(AsyncStorage.getItem("userToken"))
-    });
+    const token = AsyncStorage.getItem("userToken")
+    console.log(token)
+    /* this.setState({
+      connections: getConnections()
+    }); */
   };
 
   componentDidMount() {
@@ -23,7 +25,7 @@ export default class ConnectionsScreen extends Component {
   render() {
     return (
       <ScrollView
-        style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
+        contentContainerStyle={{ flex: 1, alignItems: "center", justifyContent: "center" }}
       >
         <Text>Connections</Text>
         {this.state.connections.map(contact => {
