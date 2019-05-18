@@ -9,19 +9,19 @@ router.post("/register", (req, res, next) => {
   const username = req.body.email;
   const password = sha512(req.body.password + config.get("salt"));
 
-  const checksql = "SELECT count(1) as count FROM users WHERE username = ?";
+  const checksql = "SELECT count(1) as count FROM Users WHERE Email = ?";
 
   conn.query(checksql, [username], (err, results, fields) => {
     const count = results[0].count;
 
     if (count > 0) {
       res.status(409).json({
-        error: "Username already taken"
+        error: "Email already in use with another account."
       });
     } else {
-      const sql = "INSERT INTO users (username, password) VALUES (?, ?)";
+      const sql = "INSERT INTO users (Email, Password) VALUES (?, ?)";
 
-      conn.query(sql, [username, password], (err, results, fields) => {
+      conn.query(sql, [email, password], (err, results, fields) => {
         if (err) {
           throw new Error("register failed");
         } else {
@@ -40,7 +40,7 @@ router.post("/login", (req, res, next) => {
   const password = sha512(req.body.password + config.get("salt"));
 
   const sql =
-    "SELECT count(1) as count FROM users WHERE username = ? AND password = ?";
+    "SELECT count(1) as count FROM Users WHERE Email = ? AND password = ?";
 
   conn.query(sql, [username, password], (err, results, fields) => {
     const count = results[0].count;
@@ -53,7 +53,7 @@ router.post("/login", (req, res, next) => {
       });
     } else {
       res.status(401).json({
-        error: "Invalid username or password"
+        error: "Invalid Email or password"
       });
     }
   });
