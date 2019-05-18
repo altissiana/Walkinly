@@ -20,7 +20,7 @@ export default class Login extends Component {
         loading: false,
         isMounted: false
     }
-
+y
     componentDidMount () {
         this.setState({
             isMounted: true
