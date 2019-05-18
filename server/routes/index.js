@@ -59,7 +59,7 @@ router.post("/login", (req, res, next) => {
   });
 });
 
-router.get("/contacts/:email", (req, res, next) => {
+router.get("/Contacts/:email", (req, res, next) => {
   const email = req.params.email;
 
   const sql = `
