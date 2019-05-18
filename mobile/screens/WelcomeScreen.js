@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import {
     Image,
     StyleSheet,
@@ -10,10 +10,10 @@ import {
     Modal,
     Block,
     ImageBackground
-} from 'react-native'
-import { Button } from 'react-native-elements'
+} from 'react-native';
+import { Button } from 'react-native-elements';
 
-class Welcome extends Component {
+export default class Welcome extends Component {
     static navigationOptions = {
         header: null
     }
@@ -92,13 +92,10 @@ class Welcome extends Component {
                                 onPress={() => navigation.navigate('terms')}
                                 style={{ marginBottom: 40 }}
                                 titleStyle={{ color: '#6a7189', fontSize: 20 }}
-
                             />
-
                         </View>
-                    </View >
+                    </View>
                 </View>
-
             </ImageBackground>
         )
     }
@@ -119,8 +116,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
     },
-    welcome:
-    {
+    welcome: {
         color: 'black',
         fontSize: 40,
         marginTop: -350,
@@ -133,11 +129,9 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.29,
         shadowRadius: 4.65,
-
         elevation: 7,
     },
-    logo:
-    {
+    logo: {
         color: '#e2e4e9',
         fontSize: 30,
         marginTop: -250,
@@ -150,18 +144,12 @@ const styles = StyleSheet.create({
         },
         shadowOpacity: 0.37,
         shadowRadius: 7.49,
-
         elevation: 24,
-
     },
     img: {
         flex: 1,
         width: '100%',
         height: '100%',
         resizeMode: 'cover',
-
     }
-
 })
-
-export default Welcome
