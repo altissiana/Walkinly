@@ -1,10 +1,10 @@
 {
-    "db": {
-        "hostname": "localhost",
-        "username": "authuser",
-        "password": "3yW=te'-b8tnd:Zk",
-        "database": "walkinly-db"
-    },
-    "secret": "LTB9qv,j<:,.!Hh58k-r#&82m+w}$?;5}hUXfGF&",
-    "salt": "jYgA^;RDfZ(SYWzWv>6BgH?L[&:ccjCb"
+  "db": {
+    "hostname": "localhost",
+    "username": "walkinly",
+    "password": ":*nzy+24Q|_~jKG5;x4**t%7e6KnT2GR",
+    "database": "Walkinly"
+  },
+  "secret": "y;t|t9^=g47J=--nKSdKJqnPU*Rumf9v",
+  "salt": "S+_J3xwCNSEBu;xE"
 }
