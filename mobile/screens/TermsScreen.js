@@ -9,7 +9,6 @@ import {
     TouchableOpacity,
     Dimensions
 } from 'react-native'
-import navigation from '../navigation/LoginNavigator'
 
 const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
     const paddingToBottom = 20;
@@ -17,9 +16,7 @@ const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
         contentSize.height - paddingToBottom;
 };
 
-
-
-class Terms extends Component {
+export default class Terms extends Component {
     static navigationOptions = {
         header: null
     }
@@ -28,11 +25,8 @@ class Terms extends Component {
         accepted: false
     }
 
-
     render() {
-
         return (
-
             <ImageBackground
                 source={require('../assets/grady5.jpg')}
                 style={styles.img}>
@@ -90,15 +84,12 @@ class Terms extends Component {
                     </ScrollView>
                 </View>
             </ImageBackground>
-
-
         );
     }
 }
 
 
 const styles = StyleSheet.create({
-
     container: {
         marginTop: 20,
         marginLeft: 10,
@@ -131,9 +122,7 @@ const styles = StyleSheet.create({
     tcContainer: {
         marginTop: 20,
         marginBottom: 15,
-
     },
-
     button: {
         backgroundColor: 'white',
         borderRadius: 5,
@@ -144,7 +133,6 @@ const styles = StyleSheet.create({
         height: 80,
         marginLeft: 100
     },
-
     buttonLabel: {
         fontSize: 28,
         color: 'black',
@@ -156,10 +144,5 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         resizeMode: 'cover',
-
     }
-
 })
-
-
-export default Terms;

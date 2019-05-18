@@ -7,16 +7,16 @@ import {
     TextInput,
     ActivityIndicator
 } from 'react-native';
-import { Button } from 'react-native-elements'
+import { Button } from 'react-native-elements';
 
-const VALID_FIRSTNAME = ''
-const VALID_LASTNAME = ''
-const VALID_EMAIL = ''
-const VALID_PHONENUMBER = ''
-const VALID_PASSWORD = ''
+const VALID_FIRSTNAME = '';
+const VALID_LASTNAME = '';
+const VALID_EMAIL = '';
+const VALID_PHONENUMBER = '';
+const VALID_PASSWORD = '';
 
 
-class Register extends Component {
+export default class Register extends Component {
     state = {
         firstname: VALID_FIRSTNAME,
         lastname: VALID_LASTNAME,
@@ -24,25 +24,38 @@ class Register extends Component {
         phonenumber: VALID_PHONENUMBER,
         password: VALID_PASSWORD,
         errors: [],
-        loading: false
+        loading: false,
+        isMounted: false
     }
 
-    handleLogin = () => {
+    componentDidMount () {
+        this.setState({
+            isMounted: true
+        });
+    }
+
+    handleRegister = async () => {
         const { navigation } = this.props;
         const { firstname, lastname, email, phonenumber, password } = this.state;
         const errors = [];
 
         Keyboard.dismiss();
-        this.setState({ loading: true });
+        this.state.isMounted && this.setState({ loading: true });
 
-        navigation.navigate('App')
+        await AsyncStorage.setItem('userToken', email);
+        navigation.navigate('Main');
     }
-    render() {
 
+    componentWillUnmount () {
+        this.setState({
+            isMounted: false
+        });
+    }
+
+    render() {
         const { navigation } = this.props;
         const { loading, errors } = this.state;
         const hasErrors = key => errors.includes(key) ? styles.hasErrors : null;
-
 
         return (
             <View>
@@ -99,14 +112,12 @@ class Register extends Component {
                     style={styles.butts}
                     type='solid'
                     title='Enter'
-                    onPress={() => this.handleLogin}
+                    onPress={() => this.handleRegister()}
                 />
             </View>
-
         )
     }
-};
-
+}
 
 const styles = StyleSheet.create({
     input: {
@@ -117,12 +128,8 @@ const styles = StyleSheet.create({
         padding: 10,
         marginTop: 40,
         fontSize: 25
-
     },
     butts: {
         marginTop: 80
     }
-})
-
-
-export default Register
+});
