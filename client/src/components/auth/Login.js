@@ -8,7 +8,7 @@ import LockOutlinedIcon from "@material-ui/icons/LockOutlined"
 import Paper from "@material-ui/core/Paper"
 import Typography from "@material-ui/core/Typography"
 import { Link } from "react-router-dom"
-import { AuthContext } from "../../lib/auth"
+import { AuthContext } from "../../../client/src/lib/auth"
 
 const Login = props => {
     const [username, setUsername] = useState("")

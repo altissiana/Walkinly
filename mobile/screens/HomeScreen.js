@@ -1,9 +1,9 @@
-import React from "react";
+import React, { Component } from "react";
 import { View, StyleSheet } from "react-native";
 
 import SimpleMap from '../components/Map';
 
-export default class HomeScreen extends React.Component {
+export default class HomeScreen extends Component {
   static navigationOptions = {
     header: null
   }
