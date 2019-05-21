@@ -60,17 +60,17 @@ export default createMaterialTopTabNavigator({
   LocalReportsStack,
   TipsStack,
 },
-{
-  tabBarOptions: {
-    labelStyle: {
-      fontSize: 10,
-    },
-    indicatorStyle: {
-      backgroundColor: 'dodgerblue',
-      height: 3,
-    },
-    style: {
-      backgroundColor: 'black',
+  {
+    tabBarOptions: {
+      labelStyle: {
+        fontSize: 10,
+      },
+      indicatorStyle: {
+        backgroundColor: 'red',
+        height: 3,
+      },
+      style: {
+        backgroundColor: 'rgba(0,0,0,.9)'
+      },
     }
-  }
-});
+  })
