@@ -1,6 +1,8 @@
 import React from 'react';
 import { Platform, StatusBar, Text, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
+import { Provider } from 'react-redux';
+import store from './store';
 
 import AppNavigator from './navigation/AppNavigator';
 
@@ -20,11 +22,12 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <View style={styles.container}>
-          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <View style={styles.phoneInfoBar}></View>
-          <AppNavigator />
-        </View>
+        <Provider store={store}>
+          <View style={styles.container}>
+            {Platform.OS === 'ios' && <StatusBar hidden barStyle="default" />}
+            <AppNavigator /> 
+          </View>
+        </Provider>
       );
     }
   }
