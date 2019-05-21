@@ -26,7 +26,7 @@ export default class Terms extends Component {
     render() {
         return (
             <ImageBackground
-                source={require('../assets/grady10.jpg')}
+                source={require('../assets/grady11.jpg')}
                 style={styles.img}>
                 <View style={styles.container}>
                     <Text style={styles.title}>Terms and conditions</Text>

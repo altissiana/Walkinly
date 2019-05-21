@@ -61,7 +61,7 @@ export default class Login extends Component {
 
         return (
             <ImageBackground
-                source={require('../assets/grady7.jpg')}
+                source={require('../assets/grady10.jpg')}
                 style={styles.img}>
                 <View>
                     <Text style={{
