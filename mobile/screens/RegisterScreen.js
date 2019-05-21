@@ -10,22 +10,15 @@ import {
 
 } from 'react-native';
 import { Button } from 'react-native-elements';
-
-const VALID_FIRSTNAME = '';
-const VALID_LASTNAME = '';
-const VALID_EMAIL = '';
-const VALID_PHONENUMBER = '';
-const VALID_PASSWORD = '';
-
+import { register } from '../actions/Actions';
 
 export default class Register extends Component {
     state = {
-        firstname: VALID_FIRSTNAME,
-        lastname: VALID_LASTNAME,
-        email: VALID_EMAIL,
-        phonenumber: VALID_PHONENUMBER,
-        password: VALID_PASSWORD,
-        errors: [],
+        firstname: '',
+        lastname: '',
+        email: '',
+        phonenumber: '',
+        password: '',
         loading: false,
         isMounted: false
     }
@@ -36,25 +29,25 @@ export default class Register extends Component {
         });
     }
 
-    storeToken = async () => {
-        try {
-            await AsyncStorage.setItem('userToken', this.state.email);
-        } catch (e) {
-            console.log(e)
-            throw new Error(e)
-        }
-    }
-
     handleRegister = async () => {
         const { navigation } = this.props;
         const { firstname, lastname, email, phonenumber, password } = this.state;
-        const errors = [];
 
         Keyboard.dismiss();
         this.state.isMounted && this.setState({ loading: true });
 
-        this.storeToken();
-        navigation.navigate('Main');
+        if (this.state.isMounted) {
+            register(email, password, phonenumber, firstname, lastname)
+                .then(() => {
+                    navigation.navigate('Main');
+                })
+                .catch(err => {
+                    this.setState({
+                        isError: true,
+                        errorText: err
+                    })
+                });
+        }
     }
 
     componentWillUnmount() {
@@ -65,8 +58,7 @@ export default class Register extends Component {
 
     render() {
         const { navigation } = this.props;
-        const { loading, errors } = this.state;
-        const hasErrors = key => errors.includes(key) ? styles.hasErrors : null;
+        const { loading } = this.state;
 
         return (
             <ImageBackground
