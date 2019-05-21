@@ -32,8 +32,18 @@ export default class App extends React.Component {
   _loadResourcesAsync = async () => {
     return Promise.all([
       Asset.loadAsync([
-        // require('./assets/images/robot-dev.png'),
-        // require('./assets/images/robot-prod.png'),
+        require('./assets/grady1.jpg'),
+        require('./assets/grady2.jpg'),
+        require('./assets/grady3.jpg'),
+        require('./assets/grady4.jpeg'),
+        require('./assets/grady5.jpg'),
+        require('./assets/grady6.png'),
+        require('./assets/grady7.jpg'),
+        require('./assets/grady8.jpg'),
+        require('./assets/grady9.jpg'),
+        require('./assets/grady10.jpg'),
+        require('./assets/grady11.jpg'),
+
       ]),
       Font.loadAsync({
         // This is the font that we are using for our tab bar
@@ -46,8 +56,7 @@ export default class App extends React.Component {
   };
 
   _handleLoadingError = error => {
-    // In this case, you might want to report the error to your error
-    // reporting service, for example Sentry
+
     console.warn(error);
   };
 
