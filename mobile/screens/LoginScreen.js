@@ -5,50 +5,51 @@ import {
     Text,
     View,
     TextInput,
-    AsyncStorage
+    AsyncStorage,
+    ImageBackground
 } from 'react-native';
 import { Button } from 'react-native-elements';
 
-const VALID_EMAIL = '';
-const VALID_PASSWORD = '';
+import { signin } from '../actions/Actions';
 
 export default class Login extends Component {
     state = {
-        email: VALID_EMAIL,
-        password: VALID_PASSWORD,
-        errors: [],
+        email: '',
+        password: '',
         loading: false,
-        isMounted: false
+        isMounted: false,
+        isError: false,
+        errorText: ''
     }
-y
+
     componentDidMount () {
         this.setState({
             isMounted: true
         });
     }
 
-    storeToken = async () => {
-        try {
-            await AsyncStorage.setItem('userToken', this.state.email);
-        } catch (e) {
-            console.log(e)
-            throw new Error(e)
-        }
-    }
-
     handleLogin = async () => {
         const { navigation } = this.props;
         const { email, password } = this.state;
-        const errors = [];
 
         Keyboard.dismiss();
         this.state.isMounted && this.setState({ loading: true });
 
-        this.storeToken();
-        navigation.navigate('Main');
+        if (this.state.isMounted) {
+            signin(email, password)
+                .then(() => {
+                    navigation.navigate('Main');
+                })
+                .catch(err => {
+                    this.setState({
+                        isError: true,
+                        errorText: err
+                    })
+                });
+        }
     }
 
-    componentWillUnmount () {
+    componentWillUnmount() {
         this.setState({
             isMounted: false
         })
@@ -56,17 +57,21 @@ y
 
     render() {
         const { navigation } = this.props;
-        const { loading, errors } = this.state;
-        const hasErrors = key => errors.includes(key) ? styles.hasErrors : null;
+        const { loading } = this.state;
 
         return (
-            <View>
-                <Text style={{ color: 'black', fontSize: 40 }}>Login</Text>
+            <ImageBackground
+                source={require('../assets/grady7.jpg')}
+                style={styles.img}>
+                <View>
+                    <Text style={{
+                        color: '#6a7189', fontSize: 40
+                    }}>Login</Text>
 
                 <TextInput
                     label='Email'
                     placeholder='Email'
-                    style={[styles.input, hasErrors('email')]}
+                    placeholderTextColor="#FFFFFF"
                     defaultValue={this.state.email}
                     onChangeText={text => this.setState({ email: text })}
                     style={styles.input}
@@ -75,7 +80,7 @@ y
                     secure
                     label='Password'
                     placeholder='Password'
-                    style={[styles.input, hasErrors('password')]}
+                    placeholderTextColor="#FFFFFF"
                     defaultValue={this.state.password}
                     onChangeText={text => this.setState({ password: text })}
                     style={styles.input}
@@ -92,13 +97,55 @@ y
                     title='Enter'
                     onPress={() => this.handleLogin()} >
 
+                    <Button
+                        type="outline"
+                        title="Enter"
+                        onPress={() => this.handleLogin()} style={{
+                            marginTop: 40,
+                            alignSelf: 'center',
+                            shadowColor: "#cccfd8",
+                            shadowOpacity: 0.8,
+                            shadowRadius: 2,
+                            shadowOffset: {
+                                height: 1,
+                                width: 1
+                            }
+                        }}
+                        buttonStyle={{
+                            height: 50,
+                            width: 150,
+                            borderColor: 'white',
+                            borderWidth: 2,
+                        }}
+                        titleStyle={{ color: 'white', fontSize: 20 }}
+                    />
+                    <Button
+                        style={{ color: 'white', marginTop: 40 }}
+                        titleStyle={{
+                            color: 'white', fontSize: 20,
+                            arginTop: 40,
+                            alignSelf: 'center',
+                            shadowColor: "#cccfd8",
+                            shadowOpacity: 0.8,
+                            shadowRadius: 2,
+                            shadowOffset: {
+                                height: 1,
+                                width: 1
+                            }
+                        }}
+                        type='clear'
+                        title='Forgot your password?'
+                        onPress={() => this.props.navigation.navigate('Forgot')}>
+                    </Button>
 
+                </View>
+            </ImageBackground>
                 </Button>
                 <Button
                     style={styles.butts}
                     type='clear'
                     title='Forgot your password?'
-                    onPress={() => this.props.navigation.navigate('Register')}>
+                    onPress={() => navigation.navigate('Register')}>
                 </Button>
 
             </View>
@@ -111,12 +158,24 @@ const styles = StyleSheet.create({
         borderRadius: 0,
         borderWidth: 2,
         borderColor: 'transparent',
-        borderBottomColor: 'black',
+        borderBottomColor: '#6a7189',
         padding: 10,
         marginTop: 40,
-        fontSize: 25
+        fontSize: 25,
+        color: 'white',
+        shadowColor: "#cccfd8",
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        shadowOffset: {
+            height: 1,
+            width: 1
+        }
     },
-    butts: {
-        marginTop: 80
-    },
+
+    img: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        resizeMode: 'cover',
+    }
 });

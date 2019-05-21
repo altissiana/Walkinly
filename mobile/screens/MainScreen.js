@@ -4,7 +4,14 @@ import { View, StyleSheet } from 'react-native';
 import MainTabNavigator from '../navigation/MainTabNavigator';
 import SosButton from '../components/SosButton';
 
-export default class MainScreen extends Component {
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+  },
+});
+
+class MainScreen extends Component {
   static router = MainTabNavigator.router;
 
   render() {
@@ -17,9 +24,4 @@ export default class MainScreen extends Component {
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-});
+export default MainScreen;

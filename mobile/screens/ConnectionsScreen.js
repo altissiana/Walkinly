@@ -1,47 +1,40 @@
 import React, { Component } from "react";
-import { View, ScrollView, Text, AsyncStorage, StyleSheet } from "react-native";
-import { getConnections } from "../actions/Actions";
+import { 
+  View, 
+  ScrollView, 
+  Text,
+  AsyncStorage,
+  StyleSheet
+} from "react-native";
+import { connect } from 'react-redux';
+import { getConnections } from '../actions/Actions';
 import { brotliDecompress } from "zlib";
 
-export default class ConnectionsScreen extends Component {
+class ConnectionsScreen extends Component {
   static navigationOptions = {
     header: null
   };
 
   state = {
-    connections: [],
-    email: "",
     isMounted: false
   };
 
   componentDidMount() {
     this.setState({
       isMounted: true
-    });
-    this.getToken().then(() => {
-      this.getConnections();
+    }, () => {
+      this.getConnections()
     });
   }
 
-  getToken = async () => {
-    try {
-      const token = await AsyncStorage.getItem("userToken");
-      this.setState({
-        email: token
-      });
-    } catch (e) {
-      console.log("getToken Error: " + e);
-      throw new Error(e);
-    }
-  };
-
   getConnections = async () => {
     if (this.state.isMounted) {
-      await getConnections(this.state.email).then(data => {
-        this.setState({
-          connections: data
-        });
-      });
+      try {
+        getConnections(await AsyncStorage.getItem('userToken'))
+      }
+      catch (e) {
+        throw new Error(e);
+      }
     }
   };
 
@@ -62,10 +55,9 @@ export default class ConnectionsScreen extends Component {
         }}
       >
         <Text>Connections</Text>
-        {this.state.connections ? (
-          this.state.connections.map((contact, i) => {
-            return (
-              <View key={"contact" + i}>
+        {this.props.connections 
+          ? this.props.connections.map((contact, i) => {
+              return (<View key={'contact' + i}>
                 <Text>
                   Name:{contact.FirstName} {contact.LastName}
                 </Text>
@@ -80,3 +72,12 @@ export default class ConnectionsScreen extends Component {
     );
   }
 }
+
+function mapStateToProps(appState, ownProps) {
+  return {
+    ...ownProps,
+    connections: appState.connections
+  }
+}
+
+export default connect(mapStateToProps)(ConnectionsScreen)
