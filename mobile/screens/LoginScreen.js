@@ -4,7 +4,9 @@ import {
     StyleSheet,
     Text,
     View,
-    TextInput
+    TextInput,
+    AsyncStorage,
+    ImageBackground
 } from 'react-native';
 import { Button } from 'react-native-elements';
 
@@ -47,7 +49,7 @@ export default class Login extends Component {
         }
     }
 
-    componentWillUnmount () {
+    componentWillUnmount() {
         this.setState({
             isMounted: false
         })
@@ -58,13 +60,18 @@ export default class Login extends Component {
         const { loading } = this.state;
 
         return (
-            <View>
-                <Text style={{ color: 'black', fontSize: 40 }}>Login</Text>
+            <ImageBackground
+                source={require('../assets/grady7.jpg')}
+                style={styles.img}>
+                <View>
+                    <Text style={{
+                        color: '#6a7189', fontSize: 40
+                    }}>Login</Text>
 
                 <TextInput
                     label='Email'
                     placeholder='Email'
-                    style={styles.input}
+                    placeholderTextColor="#FFFFFF"
                     defaultValue={this.state.email}
                     onChangeText={text => this.setState({ email: text })}
                     style={styles.input}
@@ -73,7 +80,7 @@ export default class Login extends Component {
                     secure
                     label='Password'
                     placeholder='Password'
-                    style={styles.input}
+                    placeholderTextColor="#FFFFFF"
                     defaultValue={this.state.password}
                     onChangeText={text => this.setState({ password: text })}
                     style={styles.input}
@@ -90,7 +97,49 @@ export default class Login extends Component {
                     title='Enter'
                     onPress={() => this.handleLogin()} >
 
+                    <Button
+                        type="outline"
+                        title="Enter"
+                        onPress={() => this.handleLogin()} style={{
+                            marginTop: 40,
+                            alignSelf: 'center',
+                            shadowColor: "#cccfd8",
+                            shadowOpacity: 0.8,
+                            shadowRadius: 2,
+                            shadowOffset: {
+                                height: 1,
+                                width: 1
+                            }
+                        }}
+                        buttonStyle={{
+                            height: 50,
+                            width: 150,
+                            borderColor: 'white',
+                            borderWidth: 2,
+                        }}
+                        titleStyle={{ color: 'white', fontSize: 20 }}
+                    />
+                    <Button
+                        style={{ color: 'white', marginTop: 40 }}
+                        titleStyle={{
+                            color: 'white', fontSize: 20,
+                            arginTop: 40,
+                            alignSelf: 'center',
+                            shadowColor: "#cccfd8",
+                            shadowOpacity: 0.8,
+                            shadowRadius: 2,
+                            shadowOffset: {
+                                height: 1,
+                                width: 1
+                            }
+                        }}
+                        type='clear'
+                        title='Forgot your password?'
+                        onPress={() => this.props.navigation.navigate('Forgot')}>
+                    </Button>
 
+                </View>
+            </ImageBackground>
                 </Button>
                 <Button
                     style={styles.butts}
@@ -109,12 +158,24 @@ const styles = StyleSheet.create({
         borderRadius: 0,
         borderWidth: 2,
         borderColor: 'transparent',
-        borderBottomColor: 'black',
+        borderBottomColor: '#6a7189',
         padding: 10,
         marginTop: 40,
-        fontSize: 25
+        fontSize: 25,
+        color: 'white',
+        shadowColor: "#cccfd8",
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        shadowOffset: {
+            height: 1,
+            width: 1
+        }
     },
-    butts: {
-        marginTop: 80
-    },
+
+    img: {
+        flex: 1,
+        width: '100%',
+        height: '100%',
+        resizeMode: 'cover',
+    }
 });

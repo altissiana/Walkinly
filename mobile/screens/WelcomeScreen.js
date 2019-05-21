@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
         marginTop: -250,
         marginLeft: -30,
         fontFamily: 'Noteworthy-Bold',
-        shadowColor: "#fff",
+        shadowColor: "#cccfd8",
         shadowOffset: {
             width: 0,
             height: 6,
