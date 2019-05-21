@@ -10,43 +10,43 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements';
 
-const VALID_EMAIL = '';
-const VALID_PASSWORD = '';
+import { signin } from '../actions/Actions';
 
 export default class Login extends Component {
     state = {
-        email: VALID_EMAIL,
-        password: VALID_PASSWORD,
-        errors: [],
+        email: '',
+        password: '',
         loading: false,
-        isMounted: false
+        isMounted: false,
+        isError: false,
+        errorText: ''
     }
-    y
-    componentDidMount() {
+
+    componentDidMount () {
         this.setState({
             isMounted: true
         });
     }
 
-    storeToken = async () => {
-        try {
-            await AsyncStorage.setItem('userToken', this.state.email);
-        } catch (e) {
-            console.log(e)
-            throw new Error(e)
-        }
-    }
-
     handleLogin = async () => {
         const { navigation } = this.props;
         const { email, password } = this.state;
-        const errors = [];
 
         Keyboard.dismiss();
         this.state.isMounted && this.setState({ loading: true });
 
-        this.storeToken();
-        navigation.navigate('Main');
+        if (this.state.isMounted) {
+            signin(email, password)
+                .then(() => {
+                    navigation.navigate('Main');
+                })
+                .catch(err => {
+                    this.setState({
+                        isError: true,
+                        errorText: err
+                    })
+                });
+        }
     }
 
     componentWillUnmount() {
@@ -57,8 +57,7 @@ export default class Login extends Component {
 
     render() {
         const { navigation } = this.props;
-        const { loading, errors } = this.state;
-        const hasErrors = key => errors.includes(key) ? styles.hasErrors : null;
+        const { loading } = this.state;
 
         return (
             <ImageBackground
@@ -69,25 +68,34 @@ export default class Login extends Component {
                         color: '#6a7189', fontSize: 40
                     }}>Login</Text>
 
-                    <TextInput
-                        label='Email'
-                        placeholder='Email'
-                        placeholderTextColor="#FFFFFF"
-                        style={[styles.input, hasErrors('email')]}
-                        defaultValue={this.state.email}
-                        onChangeText={text => this.setState({ email: text })}
-                        style={styles.input}
-                    />
-                    <TextInput
-                        secure
-                        label='Password'
-                        placeholder='Password'
-                        placeholderTextColor="#FFFFFF"
-                        style={[styles.input, hasErrors('password')]}
-                        defaultValue={this.state.password}
-                        onChangeText={text => this.setState({ password: text })}
-                        style={styles.input}
-                    />
+                <TextInput
+                    label='Email'
+                    placeholder='Email'
+                    placeholderTextColor="#FFFFFF"
+                    defaultValue={this.state.email}
+                    onChangeText={text => this.setState({ email: text })}
+                    style={styles.input}
+                />
+                <TextInput
+                    secure
+                    label='Password'
+                    placeholder='Password'
+                    placeholderTextColor="#FFFFFF"
+                    defaultValue={this.state.password}
+                    onChangeText={text => this.setState({ password: text })}
+                    style={styles.input}
+                />
+                <Button
+                    buttonStyle={{
+                        height: 80,
+                        width: 200,
+                        backgroundColor: '#6a7189',
+                        marginLeft: 110
+                    }}
+                    style={styles.butts}
+                    type='solid'
+                    title='Enter'
+                    onPress={() => this.handleLogin()} >
 
                     <Button
                         type="outline"
@@ -132,6 +140,15 @@ export default class Login extends Component {
 
                 </View>
             </ImageBackground>
+                </Button>
+                <Button
+                    style={styles.butts}
+                    type='clear'
+                    title='Forgot your password?'
+                    onPress={() => navigation.navigate('Register')}>
+                </Button>
+
+            </View>
         );
     }
 }
