@@ -1,23 +1,44 @@
 import React, { Component } from "react";
-import { View, Text, AsyncStorage, StyleSheet, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import { Button } from 'react-native-elements';
+import { signout } from "../actions/Actions";
 
 export default class UserSettingsScreen extends Component {
   static navigationOptions = {
     header: null
   }
 
-  handleLogout = async () => {
+  state = {
+    isMounted: false
+  }
+
+  componentDidMount() {
+    this.setState({
+      isMounted: true
+    })
+  }
+
+  handleLogout = () => {
     const { navigation } = this.props;
 
-    await AsyncStorage.removeItem('userToken');
-    navigation.navigate('AuthLoading');
+    if (this.state.isMounted) {
+      signout()
+        .then(() => {
+          navigation.navigate('AuthLoading');
+        });
+    }
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      isMounted: false
+    })
   }
 
   render() {
     return (
       <ImageBackground
-        source={require('../assets/grady4.jpeg')}
+        source={require('../assets/grady11.jpg')}
         style={styles.img}>
         <View style={{ flex: 1, alignItems: "center", justifyContent: "space-around" }}>
           <Text style={styles.headerText}>
@@ -25,11 +46,28 @@ export default class UserSettingsScreen extends Component {
         </Text>
 
           <Button
-            buttonStyle={{
-              height: 80,
-              width: 200,
-              backgroundColor: '#6a7189',
+            style={{
+              marginBottom: 20,
+              shadowColor: "#fff",
+
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 3,
+              },
+              shadowOpacity: 0.27,
+              shadowRadius: 4.65,
+
+              elevation: 6,
             }}
+            buttonStyle={{
+              height: 50,
+              width: 150,
+              backgroundColor: '#e2e4e9',
+              /* border: '#e2e4e9' */
+            }}
+            titleStyle={{ color: '#767689', fontSize: 20 }}
+
             type='solid'
             title='Logout'
             onPress={() => this.handleLogout()}
