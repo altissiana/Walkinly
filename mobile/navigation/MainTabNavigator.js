@@ -24,9 +24,9 @@ const ConnectionsStack = createStackNavigator({
 
 ConnectionsStack.navigationOptions = {
   tabBarLabel: 'Friends & Family',
-  /* tabBarOnPress: async (scene, jumpToIndex) => { 
+  /* tabBarOnPress: (async () => { 
     getConnections(await AsyncStorage.getItem('userToken'));
-  } */
+  }) */
 };
 
 const UserSettingsStack = createStackNavigator({
