@@ -4,48 +4,47 @@ import {
     StyleSheet,
     Text,
     View,
-    TextInput,
-    AsyncStorage
+    TextInput
 } from 'react-native';
 import { Button } from 'react-native-elements';
 
-const VALID_EMAIL = '';
-const VALID_PASSWORD = '';
+import { signin } from '../actions/Actions';
 
 export default class Login extends Component {
     state = {
-        email: VALID_EMAIL,
-        password: VALID_PASSWORD,
-        errors: [],
+        email: '',
+        password: '',
         loading: false,
-        isMounted: false
+        isMounted: false,
+        isError: false,
+        errorText: ''
     }
-y
+
     componentDidMount () {
         this.setState({
             isMounted: true
         });
     }
 
-    storeToken = async () => {
-        try {
-            await AsyncStorage.setItem('userToken', this.state.email);
-        } catch (e) {
-            console.log(e)
-            throw new Error(e)
-        }
-    }
-
     handleLogin = async () => {
         const { navigation } = this.props;
         const { email, password } = this.state;
-        const errors = [];
 
         Keyboard.dismiss();
         this.state.isMounted && this.setState({ loading: true });
 
-        this.storeToken();
-        navigation.navigate('Main');
+        if (this.state.isMounted) {
+            signin(email, password)
+                .then(() => {
+                    navigation.navigate('Main');
+                })
+                .catch(err => {
+                    this.setState({
+                        isError: true,
+                        errorText: err
+                    })
+                });
+        }
     }
 
     componentWillUnmount () {
@@ -56,8 +55,7 @@ y
 
     render() {
         const { navigation } = this.props;
-        const { loading, errors } = this.state;
-        const hasErrors = key => errors.includes(key) ? styles.hasErrors : null;
+        const { loading } = this.state;
 
         return (
             <View>
@@ -66,7 +64,7 @@ y
                 <TextInput
                     label='Email'
                     placeholder='Email'
-                    style={[styles.input, hasErrors('email')]}
+                    style={styles.input}
                     defaultValue={this.state.email}
                     onChangeText={text => this.setState({ email: text })}
                     style={styles.input}
@@ -75,7 +73,7 @@ y
                     secure
                     label='Password'
                     placeholder='Password'
-                    style={[styles.input, hasErrors('password')]}
+                    style={styles.input}
                     defaultValue={this.state.password}
                     onChangeText={text => this.setState({ password: text })}
                     style={styles.input}
@@ -98,7 +96,7 @@ y
                     style={styles.butts}
                     type='clear'
                     title='Forgot your password?'
-                    onPress={() => this.props.navigation.navigate('Register')}>
+                    onPress={() => navigation.navigate('Register')}>
                 </Button>
 
             </View>

@@ -6,8 +6,11 @@ const conn = require("../db");
 const jwt = require("jsonwebtoken");
 
 router.post("/register", (req, res, next) => {
-  const username = req.body.email;
+  const email = req.body.email;
   const password = sha512(req.body.password + config.get("salt"));
+  const phonenumber = req.body.phonenumber;
+  const firstname = req.body.firstname;
+  const lastname = req.body.lastname;
 
   const checksql = `
   SELECT count(1) as count 
@@ -15,7 +18,7 @@ router.post("/register", (req, res, next) => {
   WHERE Email = ?
   `
 
-  conn.query(checksql, [username], (err, results, fields) => {
+  conn.query(checksql, [email], (err, results, fields) => {
     const count = results[0].count;
 
     if (count > 0) {
@@ -23,16 +26,13 @@ router.post("/register", (req, res, next) => {
         error: "Email already in use with another account."
       });
     } else {
-      const sql = "INSERT INTO users (Email, Password) VALUES (?, ?)";
+      const sql = "INSERT INTO users (Email, Password, PhoneNumber, FirstName, LastName ) VALUES (?, ?, ?, ?, ?)";
 
-      conn.query(sql, [email, password], (err, results, fields) => {
+      conn.query(sql, [email, password, phonenumber, firstname, lastname], (err, results, fields) => {
         if (err) {
           throw new Error("register failed");
         } else {
-          const token = jwt.sign({ username }, config.get("secret"));
-          res.json({
-            token: token
-          });
+          res.json({ email });
         }
       });
     }
@@ -40,7 +40,7 @@ router.post("/register", (req, res, next) => {
 });
 
 router.post("/login", (req, res, next) => {
-  const username = req.body.username;
+  const email = req.body.email;
   const password = sha512(req.body.password + config.get("salt"));
 
   const sql = `
@@ -49,15 +49,11 @@ router.post("/login", (req, res, next) => {
   WHERE Email = ? AND Password = ?
   `
 
-  conn.query(sql, [username, password], (err, results, fields) => {
+  conn.query(sql, [email, password], (err, results, fields) => {
     const count = results[0].count;
 
     if (count >= 1) {
-      const token = jwt.sign({ username }, config.get("secret"));
-
-      res.json({
-        token
-      });
+      res.json({ email });
     } else {
       res.status(401).json({
         error: "Invalid Email or password"
