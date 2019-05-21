@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { connect } from 'react-redux';
 import { getConnections } from '../actions/Actions';
-import { brotliDecompress } from "zlib";
 
 class ConnectionsScreen extends Component {
   static navigationOptions = {
@@ -49,8 +48,8 @@ class ConnectionsScreen extends Component {
       <ScrollView
         contentContainerStyle={{
           flex: 1,
-          flexDirection: "column",
-          justifyContent: "center",
+          alignItems: 'center',
+          justifyContent: 'center',
           fontSize: 24
         }}
       >
@@ -65,9 +64,8 @@ class ConnectionsScreen extends Component {
               </View>
             );
           })
-        ) : (
-          <View />
-        )}
+          : (<View />)
+         }
       </ScrollView>
     );
   }

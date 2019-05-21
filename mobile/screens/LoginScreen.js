@@ -5,7 +5,6 @@ import {
     Text,
     View,
     TextInput,
-    AsyncStorage,
     ImageBackground
 } from 'react-native';
 import { Button } from 'react-native-elements';
@@ -19,7 +18,8 @@ export default class Login extends Component {
         loading: false,
         isMounted: false,
         isError: false,
-        errorText: ''
+        errorText: '',
+        errors: []
     }
 
     componentDidMount () {
@@ -57,7 +57,8 @@ export default class Login extends Component {
 
     render() {
         const { navigation } = this.props;
-        const { loading } = this.state;
+        const { loading, errors } = this.state;
+        const hasErrors = key => errors.includes(key) ? styles.hasErrors : null;
 
         return (
             <ImageBackground
@@ -68,34 +69,25 @@ export default class Login extends Component {
                         color: '#6a7189', fontSize: 40
                     }}>Login</Text>
 
-                <TextInput
-                    label='Email'
-                    placeholder='Email'
-                    placeholderTextColor="#FFFFFF"
-                    defaultValue={this.state.email}
-                    onChangeText={text => this.setState({ email: text })}
-                    style={styles.input}
-                />
-                <TextInput
-                    secure
-                    label='Password'
-                    placeholder='Password'
-                    placeholderTextColor="#FFFFFF"
-                    defaultValue={this.state.password}
-                    onChangeText={text => this.setState({ password: text })}
-                    style={styles.input}
-                />
-                <Button
-                    buttonStyle={{
-                        height: 80,
-                        width: 200,
-                        backgroundColor: '#6a7189',
-                        marginLeft: 110
-                    }}
-                    style={styles.butts}
-                    type='solid'
-                    title='Enter'
-                    onPress={() => this.handleLogin()} >
+                    <TextInput
+                        label='Email'
+                        placeholder='Email'
+                        placeholderTextColor="#FFFFFF"
+                        style={[styles.input, hasErrors('email')]}
+                        defaultValue={this.state.email}
+                        onChangeText={text => this.setState({ email: text })}
+                        style={styles.input}
+                    />
+                    <TextInput
+                        secure
+                        label='Password'
+                        placeholder='Password'
+                        placeholderTextColor="#FFFFFF"
+                        style={[styles.input, hasErrors('password')]}
+                        defaultValue={this.state.password}
+                        onChangeText={text => this.setState({ password: text })}
+                        style={styles.input}
+                    />
 
                     <Button
                         type="outline"
@@ -123,7 +115,7 @@ export default class Login extends Component {
                         style={{ color: 'white', marginTop: 40 }}
                         titleStyle={{
                             color: 'white', fontSize: 20,
-                            arginTop: 40,
+                            marginTop: 40,
                             alignSelf: 'center',
                             shadowColor: "#cccfd8",
                             shadowOpacity: 0.8,
@@ -140,15 +132,6 @@ export default class Login extends Component {
 
                 </View>
             </ImageBackground>
-                </Button>
-                <Button
-                    style={styles.butts}
-                    type='clear'
-                    title='Forgot your password?'
-                    onPress={() => navigation.navigate('Register')}>
-                </Button>
-
-            </View>
         );
     }
 }

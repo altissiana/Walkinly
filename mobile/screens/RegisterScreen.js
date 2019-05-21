@@ -72,7 +72,7 @@ export default class Register extends Component {
                         label='FirstName'
                         placeholder='First Name'
                         placeholderTextColor="#FFFFFF"
-                        style={[styles.input, hasErrors('firstname')]}
+                        style={styles.input}
                         defaultValue={this.state.firstname}
                         onChangeText={text => this.setState({ firstname: text })}
                         style={styles.input}
@@ -81,7 +81,7 @@ export default class Register extends Component {
                         label='LastName'
                         placeholder='Last Name'
                         placeholderTextColor="#FFFFFF"
-                        style={[styles.input, hasErrors('lastname')]}
+                        style={styles.input}
                         defaultValue={this.state.lastname}
                         onChangeText={text => this.setState({ lastname: text })}
                         style={styles.input}
@@ -91,7 +91,7 @@ export default class Register extends Component {
                         label='Email'
                         placeholder='Email'
                         placeholderTextColor="#FFFFFF"
-                        style={[styles.input, hasErrors('email')]}
+                        style={styles.input}
                         defaultValue={this.state.email}
                         onChangeText={text => this.setState({ email: text })}
                         style={styles.input}
@@ -101,7 +101,7 @@ export default class Register extends Component {
                         label='PhoneNumber'
                         placeholder='Phone Number'
                         placeholderTextColor="#FFFFFF"
-                        style={[styles.input, hasErrors('phonenumber')]}
+                        style={styles.input}
                         defaultValue={this.state.phonenumber}
                         onChangeText={text => this.setState({ phonenumber: text })}
                         style={styles.input}
@@ -111,7 +111,7 @@ export default class Register extends Component {
                         label='Password'
                         placeholder='Password'
                         placeholderTextColor="#FFFFFF"
-                        style={[styles.input, hasErrors('password')]}
+                        style={styles.input}
                         defaultValue={this.state.password}
                         onChangeText={text => this.setState({ password: text })}
                         style={styles.input}
