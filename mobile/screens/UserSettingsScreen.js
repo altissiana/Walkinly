@@ -1,17 +1,38 @@
 import React, { Component } from "react";
-import { View, Text, AsyncStorage, StyleSheet, ImageBackground } from "react-native";
+import { View, Text, StyleSheet, ImageBackground } from "react-native";
 import { Button } from 'react-native-elements';
+import { signout } from "../actions/Actions";
 
 export default class UserSettingsScreen extends Component {
   static navigationOptions = {
     header: null
   }
 
-  handleLogout = async () => {
+  state = {
+    isMounted: false
+  }
+
+  componentDidMount() {
+    this.setState({
+      isMounted: true
+    })
+  }
+
+  handleLogout = () => {
     const { navigation } = this.props;
 
-    await AsyncStorage.removeItem('userToken');
-    navigation.navigate('AuthLoading');
+    if (this.state.isMounted) {
+      signout()
+        .then(() => {
+          navigation.navigate('AuthLoading');
+        });
+    }
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      isMounted: false
+    })
   }
 
   render() {
