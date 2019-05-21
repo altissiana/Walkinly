@@ -44,15 +44,21 @@ export default class SimpleMap extends React.Component {
     }
   }
 
-  setVehicleLocation = () => {
-    this.setState({
-      vehicleLocation: {
-        coordinates: {
-          latitude: this.state.userLocation.latitude,
-          longitude: this.state.userLocation.longitude
-        },
-      }
-    })
+  setVehicleLocation = async () => {
+    if (this.state.isMounted) {
+      await navigator.geolocation.getCurrentPosition(
+        position => {
+          this.setState({
+            vehicleLocation: {
+              coordinates: {
+                latitude: position.coords.latitude,
+                longitude: position.coords.longitude
+              },
+            }
+          })
+        }
+      )
+    }
   }
 
   componentWillUnmount() {
