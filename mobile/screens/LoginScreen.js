@@ -22,7 +22,7 @@ export default class Login extends Component {
         errors: []
     }
 
-    componentDidMount () {
+    componentDidMount() {
         this.setState({
             isMounted: true
         });
@@ -74,6 +74,7 @@ export default class Login extends Component {
                         placeholder='Email'
                         placeholderTextColor="#FFFFFF"
                         style={[styles.input, hasErrors('email')]}
+                        autoCapitalize='none'
                         defaultValue={this.state.email}
                         onChangeText={text => this.setState({ email: text })}
                         style={styles.input}
@@ -84,6 +85,8 @@ export default class Login extends Component {
                         placeholder='Password'
                         placeholderTextColor="#FFFFFF"
                         style={[styles.input, hasErrors('password')]}
+                        autoCapitalize='none'
+                        secureTextEntry={true}
                         defaultValue={this.state.password}
                         onChangeText={text => this.setState({ password: text })}
                         style={styles.input}

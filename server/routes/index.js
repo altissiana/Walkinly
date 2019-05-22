@@ -86,4 +86,12 @@ router.get(`/contacts/:email`, (req, res, next) => {
   });
 });
 
+router.get('/forgotPassword', (req, res, next) => {
+
+})
+
+router.post('/changePassword', (req, res, next) => {
+
+})
+
 module.exports = router;

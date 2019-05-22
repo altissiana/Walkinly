@@ -14,10 +14,10 @@ export function signout() {
     })
     resolve()
   })
-  .catch(err => {
-    const error = err.response.data.error;
-    reject(error);
-  })
+    .catch(err => {
+      const error = err.response.data.error;
+      reject(error);
+    })
 }
 
 export function getConnections(email) {
@@ -29,9 +29,9 @@ export function getConnections(email) {
       })
       resolve()
     })
-    .catch(err => {
-      reject(err)
-    })
+      .catch(err => {
+        reject(err)
+      })
   })
 }
 
@@ -81,15 +81,29 @@ export function register(email, password, phonenumber, firstname, lastname) {
   })
 }
 
-/* function changeProfilePic(picURL) {
+// /* function changeProfilePic(picURL) {
+//   return new Promise((resolve, reject) => {
+//     axios
+//       .patch('/api/change-profile-image', picURL)
+//       .then(resp => {
+//         const token = resp.data.token
+//         axios.defaults.headers.common.Authorization = 'Bearer ' + token
+//         window.localStorage.setItem('authtoken', token)
+//         setUser(getUser())
+//         resolve()
+//       })
+//       .catch(err => {
+//         const error = err.response.data.error
+//         reject(error)
+//       })
+//   })
+// }
+
+export function changePassword(newPass) {
   return new Promise((resolve, reject) => {
     axios
-      .patch('/api/change-profile-image', picURL)
+      .patch('/api/changePassword', newPass)
       .then(resp => {
-        const token = resp.data.token
-        axios.defaults.headers.common.Authorization = 'Bearer ' + token
-        window.localStorage.setItem('authtoken', token)
-        setUser(getUser())
         resolve()
       })
       .catch(err => {
@@ -99,16 +113,3 @@ export function register(email, password, phonenumber, firstname, lastname) {
   })
 }
 
-function changePassword(newPass) {
-  return new Promise((resolve, reject) => {
-    axios
-      .patch('/api/change-password', newPass)
-      .then(resp => {
-        resolve()
-      })
-      .catch(err => {
-        const error = err.response.data.error
-        reject(error)
-      })
-  })
-} */

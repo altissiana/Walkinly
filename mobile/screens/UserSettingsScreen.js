@@ -1,7 +1,8 @@
-import React, { Component } from "react";
-import { View, Text, StyleSheet, ImageBackground } from "react-native";
+import React, { Component, useReducer } from "react";
+import { View, Text, StyleSheet, ImageBackground, ScrollView, TextInput } from "react-native";
 import { Button } from 'react-native-elements';
-import { signout } from "../actions/Actions";
+import { signout, changePassword } from "../actions/Actions";
+import { connect } from "react-redux";
 
 export default class UserSettingsScreen extends Component {
   static navigationOptions = {
@@ -9,7 +10,8 @@ export default class UserSettingsScreen extends Component {
   }
 
   state = {
-    isMounted: false
+    isMounted: false,
+    newPassword: ''
   }
 
   componentDidMount() {
@@ -35,17 +37,62 @@ export default class UserSettingsScreen extends Component {
     })
   }
 
+
+  onChangePasswordPress = () => {
+    changePassword(this.state.newPassword).then(() => {
+      Alert.alert('Password was changed');
+    }).catch((error) => {
+      throw new Error(error)
+    })
+  }
+
   render() {
     return (
       <ImageBackground
         source={require('../assets/grady11.jpg')}
         style={styles.img}>
-        <View style={{ flex: 1, alignItems: "center", justifyContent: "space-around" }}>
-          <Text style={styles.headerText}>
-            Change Settings
-        </Text>
+        <ScrollView>
+          <Button
+            style={{
+              marginBottom: 100,
+              shadowColor: "#fff",
+
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 3,
+              },
+              shadowOpacity: 0.27,
+              shadowRadius: 4.65,
+
+              elevation: 6,
+            }}
+            buttonStyle={{
+              height: 50,
+              width: 250,
+              backgroundColor: '#e2e4e9',
+            }}
+            titleStyle={{
+              color: '#767689', fontSize: 20
+            }}
+
+            type='solid'
+            title='Logout'
+            onPress={() => this.props.navigation.navigate('Reset')} />
+
+          <TextInput style={styles.input}
+            value={this.state.newPassword}
+            placeholder='New Password'
+            placeholderTextColor="#FFFFFF"
+            autoCapitalize='none'
+            // secureTextEntry={true}? find out how to make this work later!
+            onChangeText={(text) => { this.setState({ newPassword: text }) }}
+          />
 
           <Button
+            title='Change Password'
+            type='solid'
+            onPress={this.onChangePasswordPress}
             style={{
               marginBottom: 20,
               shadowColor: "#fff",
@@ -62,19 +109,16 @@ export default class UserSettingsScreen extends Component {
             }}
             buttonStyle={{
               height: 50,
-              width: 150,
+              width: 250,
               backgroundColor: '#e2e4e9',
-              /* border: '#e2e4e9' */
             }}
             titleStyle={{ color: '#767689', fontSize: 20 }}
-
-            type='solid'
-            title='Logout'
-            onPress={() => this.handleLogout()}
           />
-        </View>
+
+
+        </ScrollView>
       </ImageBackground>
-    );
+    )
   }
 }
 
@@ -87,5 +131,22 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     resizeMode: 'cover',
+  },
+  input: {
+    borderWidth: 2,
+    borderColor: 'transparent',
+    borderBottomColor: 'white',
+    padding: 10,
+    marginTop: 40,
+    marginBottom: 80,
+    fontSize: 20,
+    color: 'white',
+    shadowColor: "#cccfd8",
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 1,
+      width: 1
+    }
   }
 })
