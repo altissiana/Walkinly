@@ -42,7 +42,7 @@ export default class UserSettingsScreen extends Component {
     changePassword(this.state.newPassword).then(() => {
       Alert.alert('Password was changed');
     }).catch((error) => {
-      throw new Error(error)
+      throw new Error
     })
   }
 
@@ -78,7 +78,9 @@ export default class UserSettingsScreen extends Component {
 
             type='solid'
             title='Logout'
-            onPress={() => this.props.navigation.navigate('Reset')} />
+            onPress={() => this.handleLogout()}
+          />
+
 
           <TextInput style={styles.input}
             value={this.state.newPassword}
