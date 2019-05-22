@@ -1,10 +1,11 @@
-import React, { Component } from 'react';
-import { Audio } from 'expo';
-import { StyleSheet, View, Linking } from 'react-native';
-import { Button } from 'react-native-elements';
-import alarm from '../assets/sounds/alarm.mp3';
+import React, { Component } from "react";
+import { Audio } from "expo";
+import { StyleSheet, View, Linking } from "react-native";
+import { Button } from "react-native-elements";
+import alarm from "../assets/sounds/alarm.mp3";
+import { setSosLocation } from "../actions/Actions";
 
-Audio.setIsEnabledAsync(true)
+Audio.setIsEnabledAsync(true);
 
 class SosButton extends Component {
   state = {
@@ -22,12 +23,28 @@ class SosButton extends Component {
     },
     alarmSound: new Audio.Sound(),
     statusSOS: false,
-    labelSOS: 'SOS',
-    clickableSOS: true
+    labelSOS: "SOS",
+    clickableSOS: true,
+    isMounted: false,
+
+    sosLocation: {
+      coordinates: {
+        latitude: null,
+        longitude: null
+      },
+      title: "sos",
+      description: ""
+    }
+  };
+
+  componentDidMount() {
+    this.setState({
+      isMounted: true
+    });
   }
 
-  getUserLocation = () => {
-    navigator.geolocation.getCurrentPosition(position => {
+  getUserLocation = async () => {
+    await navigator.geolocation.getCurrentPosition(position => {
       this.setState({
         userLocation: {
           latitude: position.coords.latitude,
@@ -35,16 +52,33 @@ class SosButton extends Component {
           latitudeDelta: 0.1,
           longitudeDelta: 0.1
         }
-      })
-    })
-  }
+      });
+    });
+  };
+
+  setSosLocation = async () => {
+    if (this.state.isMounted) {
+      var sosLoc = await navigator.geolocation.getCurrentPosition(position => {
+        var sosLocation = {
+          coordinates: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          },
+          title: "sos",
+          descriptions: ""
+        };
+        return sosLocation;
+      });
+      setSosLocation(sosLoc);
+    }
+  };
 
   sendSOSMessage = () => {
     this.setState({ submitting: true });
-    fetch('http://10.68.0.155:3001/api/messages', {
-      method: 'POST',
+    fetch("http://10.68.0.155:3001/api/messages", {
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json"
       },
       body: JSON.stringify(this.state.message)
     })
@@ -66,54 +100,61 @@ class SosButton extends Component {
           });
         }
       });
-  }
+  };
 
   handleSOSPress = async () => {
     if (this.state.clickableSOS) {
       this.setState({
         clickableSOS: false
-      })
+      });
       if (!this.state.statusSOS) {
         this.setState({
-          labelSOS: 'STOP'
-        })
+          labelSOS: "STOP"
+        });
+        this.setSosLocation();
         /* this.sendSOSMessage() */
         try {
           await this.state.alarmSound.loadAsync(alarm);
           await this.state.alarmSound.playAsync();
           await this.state.alarmSound.setIsLoopingAsync(true);
-    
         } catch (e) {
-            console.log(`cannot play the sound file`, e);
+          console.log(`cannot play the sound file`, e);
         }
         /* setTimeout(() => {Linking.openURL(`tel:7609099640`)}, 1000) */
       } else {
         this.setState({
-          labelSOS: 'SOS'
-        })
+          labelSOS: "SOS"
+        });
         try {
-          await this.state.alarmSound.setIsLoopingAsync(false)
+          await this.state.alarmSound.setIsLoopingAsync(false);
           await this.state.alarmSound.stopAsync();
           await this.state.alarmSound.unloadAsync();
         } catch (e) {
-          console.log('cannot stop the sound file', e);
+          console.log("cannot stop the sound file", e);
         }
       }
       this.setState({
         statusSOS: !this.state.statusSOS
-      })
+      });
     }
     await setTimeout(() => {
       this.setState({
         clickableSOS: true
-      })
-    }, 5000)
+      });
+    }, 5000);
+    this.props.navigation.navigate("Home");
+  };
+
+  componentWillUnmount() {
+    this.setState({
+      isMounted: false
+    });
   }
 
   render() {
     return (
       <View style={styles.fullWidth}>
-        <Button 
+        <Button
           buttonStyle={styles.sosButton}
           titleStyle={styles.sosText}
           onPress={this.handleSOSPress}
@@ -121,26 +162,26 @@ class SosButton extends Component {
           title={this.state.labelSOS}
         />
       </View>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   sosButton: {
-    backgroundColor: 'red',
+    backgroundColor: "red",
     height: 100,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 0,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 0
   },
   sosText: {
     fontSize: 40,
-    color: '#FFF',
+    color: "#FFF"
   },
   fullWidth: {
-    width: '100%',
+    width: "100%"
   }
-})
+});
 
 export default SosButton;
