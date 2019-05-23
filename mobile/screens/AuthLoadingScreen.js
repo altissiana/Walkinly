@@ -1,10 +1,6 @@
-import React, { Component } from 'react';
-import {
-  ActivityIndicator,
-  AsyncStorage,
-  StatusBar,
-  View,
-} from 'react-native';
+import React, { Component } from "react";
+import { ActivityIndicator, AsyncStorage, StatusBar, View } from "react-native";
+import { getConnections, getMarkers } from "../actions/Actions";
 
 export default class AuthLoadingScreen extends Component {
   constructor(props) {
@@ -14,8 +10,12 @@ export default class AuthLoadingScreen extends Component {
 
   // Fetch the token from storage then navigate to appropriate place
   _bootstrapAsync = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
-    this.props.navigation.navigate(userToken ? 'Main' : 'Login');
+    const userToken = await AsyncStorage.getItem("userToken");
+    if (userToken) {
+      await getConnections(userToken);
+      await getMarkers(userToken);
+    }
+    this.props.navigation.navigate(userToken ? "Main" : "Login");
   };
 
   // Render loading content
