@@ -1,8 +1,7 @@
 import MapView, { Marker } from "react-native-maps";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Text } from "react-native";
 import { Icon } from "react-native-elements";
-import { getUserLocation } from "../actions/Actions";
 import { connect } from "react-redux";
 
 class SimpleMap extends React.Component {
@@ -13,24 +12,17 @@ class SimpleMap extends React.Component {
       latitudeDelta: 0.1,
       longitudeDelta: 0.1
     },
-    vehicleLocation: {
-      coordinates: {
-        latitude: null,
-        longitude: null
-      },
-      title: "Your vehicle",
-      description: ""
-    },
+
     isMounted: false,
 
-    sosLocation: {
+    checkinLocation: {
       coordinates: {
         latitude: null,
         longitude: null
       },
-      title: "SOS",
-      description: "",
-      isUsed: false
+
+      title: "Check-in Location",
+      description: ""
     }
   };
 
@@ -56,15 +48,34 @@ class SimpleMap extends React.Component {
     }
   };
 
-  setVehicleLocation = async () => {
+  setVehicleLocation = () => {
     if (this.state.isMounted) {
-      await navigator.geolocation.getCurrentPosition(position => {
-        this.setState({
+      navigator.geolocation.getCurrentPosition(position => {
+        this.props.vehicleLocation = {
           vehicleLocation: {
             coordinates: {
               latitude: position.coords.latitude,
               longitude: position.coords.longitude
-            }
+            },
+            title: this.props.vehicleLocation.title,
+            description: this.props.vehicleLocation.description
+          }
+        };
+      });
+    }
+  };
+
+  setCheckinLocation = () => {
+    if (this.state.isMounted) {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.setState({
+          checkinLocation: {
+            coordinates: {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+            },
+            title: this.state.checkinLocation.title,
+            description: this.state.checkinLocation.description
           }
         });
       });
@@ -74,19 +85,6 @@ class SimpleMap extends React.Component {
   componentWillUnmount() {
     this.setState({
       isMounted: false
-    });
-  }
-  componentWillReceiveProps() {
-    this.setState({
-      sosLocation: {
-        coordinates: {
-          latitude: this.props.sosLocation.coordinates.latitude,
-          longitude: this.props.sosLocation.coordinates.longitude
-        },
-        title: this.props.sosLocation.title,
-        description: this.props.sosLocation.description,
-        isUsed: true
-      }
     });
   }
 
@@ -100,30 +98,28 @@ class SimpleMap extends React.Component {
           style={styles.map}
           region={this.state.userLocation}
         >
-          {this.state.vehicleLocation.coordinates.latitude ? (
+          {this.props.vehicleLocation.coordinates.latitude ? (
             <Marker
-              coordinate={this.state.vehicleLocation.coordinates}
-              title={this.state.vehicleLocation.title}
-              description={this.state.vehicleLocation.description}
+              coordinate={this.props.vehicleLocation.coordinates}
+              title={this.props.vehicleLocation.title}
+              description={this.props.vehicleLocation.description}
             />
           ) : (
             <View />
           )}
 
-          {this.state.sosLocation.isUsed ? (
+          {this.state.checkinLocation.coordinates.latitude ? (
             <Marker
-              style={styles.sosMarker}
-              coordinate={this.props.sosLocation.coordinates}
-              title={this.props.sosLocation.title}
-              description={this.props.sosLocation.description}
-            >
-              <Text style={styles.sosMarkerText}>SOS</Text>
-            </Marker>
+              pinColor={"#2673ef"}
+              coordinate={this.state.checkinLocation.coordinates}
+              title={this.state.checkinLocation.title}
+              description={this.state.checkinLocation.description}
+            />
           ) : (
             <View />
           )}
         </MapView>
-        <View style={styles.vehicleMarkerButton}>
+        <View style={styles.mapButtons}>
           <Icon
             reverse
             type="ionicon"
@@ -131,6 +127,14 @@ class SimpleMap extends React.Component {
             size={24}
             color={"rgba(30, 144, 255, 0.75)"}
             onPress={() => this.setVehicleLocation()}
+          />
+          <Icon
+            reverse
+            type="ionicon"
+            name="ios-pin"
+            size={24}
+            color={"rgba(30, 144, 255, 0.75)"}
+            onPress={() => this.setCheckinLocation()}
           />
         </View>
       </View>
@@ -155,15 +159,14 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0
   },
-  vehicleMarkerButton: {
+  mapButtons: {
     position: "absolute",
     right: 0,
     bottom: 0
   },
 
-  sosMarker: {
-    borderRadius: 10,
-    backgroundColor: "red"
+  checkinMarker: {
+    color: "blue"
   },
 
   sosMarkerText: {
@@ -174,7 +177,9 @@ const styles = StyleSheet.create({
 function mapStateToProps(appState, ownProps) {
   return {
     ...ownProps,
-    sosLocation: appState.sosLocation
+    sosLocation: appState.sosLocation,
+    vehicleLocation: appState.vehicleLocation,
+    isActive: appState.isActive
   };
 }
 

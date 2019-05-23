@@ -125,3 +125,27 @@ function changePassword(newPass) {
       })
   })
 } */
+
+export function getMarkers(email) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`http://10.68.0.155:3001/api/markers/${email}`)
+      .then(resp => {
+        store.dispatch({
+          type: "GET_MARKERS",
+          payload: resp.data
+        });
+        resolve();
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
+
+export function setSosStatus(isActive) {
+  store.dispatch({
+    type: "SET_SOS_STATUS",
+    payload: isActive
+  });
+}

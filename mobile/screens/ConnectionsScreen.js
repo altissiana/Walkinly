@@ -1,13 +1,7 @@
 import React, { Component } from "react";
-import { 
-  View, 
-  ScrollView, 
-  Text,
-  AsyncStorage,
-  StyleSheet
-} from "react-native";
-import { connect } from 'react-redux';
-import { getConnections } from '../actions/Actions';
+import { View, ScrollView, Text, AsyncStorage, StyleSheet } from "react-native";
+import { connect } from "react-redux";
+import { getConnections } from "../actions/Actions";
 
 class ConnectionsScreen extends Component {
   static navigationOptions = {
@@ -19,19 +13,21 @@ class ConnectionsScreen extends Component {
   };
 
   componentDidMount() {
-    this.setState({
-      isMounted: true
-    }, () => {
-      this.getConnections()
-    });
+    this.setState(
+      {
+        isMounted: true
+      },
+      () => {
+        this.getConnections();
+      }
+    );
   }
 
   getConnections = async () => {
     if (this.state.isMounted) {
       try {
-        getConnections(await AsyncStorage.getItem('userToken'))
-      }
-      catch (e) {
+        getConnections(await AsyncStorage.getItem("userToken"));
+      } catch (e) {
         throw new Error(e);
       }
     }
@@ -48,15 +44,16 @@ class ConnectionsScreen extends Component {
       <ScrollView
         contentContainerStyle={{
           flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
+          alignItems: "center",
+          justifyContent: "center",
           fontSize: 24
         }}
       >
         <Text>Connections</Text>
-        {this.props.connections 
-          ? this.props.connections.map((contact, i) => {
-              return (<View key={'contact' + i}>
+        {this.props.connections ? (
+          this.props.connections.map((contact, i) => {
+            return (
+              <View key={"contact" + i}>
                 <Text>
                   Name:{contact.FirstName} {contact.LastName}
                 </Text>
@@ -64,8 +61,9 @@ class ConnectionsScreen extends Component {
               </View>
             );
           })
-          : (<View />)
-         }
+        ) : (
+          <View />
+        )}
       </ScrollView>
     );
   }
@@ -75,7 +73,7 @@ function mapStateToProps(appState, ownProps) {
   return {
     ...ownProps,
     connections: appState.connections
-  }
+  };
 }
 
-export default connect(mapStateToProps)(ConnectionsScreen)
+export default connect(mapStateToProps)(ConnectionsScreen);

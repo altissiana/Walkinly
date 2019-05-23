@@ -16,7 +16,7 @@ router.post("/register", (req, res, next) => {
   SELECT count(1) as count 
   FROM Users 
   WHERE Email = ?
-  `
+  `;
 
   conn.query(checksql, [email], (err, results, fields) => {
     const count = results[0].count;
@@ -26,15 +26,20 @@ router.post("/register", (req, res, next) => {
         error: "Email already in use with another account."
       });
     } else {
-      const sql = "INSERT INTO users (Email, Password, PhoneNumber, FirstName, LastName ) VALUES (?, ?, ?, ?, ?)";
+      const sql =
+        "INSERT INTO users (Email, Password, PhoneNumber, FirstName, LastName ) VALUES (?, ?, ?, ?, ?)";
 
-      conn.query(sql, [email, password, phonenumber, firstname, lastname], (err, results, fields) => {
-        if (err) {
-          throw new Error("register failed");
-        } else {
-          res.json({ email });
+      conn.query(
+        sql,
+        [email, password, phonenumber, firstname, lastname],
+        (err, results, fields) => {
+          if (err) {
+            throw new Error("register failed");
+          } else {
+            res.json({ email });
+          }
         }
-      });
+      );
     }
   });
 });
@@ -47,7 +52,7 @@ router.post("/login", (req, res, next) => {
   SELECT count(1) as count 
   FROM Users 
   WHERE Email = ? AND Password = ?
-  `
+  `;
 
   conn.query(sql, [email, password], (err, results, fields) => {
     const count = results[0].count;
@@ -63,7 +68,7 @@ router.post("/login", (req, res, next) => {
 });
 
 router.get(`/contacts/:email`, (req, res, next) => {
-  const email = req.params.email
+  const email = req.params.email;
 
   const sql = `
   SELECT 
@@ -76,12 +81,39 @@ router.get(`/contacts/:email`, (req, res, next) => {
     u.id = c.User_id
   WHERE 
     u.Email = ?
-  `
+  `;
 
   conn.query(sql, [email], (error, results, fields) => {
     res.json(results);
     if (error) {
-      console.log("Contacts query error: " + error)
+      console.log("Contacts query error: " + error);
+    }
+  });
+});
+
+router.get(`/markers/:email`, (req, res, next) => {
+  const email = req.params.email;
+
+  const sql = `
+  SELECT 
+    m.type, m.latitude, m.longitude, m.title, m.description
+  FROM 
+    Users u
+  LEFT JOIN 
+    Markers m
+  ON 
+    u.id = m.User_id
+  WHERE 
+    u.Email = ?
+  `;
+
+  conn.query(sql, [email], (err, results, fields) => {
+    if (!error) {
+      res.json(results);
+    } else {
+      res.status(401).json({
+        error: err
+      });
     }
   });
 });

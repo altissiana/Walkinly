@@ -3,7 +3,7 @@ import { Audio } from "expo";
 import { StyleSheet, View, Linking } from "react-native";
 import { Button } from "react-native-elements";
 import alarm from "../assets/sounds/alarm.mp3";
-import { setSosLocation } from "../actions/Actions";
+import { setSosLocation, setSosStatus } from "../actions/Actions";
 
 Audio.setIsEnabledAsync(true);
 
@@ -56,20 +56,19 @@ class SosButton extends Component {
     });
   };
 
-  setSosLocation = async () => {
+  setSosLocation = () => {
     if (this.state.isMounted) {
-      var sosLoc = await navigator.geolocation.getCurrentPosition(position => {
+      navigator.geolocation.getCurrentPosition(position => {
         var sosLocation = {
           coordinates: {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
           },
           title: "sos",
-          descriptions: ""
+          description: ""
         };
-        return sosLocation;
+        setSosLocation(sosLocation);
       });
-      setSosLocation(sosLoc);
     }
   };
 
@@ -112,6 +111,7 @@ class SosButton extends Component {
           labelSOS: "STOP"
         });
         this.setSosLocation();
+        setSosStatus(true);
         /* this.sendSOSMessage() */
         try {
           await this.state.alarmSound.loadAsync(alarm);
@@ -125,6 +125,7 @@ class SosButton extends Component {
         this.setState({
           labelSOS: "SOS"
         });
+        setSosStatus(false);
         try {
           await this.state.alarmSound.setIsLoopingAsync(false);
           await this.state.alarmSound.stopAsync();

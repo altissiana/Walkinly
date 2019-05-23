@@ -3,14 +3,23 @@ const initialState = {
   isAuthenticated: false,
   connections: [],
   location: {},
+  vehicleLocation: {
+    coordinates: {
+      latitude: null,
+      longitude: null
+    },
+    title: "vehicle",
+    description: ""
+  },
   sosLocation: {
     coordinates: {
-      latitude: 36.158331,
-      longitude: -115.15254
+      latitude: null,
+      longitude: null
     },
     title: "sos",
     description: ""
-  }
+  },
+  isActive: false
 };
 
 export default function(state = initialState, action) {
@@ -30,7 +39,43 @@ export default function(state = initialState, action) {
         ...state,
         sosLocation: action.payload
       };
-
+    case "GET_MARKERS":
+      let vehicleMarker = {};
+      let sosMarker = {};
+      if (action.payload[0].type == "vehicle") {
+        vehicleMarker = action.payload[0];
+      } else {
+        sosMarker = action.payload[0];
+      }
+      if (action.payload[1].type == "sos") {
+        sosMarker = action.payload[1];
+      } else {
+        vehicleMarker = action.payload[1];
+      }
+      return {
+        ...state,
+        sosLocation: {
+          coordinates: {
+            latitude: sosMarker.latitude,
+            longitude: sosMarker.longitude
+          },
+          title: sosMarker.title,
+          description: sosMarker.description
+        },
+        vehicleLocation: {
+          coordinates: {
+            latitude: vehicleMarker.latitude,
+            longitude: vehicleMarker.longitude
+          },
+          title: vehicleMarker.title,
+          description: vehicleMarker.description
+        }
+      };
+    case "SET_SOS_STATE":
+      return {
+        ...state,
+        isActive: action.payload
+      };
     default:
       return state;
   }
