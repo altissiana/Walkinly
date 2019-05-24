@@ -1,14 +1,11 @@
 import React from 'react';
-import { createStackNavigator, createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
-import { AsyncStorage } from 'react-native';
+import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 
 import HomeScreen from '../screens/HomeScreen';
 import UserSettingsScreen from '../screens/UserSettingsScreen';
 import ConnectionsScreen from '../screens/ConnectionsScreen';
 import LocalReportsScreen from '../screens/LocalReportsScreen';
 import TipsScreen from '../screens/TipsScreen';
-
-import { getConnections } from '../actions/Actions';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -24,9 +21,6 @@ const ConnectionsStack = createStackNavigator({
 
 ConnectionsStack.navigationOptions = {
   tabBarLabel: 'Friends & Family',
-  /* tabBarOnPress: (async () => { 
-    getConnections(await AsyncStorage.getItem('userToken'));
-  }) */
 };
 
 const UserSettingsStack = createStackNavigator({
@@ -66,7 +60,7 @@ export default createMaterialTopTabNavigator({
         fontSize: 10,
       },
       indicatorStyle: {
-        backgroundColor: 'red',
+        backgroundColor: 'dodgerblue',
         height: 3,
       },
       style: {

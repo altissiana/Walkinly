@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { Audio } from 'expo';
-import { StyleSheet, View, Linking } from 'react-native';
+import { StyleSheet, View, Linking, NativeModules } from 'react-native';
 import { Button } from 'react-native-elements';
 import alarm from '../assets/sounds/alarm.mp3';
+
+const { Torch } = NativeModules;
 
 Audio.setIsEnabledAsync(true)
 
@@ -82,9 +84,9 @@ class SosButton extends Component {
           await this.state.alarmSound.loadAsync(alarm);
           await this.state.alarmSound.playAsync();
           await this.state.alarmSound.setIsLoopingAsync(true);
-    
+          await Torch.switchState(true)
         } catch (e) {
-            console.log(`cannot play the sound file`, e);
+            console.log(`cannot play the sound file or cannot turn on flashlight`, e);
         }
         /* setTimeout(() => {Linking.openURL(`tel:7609099640`)}, 1000) */
       } else {
@@ -95,8 +97,9 @@ class SosButton extends Component {
           await this.state.alarmSound.setIsLoopingAsync(false)
           await this.state.alarmSound.stopAsync();
           await this.state.alarmSound.unloadAsync();
+          await Torch.switchState(false)
         } catch (e) {
-          console.log('cannot stop the sound file', e);
+          console.log('cannot stop the sound file or cannot turn off flashlight', e);
         }
       }
       this.setState({
