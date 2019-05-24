@@ -1,13 +1,14 @@
 import MapView, { Marker } from "react-native-maps";
 import React from "react";
-import { StyleSheet, View } from "react-native";
-import { Icon } from 'react-native-elements'
+import { StyleSheet, View, Alert } from "react-native";
+import { Icon } from 'react-native-elements';
+import Polyline from  '@mapbox/polyline';
 
 export default class SimpleMap extends React.Component {
   state = {
     userLocation: {
-      latitude: 36.158331,
-      longitude: -115.152540,
+      latitude: 0,
+      longitude: 0,
       latitudeDelta: 0.1,
       longitudeDelta: 0.1
     },
@@ -19,46 +20,62 @@ export default class SimpleMap extends React.Component {
       title: 'Your vehicle',
       description: ''
     },
-    isMounted: false
+    isMounted: false,
+    followsUser: true,
+    coords: [],
+    isRouteable: false
   }
 
   componentDidMount() {
     this.setState({
       isMounted: true
-    })
-    this.getUserLocation()
-  }
-
-  getUserLocation = async () => {
-    if (this.state.isMounted) {
-      await navigator.geolocation.getCurrentPosition(position => {
+    }, () => {
+      navigator.geolocation.watchPosition((position) => {
         this.setState({
           userLocation: {
+            ...this.state.userLocation,
             latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            latitudeDelta: 0.1,
-            longitudeDelta: 0.1
+            longitude: position.coords.longitude
           }
         })
       })
-    }
+    })
   }
 
-  setVehicleLocation = async () => {
-    if (this.state.isMounted) {
-      await navigator.geolocation.getCurrentPosition(
-        position => {
-          this.setState({
-            vehicleLocation: {
-              coordinates: {
-                latitude: position.coords.latitude,
-                longitude: position.coords.longitude
-              },
-            }
-          })
+  setVehicleLocation = () => {
+    this.setState({
+      vehicleLocation: {
+        ...this.state.vehicleLocation,
+        coordinates: {
+          latitude: this.state.userLocation.latitude,
+          longitude: this.state.userLocation.longitude
+        },
+      }
+    })
+  }
+
+  getCurrentPosition = () => {
+    return new Promise((resolve, reject) => {
+      navigator.geolocation.getCurrentPosition(position => {
+        let currLoc = position.coords.latitude + ',' + position.coords.longitude;
+        resolve(currLoc)
+      })
+    })
+  }
+
+  setRoute = (currLoc, destLoc, pos) => {
+    return new Promise(async (resolve, reject) => {
+      let data = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${currLoc}&destination=${destLoc}&key=AIzaSyBmb9R1oZn4_chPvodHHt_yCTUpPjzTcNE`);
+      let jsonData = await data.json();
+      let points = Polyline.decode(jsonData.routes[0].overview_polyline.points);
+      let routeCoords = points.map((point, index) => {
+        return {
+          latitude: point[0],
+          longitude: point[1]
         }
-      )
-    }
+      })
+      resolve(routeCoords)
+    })
   }
 
   componentWillUnmount() {
@@ -71,30 +88,101 @@ export default class SimpleMap extends React.Component {
     return (
       <View style={styles.container}>
         <MapView
-          followsUserLocation={true}
+          followsUserLocation={this.state.followsUser}
           showsScale={true}
           showsUserLocation={true}
           style={styles.map}
           region={this.state.userLocation}
+          initialRegion={this.state.userLocation}
+          onPress={(coords, pos) => {
+            destLoc = coords.nativeEvent.coordinate.latitude + ',' + coords.nativeEvent.coordinate.longitude;
+            Alert.alert(
+              'Set Route',
+              'Would you like to set a new route?',
+              [
+                {
+                  text: 'Yes', 
+                  onPress: () => {
+                    this.getCurrentPosition()
+                      .then((currLoc) => {
+                        this.setRoute(currLoc, destLoc, pos)
+                          .then((routeCoords) => {
+                            this.setState({
+                              coords: routeCoords,
+                              isRouteable: true
+                            })
+                          })
+                          .catch((error) => {
+                            console.log(error)
+                          })
+                      })
+                      .catch((error) => {
+                        console.log(error)
+                      })
+                  }
+                },
+                {
+                  text: 'No',
+                  onPress: () => console.log('Cancelled'),
+                  style: 'cancel',
+                },
+              ],
+              {cancelable: false}
+            );
+          }}
         >
           {
-            this.state.vehicleLocation.coordinates.latitude
-            ? <Marker
-                coordinate={this.state.vehicleLocation.coordinates}
-                title={this.state.vehicleLocation.title}
-                description={this.state.vehicleLocation.description}
-              />
-            : <View></View>
+            this.state.isRouteable == true && <MapView.Polyline 
+              coordinates={this.state.coords}
+              strokeWidth={2}
+              strokeColor="red"
+            />
+          }
+          {
+            this.state.isRouteable == true &&
+            <Marker
+              coordinate={this.state.coords[0]}
+              title="Route start location"
+              description=""
+            />
+          }
+          {
+            this.state.isRouteable == true && 
+            <Marker
+              coordinate={this.state.coords[this.state.coords.length-1]}
+              title="Route end location"
+              description=""
+            />
+          }
+          {
+            this.state.vehicleLocation.coordinates.latitude &&
+            <Marker
+              coordinate={this.state.vehicleLocation.coordinates}
+              title={this.state.vehicleLocation.title}
+              description={this.state.vehicleLocation.description}
+            />
           }
         </MapView>
-        <View style={styles.vehicleMarkerButton}>
+        <View style={styles.mapButtons}>
           <Icon 
             reverse 
             type="ionicon" 
             name="ios-car" 
             size={24} 
             color={"rgba(30, 144, 255, 0.75)"} 
-            onPress={() => this.setVehicleLocation()}
+            onPress={() => 
+              this.setVehicleLocation()
+            }
+          />
+          <Icon 
+            reverse 
+            type="ionicon" 
+            name="ios-person" 
+            size={24} 
+            color={this.state.followsUser ? "rgba(30, 144, 255, 0.75)" : "rgba(180, 180, 180, 0.75)"} 
+            onPress={() => {
+              this.setState({followsUser: !this.state.followsUser})
+            }}
           />
         </View>
       </View>
@@ -119,7 +207,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0
   },
-  vehicleMarkerButton: {
+  mapButtons: {
     position: 'absolute',
     right: 0,
     bottom: 0,
