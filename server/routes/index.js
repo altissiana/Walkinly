@@ -86,4 +86,48 @@ router.get(`/contacts/:email`, (req, res, next) => {
   });
 });
 
+router.get(`/markers/:email`, (req, res, next) => {
+  const email = req.params.email;
+ 
+  const sql = `
+  SELECT
+    m.type, m.latitude, m.longitude, m.title, m.description
+  FROM
+    Users u
+  LEFT JOIN
+    Markers m
+  ON
+    u.id = m.User_id
+  WHERE
+    u.Email = ?
+  `;
+ 
+  conn.query(sql, [email], (err, results, fields) => {
+    if (err) {
+      throw new Error("marker query failed")
+    } else {
+      console.log(results)
+      res.json(results);
+    }
+  });
+ });
+
+ router.patch('/changePassword', (req, res, next) => {
+  const email = req.body.email;
+  const newPassword = sha512(req.body.newPassword + config.get("salt"))
+ 
+  const sql = `
+  UPDATE Users
+  SET Password = ?
+  WHERE Email = ?
+  `
+ 
+  conn.query(sql, [newPassword, email], (err, results, fields) => {
+    res.json(results)
+    if (err) {
+      console.log("Change password error: " + err)
+    }
+  });
+ })
+
 module.exports = router;
