@@ -65,7 +65,7 @@ export default class SimpleMap extends React.Component {
 
   setRoute = (currLoc, destLoc, pos) => {
     return new Promise(async (resolve, reject) => {
-      let data = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${currLoc}&destination=${destLoc}&key=AIzaSyBmb9R1oZn4_chPvodHHt_yCTUpPjzTcNE`);
+      let data = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${currLoc}&destination=${destLoc}&key=AIzaSyBmb9R1oZn4_chPvodHHt_yCTUpPjzTcNE&mode=walking`);
       let jsonData = await data.json();
       let points = Polyline.decode(jsonData.routes[0].overview_polyline.points);
       let routeCoords = points.map((point, index) => {
@@ -92,7 +92,6 @@ export default class SimpleMap extends React.Component {
           showsScale={true}
           showsUserLocation={true}
           style={styles.map}
-          region={this.state.userLocation}
           initialRegion={this.state.userLocation}
           onPress={(coords, pos) => {
             destLoc = coords.nativeEvent.coordinate.latitude + ',' + coords.nativeEvent.coordinate.longitude;

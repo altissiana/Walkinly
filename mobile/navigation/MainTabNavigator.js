@@ -51,7 +51,7 @@ export default createMaterialTopTabNavigator({
   HomeStack,
   ConnectionsStack,
   UserSettingsStack,
-  LocalReportsStack,
+  /* LocalReportsStack, */
   TipsStack,
 },
   {
@@ -60,7 +60,7 @@ export default createMaterialTopTabNavigator({
         fontSize: 10,
       },
       indicatorStyle: {
-        backgroundColor: 'dodgerblue',
+        backgroundColor: 'red',
         height: 3,
       },
       style: {
