@@ -5,7 +5,18 @@ import { signout } from "../actions/Actions";
 
 export default class UserSettingsScreen extends Component {
   static navigationOptions = {
-    header: null
+    headerStyle: {
+      height: 40,
+      backgroundColor: 'dodgerblue'
+    },
+    headerTitle: "Settings",
+    headerTitleStyle: {
+      fontSize: 32,
+      color: 'white'
+    },
+    headerTitleContainerStyle: {
+      top: -16
+    }
   }
 
   state = {
@@ -41,9 +52,6 @@ export default class UserSettingsScreen extends Component {
         source={require('../assets/grady11.jpg')}
         style={styles.img}>
         <View style={{ flex: 1, alignItems: "center", justifyContent: "space-around" }}>
-          <Text style={styles.headerText}>
-            Change Settings
-        </Text>
 
           <Button
             style={{
@@ -79,9 +87,6 @@ export default class UserSettingsScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-  headerText: {
-    fontSize: 32
-  },
   img: {
     flex: 1,
     width: '100%',

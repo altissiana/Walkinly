@@ -19,7 +19,18 @@ const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
 
 class TipsScreen extends Component {
   static navigationOptions = {
-    header: null
+    headerStyle: {
+      height: 40,
+      backgroundColor: 'dodgerblue'
+    },
+    headerTitle: "Safety Tips",
+    headerTitleStyle: {
+      fontSize: 32,
+      color: 'white'
+    },
+    headerTitleContainerStyle: {
+      top: -16
+    }
   }
 
   state = {
@@ -32,7 +43,6 @@ class TipsScreen extends Component {
         source={require('../assets/grady5.jpg')}
         style={styles.img}>
         <View style={styles.container}>
-          <Text style={styles.title}>Safety Tips</Text>
           <ScrollView
             style={styles.tcContainer}
             onScroll={({ nativeEvent }) => {
@@ -93,12 +103,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     marginBottom: 40,
-    color: 'white'
-  },
-  title: {
-    marginTop: 25,
-    fontSize: 25,
-    alignSelf: 'center',
     color: 'white'
   },
   tcL: {
