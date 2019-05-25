@@ -1,6 +1,8 @@
 import { AsyncStorage } from 'react-native';
+import { ImagePicker, Permissions } from 'expo';
 import store from '../store';
 import axios from "axios";
+/* import ImagePicker from 'react-native-image-picker'; */
 
 export function signout() {
   return new Promise((resolve, reject) => {
@@ -81,7 +83,7 @@ export function register(email, password, phonenumber, firstname, lastname) {
   })
 }
 
-// /* function changeProfilePic(picURL) {
+// function changeProfilePic(picURL) {
 //   return new Promise((resolve, reject) => {
 //     axios
 //       .patch('/api/change-profile-image', picURL)
@@ -99,10 +101,10 @@ export function register(email, password, phonenumber, firstname, lastname) {
 //   })
 // }
 
-export function changePassword(newPass) {
+export function changePassword(email, newPassword) {
   return new Promise((resolve, reject) => {
     axios
-      .patch('/api/changePassword', newPass)
+      .patch('http://10.68.0.155:3001/api/changePassword', { email, newPassword })
       .then(resp => {
         resolve()
       })
@@ -113,3 +115,73 @@ export function changePassword(newPass) {
   })
 }
 
+const options = {
+  title: 'Select Avatar',
+  storageOptions: {
+    skipBackup: true,
+    path: 'images',
+  },
+};
+
+// export function showImagePicker() {
+//   ImagePicker.showImagePicker(options, (response) => {
+//     console.log('Response = ', response);
+
+//     if (response.didCancel) {
+//       console.log('User cancelled image picker');
+//     } else if (response.error) {
+//       console.log('ImagePicker Error: ', response.error);
+//     } else if (response.customButton) {
+//       console.log('User tapped custom button: ', response.customButton);
+//     } else {
+//       const source = { uri: response.uri };
+
+//       // You can also display the image using data:
+//       // const source = { uri: 'data:image/jpeg;base64,' + response.data };
+
+//       this.setState({
+//         avatarSource: source,
+//       });
+//     }
+//   })
+// }
+
+export function launchCamera() {
+  return new Promise((resolve, reject) => {
+    ImagePicker.launchCameraAsync(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri };
+
+        resolve(source)
+      }
+    })
+  })
+}
+
+export function launchImageLibrary() {
+  return new Promise((resolve, reject) => {
+    ImagePicker.launchImageLibraryAsync(options, (response) => {
+      console.log('Response = ', response);
+
+      if (response.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        const source = { uri: response.uri };
+
+        resolve(source)
+      }
+    })
+  })
+}

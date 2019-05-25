@@ -121,7 +121,7 @@ export default class Register extends Component {
                     <Button
                         type="outline"
                         title="Enter"
-                        onPress={() => this.handleRegister()}
+                        onPress={() => this.handleRegister(first)}
                         style={{
 
                             marginTop: 40,

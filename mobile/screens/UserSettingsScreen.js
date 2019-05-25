@@ -1,22 +1,45 @@
 import React, { Component, useReducer } from "react";
-import { View, Text, StyleSheet, ImageBackground, ScrollView, TextInput } from "react-native";
+import { View, Text, StyleSheet, ImageBackground, ScrollView, TextInput, Image, Alert, TouchableOpacity } from "react-native";
 import { Button } from 'react-native-elements';
 import { signout, changePassword } from "../actions/Actions";
 import { connect } from "react-redux";
+import { Permissions, Camera, ImagePicker } from 'expo';
+import { launchCamera, launchImageLibrary } from '../actions/Actions';
+
 
 export default class UserSettingsScreen extends Component {
+  constructor() {
+    super()
+    this.askPermission = this.askPermission.bind(this)
+  }
   static navigationOptions = {
     header: null
   }
 
   state = {
     isMounted: false,
-    newPassword: ''
+    password: "",
+    oldPassword: "",
+    isChanging: false,
+    confirmPassword: "",
+    newPassword: '',
+    email: "",
+    avatarSource: null,
+    hasCameraPermission: null,
+    type: Camera.Constants.Type.back,
+
   }
 
+
   componentDidMount() {
+    this.askPermission()
+  }
+
+  async askPermission() {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
     this.setState({
-      isMounted: true
+      isMounted: true,
+      hasCameraPermission: status === 'granted'
     })
   }
 
@@ -39,48 +62,85 @@ export default class UserSettingsScreen extends Component {
 
 
   onChangePasswordPress = () => {
-    changePassword(this.state.newPassword).then(() => {
+    changePassword(this.state.email, this.state.newPassword).then(() => {
       Alert.alert('Password was changed');
     }).catch((error) => {
-      throw new Error
+      console.log(error)
     })
   }
 
+  launchCamera = () => {
+    if (this.state.hasCameraPermission) {
+      launchCamera().then(source => {
+        this.setState({
+          avatarSource: source
+        })
+      }).catch(err => {
+        console.log('camera error', err)
+      })
+    }
+  }
+
+  launchImageLibrary = () => {
+    if (this.state.hasCameraPermission) {
+      launchImageLibrary().then(source => {
+        this.setState({
+          avatarSource: source
+        })
+      }).catch(err => {
+        console.log('camera error', err)
+      })
+    }
+  }
+
+  handleChoosePhoto = () => {
+
+    Alert.alert(
+      'Profile Picture',
+      'Would you like to change your pic?',
+      [
+        {
+          text: 'Camera',
+          onPress: () => { this.launchCamera() }
+        },
+        {
+          text: 'Library',
+          onPress: () => { this.launchImageLibrary() }
+
+        },
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancelled'),
+          style: 'cancel',
+        }
+      ]
+    );
+  }
+
   render() {
+    const { image } = this.state;
+
     return (
       <ImageBackground
         source={require('../assets/grady11.jpg')}
         style={styles.img}>
         <ScrollView>
-          <Button
-            style={{
-              marginBottom: 100,
-              shadowColor: "#fff",
+          <TouchableOpacity
+            onPress={() => { this.handleChoosePhoto() }}>
+            <Image
+              /* source={{ uri: image }} */
+              source={this.state.avatarSource}
+              style={styles.uploadAvatar}
+            />
+          </TouchableOpacity>
 
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 3,
-              },
-              shadowOpacity: 0.27,
-              shadowRadius: 4.65,
-
-              elevation: 6,
-            }}
-            buttonStyle={{
-              height: 50,
-              width: 250,
-              backgroundColor: '#e2e4e9',
-            }}
-            titleStyle={{
-              color: '#767689', fontSize: 20
-            }}
-
-            type='solid'
-            title='Logout'
-            onPress={() => this.handleLogout()}
+          <TextInput style={styles.input}
+            value={this.state.email}
+            placeholder='Enter your email'
+            placeholderTextColor="#FFFFFF"
+            autoCapitalize='none'
+            onChangeText={(text) => { this.setState({ email: text }) }}
           />
-
 
           <TextInput style={styles.input}
             value={this.state.newPassword}
@@ -117,6 +177,34 @@ export default class UserSettingsScreen extends Component {
             titleStyle={{ color: '#767689', fontSize: 20 }}
           />
 
+          <Button
+            style={{
+              marginBottom: 100,
+              shadowColor: "#fff",
+
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 3,
+              },
+              shadowOpacity: 0.27,
+              shadowRadius: 4.65,
+
+              elevation: 6,
+            }}
+            buttonStyle={{
+              height: 50,
+              width: 250,
+              backgroundColor: '#e2e4e9',
+            }}
+            titleStyle={{
+              color: '#767689', fontSize: 20
+            }}
+
+            type='solid'
+            title='Logout'
+            onPress={() => this.handleLogout()}
+          />
 
         </ScrollView>
       </ImageBackground>
@@ -139,8 +227,7 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
     borderBottomColor: 'white',
     padding: 10,
-    marginTop: 40,
-    marginBottom: 80,
+    marginTop: 500,
     fontSize: 20,
     color: 'white',
     shadowColor: "#cccfd8",
@@ -149,6 +236,14 @@ const styles = StyleSheet.create({
     shadowOffset: {
       height: 1,
       width: 1
-    }
+    },
+  },
+  uploadAvatar: {
+    borderWidth: 2,
+    borderColor: 'white',
+    marginTop: 300,
+    borderRadius: 100,
+    height: 200,
+    width: 200
   }
 })
