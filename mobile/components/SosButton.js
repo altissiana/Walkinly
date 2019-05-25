@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { Audio } from "expo";
-import { StyleSheet, View, Linking } from "react-native";
+import { StyleSheet, View, Linking, Platform } from "react-native";
 import { Button } from "react-native-elements";
 import alarm from "../assets/sounds/alarm.mp3";
 import { setSosLocation, setSosStatus } from "../actions/Actions";
+
+import Torch from "react-native-torch";
 
 Audio.setIsEnabledAsync(true);
 
@@ -112,6 +114,18 @@ class SosButton extends Component {
         });
         this.setSosLocation();
         setSosStatus(true);
+        if (Platform.OS === "ios") {
+          Torch.switchState(true);
+        } else {
+          const cameraAllowed = await Torch.requestCameraPermission(
+            "Camera Permissions", // dialog title
+            "We require camera permissions to use the torch on the back of your phone." // dialog body
+          );
+
+          if (cameraAllowed) {
+            Torch.switchState(true);
+          }
+        }
         /* this.sendSOSMessage() */
         try {
           await this.state.alarmSound.loadAsync(alarm);
@@ -126,6 +140,18 @@ class SosButton extends Component {
           labelSOS: "SOS"
         });
         setSosStatus(false);
+        if (Platform.OS === "ios") {
+          Torch.switchState(false);
+        } else {
+          const cameraAllowed = await Torch.requestCameraPermission(
+            "Camera Permissions", // dialog title
+            "We require camera permissions to use the torch on the back of your phone." // dialog body
+          );
+
+          if (cameraAllowed) {
+            Torch.switchState(false);
+          }
+        }
         try {
           await this.state.alarmSound.setIsLoopingAsync(false);
           await this.state.alarmSound.stopAsync();

@@ -1,5 +1,13 @@
 import React, { Component } from "react";
-import { View, ScrollView, Text, AsyncStorage, StyleSheet } from "react-native";
+import {
+  View,
+  ScrollView,
+  Text,
+  AsyncStorage,
+  StyleSheet,
+  Button,
+  Alert
+} from "react-native";
 import { connect } from "react-redux";
 import { getConnections } from "../actions/Actions";
 
@@ -39,6 +47,10 @@ class ConnectionsScreen extends Component {
     });
   }
 
+  addConnection() {
+    this.props.navigation.navigate("NewConnection");
+  }
+
   render() {
     return (
       <ScrollView
@@ -50,6 +62,12 @@ class ConnectionsScreen extends Component {
         }}
       >
         <Text>Connections</Text>
+        <Button
+          title="Add Connection"
+          onPress={() => {
+            this.addConnection();
+          }}
+        />
         {this.props.connections ? (
           this.props.connections.map((contact, i) => {
             return (

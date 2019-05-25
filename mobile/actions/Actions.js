@@ -149,3 +149,22 @@ export function setSosStatus(isActive) {
     payload: isActive
   });
 }
+
+export function newConnection(userEmail, phonenumber, firstname, lastname) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post("http://10.68.0.155:3001/api/newConnection", {
+        userEmail,
+        phonenumber,
+        firstname,
+        lastname
+      })
+      .then(async resp => {
+        await getConnections(userEmail);
+        resolve();
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
