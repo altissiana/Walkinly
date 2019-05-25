@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 import { Audio } from 'expo';
-import { StyleSheet, View, Linking, NativeModules, AsyncStorage } from 'react-native';
+import { StyleSheet, View, Linking, NativeModules, AsyncStorage, Platform } from 'react-native';
 import { Button } from 'react-native-elements';
 import alarm from '../assets/sounds/alarm.mp3';
 import { connect } from 'react-redux';
+import { setSosLocation, setSosStatus } from "../actions/Actions";
 
 const { Torch } = NativeModules;
 
-Audio.setIsEnabledAsync(true)
+Audio.setIsEnabledAsync(true);
 
 class SosButton extends Component {
   state = {
@@ -27,7 +28,15 @@ class SosButton extends Component {
     statusSOS: false,
     labelSOS: 'SOS',
     clickableSOS: true,
-    isMounted: false
+    isMounted: false,
+    sosLocation: {
+      coordinates: {
+        latitude: null,
+        longitude: null
+      },
+      title: "sos",
+      description: ""
+    }
   }
 
   componentDidMount() {
@@ -35,7 +44,36 @@ class SosButton extends Component {
       isMounted: true
     })
   }
-
+  
+  //getUserLocation = async () => {
+  //  await navigator.geolocation.getCurrentPosition(position => {
+  //    this.setState({
+  //      userLocation: {
+  //        latitude: position.coords.latitude,
+  //        longitude: position.coords.longitude,
+  //        latitudeDelta: 0.1,
+  //        longitudeDelta: 0.1
+  //      }
+  //    });
+  //  });
+  //};
+      
+  setSosLocation = () => {
+    if (this.state.isMounted) {
+      navigator.geolocation.getCurrentPosition(position => {
+        var sosLocation = {
+          coordinates: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          },
+          title: "sos",
+          description: ""
+        };
+        setSosLocation(sosLocation);
+      });
+    }
+  };
+      
   getUserLocation = (isReturned) => {
     if (this.state.isMounted) {
       return new Promise((resolve, reject) => {
@@ -108,6 +146,20 @@ class SosButton extends Component {
           this.setState({
             labelSOS: 'STOP'
           })
+//           if (Platform.OS === "ios") {
+//             Torch.switchState(true);
+//           } else {
+//             const cameraAllowed = await Torch.requestCameraPermission(
+//               "Camera Permissions", // dialog title
+//               "We require camera permissions to use the torch on the back of your phone." // dialog body
+//             );
+
+//             if (cameraAllowed) {
+//               Torch.switchState(true);
+//             }
+//           }
+//           this.setSosLocation();
+//           setSosStatus(true);
           this.sendSOSMessage()
           try {
             await this.state.alarmSound.loadAsync(alarm);
@@ -122,6 +174,19 @@ class SosButton extends Component {
           this.setState({
             labelSOS: 'SOS'
           })
+          setSosStatus(false);
+          if (Platform.OS === "ios") {
+            Torch.switchState(false);
+          } else {
+            const cameraAllowed = await Torch.requestCameraPermission(
+              "Camera Permissions", // dialog title
+              "We require camera permissions to use the torch on the back of your phone." // dialog body
+            );
+
+            if (cameraAllowed) {
+              Torch.switchState(false);
+            }
+          }
           try {
             await this.state.alarmSound.setIsLoopingAsync(false)
             await this.state.alarmSound.stopAsync();
@@ -139,7 +204,8 @@ class SosButton extends Component {
         this.setState({
           clickableSOS: true
         })
-      }, 5000)
+      }, 5000);
+      this.props.navigation.navigate("Home");
     }
   }
 
@@ -152,7 +218,7 @@ class SosButton extends Component {
   render() {
     return (
       <View style={styles.fullWidth}>
-        <Button 
+        <Button
           buttonStyle={styles.sosButton}
           titleStyle={styles.sosText}
           onPress={this.handleSOSPress}
@@ -160,27 +226,27 @@ class SosButton extends Component {
           title={this.state.labelSOS}
         />
       </View>
-    )
+    );
   }
 }
 
 const styles = StyleSheet.create({
   sosButton: {
-    backgroundColor: 'red',
+    backgroundColor: "red",
     height: 100,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'center',
-    borderRadius: 0,
+    width: "100%",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 0
   },
   sosText: {
     fontSize: 40,
-    color: '#FFF',
+    color: "#FFF"
   },
   fullWidth: {
-    width: '100%',
+    width: "100%"
   }
-})
+});
 
 function mapStateToProps(appState, ownProps) {
   return {

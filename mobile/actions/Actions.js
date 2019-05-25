@@ -1,38 +1,39 @@
-import { AsyncStorage } from 'react-native';
-import store from '../store';
+import { AsyncStorage } from "react-native";
+import store from "../store";
 import axios from "axios";
 
 export function signout() {
   return new Promise((resolve, reject) => {
-    AsyncStorage.removeItem('userToken');
+    AsyncStorage.removeItem("userToken");
     store.dispatch({
       type: "LOGIN/REGISTER/LOGOUT",
       payload: {
         user: null,
         isAuthenticated: false
       }
-    })
-    resolve()
-  })
-  .catch(err => {
+    });
+    resolve();
+  }).catch(err => {
     const error = err.response.data.error;
     reject(error);
-  })
+  });
 }
 
 export function getConnections(email) {
   return new Promise((resolve, reject) => {
-    axios.get(`http://10.68.0.155:3001/api/contacts/${email}`).then(resp => {
-      store.dispatch({
-        type: "GET_CONNECTIONS",
-        payload: resp.data
+    axios
+      .get(`http://10.68.0.155:3001/api/contacts/${email}`)
+      .then(resp => {
+        store.dispatch({
+          type: "GET_CONNECTIONS",
+          payload: resp.data
+        });
+        resolve();
       })
-      resolve()
-    })
-    .catch(err => {
-      reject(err)
-    })
-  })
+      .catch(err => {
+        reject(err);
+      });
+  });
 }
 
 export function signin(email, password) {
@@ -51,13 +52,13 @@ export function signin(email, password) {
             user: email,
             isAuthenticated: true
           }
-        })
-        resolve()
+        });
+        resolve();
       })
       .catch(err => {
-        reject(err)
-      })
-  })
+        reject(err);
+      });
+  });
 }
 
 export function register(email, password, phonenumber, firstname, lastname) {
@@ -76,15 +77,21 @@ export function register(email, password, phonenumber, firstname, lastname) {
             user: email,
             isAuthenticated: true
           }
-        })
-        resolve()
+        });
+        resolve();
       })
       .catch(err => {
-        reject(err)
-      })
-  })
+        reject(err);
+      });
+  });
 }
 
+export function setSosLocation(sosLocation) {
+  store.dispatch({
+    type: "SET_SOS_LOCATION",
+    payload: sosLocation
+  });
+}
 /* function changeProfilePic(picURL) {
   return new Promise((resolve, reject) => {
     axios
@@ -116,3 +123,46 @@ function changePassword(newPass) {
       })
   })
 } */
+
+export function getMarkers(email) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`http://10.68.0.155:3001/api/markers/${email}`)
+      .then(resp => {
+        store.dispatch({
+          type: "GET_MARKERS",
+          payload: resp.data
+        });
+        resolve();
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}
+
+export function setSosStatus(isActive) {
+  store.dispatch({
+    type: "SET_SOS_STATUS",
+    payload: isActive
+  });
+}
+
+export function newConnection(userEmail, phonenumber, firstname, lastname) {
+  return new Promise((resolve, reject) => {
+    axios
+      .post("http://10.68.0.155:3001/api/newConnection", {
+        userEmail,
+        phonenumber,
+        firstname,
+        lastname
+      })
+      .then(async resp => {
+        await getConnections(userEmail);
+        resolve();
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });
+}

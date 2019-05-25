@@ -1,13 +1,15 @@
 import React, { Component } from "react";
-import { 
-  View, 
-  ScrollView, 
+import {
+  View,
+  ScrollView,
   Text,
   AsyncStorage,
-  StyleSheet
+  StyleSheet,
+  Button,
+  Alert
 } from "react-native";
-import { connect } from 'react-redux';
-import { getConnections } from '../actions/Actions';
+import { connect } from "react-redux";
+import { getConnections } from "../actions/Actions";
 
 class ConnectionsScreen extends Component {
   static navigationOptions = {
@@ -30,19 +32,21 @@ class ConnectionsScreen extends Component {
   };
 
   componentDidMount() {
-    this.setState({
-      isMounted: true
-    }, () => {
-      this.getConnections()
-    });
+    this.setState(
+      {
+        isMounted: true
+      },
+      () => {
+        this.getConnections();
+      }
+    );
   }
 
   getConnections = async () => {
     if (this.state.isMounted) {
       try {
-        getConnections(await AsyncStorage.getItem('userToken'))
-      }
-      catch (e) {
+        getConnections(await AsyncStorage.getItem("userToken"));
+      } catch (e) {
         throw new Error(e);
       }
     }
@@ -52,6 +56,10 @@ class ConnectionsScreen extends Component {
     this.setState({
       isMounted: false
     });
+  }
+
+  addConnection() {
+    this.props.navigation.navigate("NewConnection");
   }
 
   render() {
@@ -64,8 +72,14 @@ class ConnectionsScreen extends Component {
           fontSize: 24
         }}
       >
+        <Button
+          title="Add Connection"
+          onPress={() => {
+            this.addConnection();
+          }}
+        />
         {this.props.connections 
-          ? this.props.connections.map((contact, i) => {
+          && this.props.connections.map((contact, i) => {
               return (
               <View 
                 key={'contact' + i} 
@@ -80,8 +94,7 @@ class ConnectionsScreen extends Component {
               </View>
             );
           })
-          : (<View />)
-         }
+        }
       </ScrollView>
     );
   }
@@ -106,7 +119,7 @@ function mapStateToProps(appState, ownProps) {
   return {
     ...ownProps,
     connections: appState.connections
-  }
+  };
 }
 
-export default connect(mapStateToProps)(ConnectionsScreen)
+export default connect(mapStateToProps)(ConnectionsScreen);
