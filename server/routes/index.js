@@ -32,7 +32,7 @@ router.post("/register", (req, res, next) => {
         if (err) {
           throw new Error("register failed");
         } else {
-          res.json({ email });
+          res.json({ email, name: firstname + ' ' + lastname, phonenumber });
         }
       });
     }
@@ -44,16 +44,17 @@ router.post("/login", (req, res, next) => {
   const password = sha512(req.body.password + config.get("salt"));
 
   const sql = `
-  SELECT count(1) as count 
+  SELECT count(1) as count, FirstName, LastName, PhoneNumber 
   FROM Users 
   WHERE Email = ? AND Password = ?
+  GROUP BY id
   `
 
   conn.query(sql, [email, password], (err, results, fields) => {
     const count = results[0].count;
 
     if (count >= 1) {
-      res.json({ email });
+      res.json({ email, name: results[0].FirstName + ' ' + results[0].LastName, phonenumber: results[0].PhoneNumber });
     } else {
       res.status(401).json({
         error: "Invalid Email or password"
