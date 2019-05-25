@@ -95,39 +95,84 @@ export default class SimpleMap extends React.Component {
           initialRegion={this.state.userLocation}
           onPress={(coords, pos) => {
             destLoc = coords.nativeEvent.coordinate.latitude + ',' + coords.nativeEvent.coordinate.longitude;
-            Alert.alert(
-              'Set Route',
-              'Would you like to set a new route?',
-              [
-                {
-                  text: 'Yes', 
-                  onPress: () => {
-                    this.getCurrentPosition()
-                      .then((currLoc) => {
-                        this.setRoute(currLoc, destLoc, pos)
-                          .then((routeCoords) => {
-                            this.setState({
-                              coords: routeCoords,
-                              isRouteable: true
+            if (!this.state.isRouteable) {
+              Alert.alert(
+                'Set Route',
+                'Would you like to set a new route?',
+                [
+                  {
+                    text: 'Yes', 
+                    onPress: () => {
+                      this.getCurrentPosition()
+                        .then((currLoc) => {
+                          this.setRoute(currLoc, destLoc, pos)
+                            .then((routeCoords) => {
+                              this.setState({
+                                coords: routeCoords,
+                                isRouteable: true
+                              })
                             })
-                          })
-                          .catch((error) => {
-                            console.log(error)
-                          })
+                            .catch((error) => {
+                              console.log(error)
+                            })
+                        })
+                        .catch((error) => {
+                          console.log(error)
+                        })
+                    }
+                  },
+                  {
+                    text: 'No',
+                    onPress: () => console.log('Cancelled'),
+                    style: 'cancel',
+                  },
+                ],
+                {cancelable: false}
+              );
+            } else {
+              Alert.alert(
+                'Set or Remove Route',
+                'Would you like to set a new route or remove the current route?',
+                [
+                  {
+                    text: 'Set new route', 
+                    onPress: () => {
+                      this.getCurrentPosition()
+                        .then((currLoc) => {
+                          this.setRoute(currLoc, destLoc, pos)
+                            .then((routeCoords) => {
+                              this.setState({
+                                coords: routeCoords,
+                                isRouteable: true
+                              })
+                            })
+                            .catch((error) => {
+                              console.log(error)
+                            })
+                        })
+                        .catch((error) => {
+                          console.log(error)
+                        })
+                    }
+                  },
+                  {
+                    text: 'Remove route',
+                    onPress: () => {
+                      this.setState({
+                        coords: [],
+                        isRouteable: false
                       })
-                      .catch((error) => {
-                        console.log(error)
-                      })
-                  }
-                },
-                {
-                  text: 'No',
-                  onPress: () => console.log('Cancelled'),
-                  style: 'cancel',
-                },
-              ],
-              {cancelable: false}
-            );
+                    }
+                  },
+                  {
+                    text: 'Cancel',
+                    onPress: () => console.log('Cancelled'),
+                    style: 'cancel',
+                  },
+                ],
+                {cancelable: false}
+              );
+            }
           }}
         >
           {
