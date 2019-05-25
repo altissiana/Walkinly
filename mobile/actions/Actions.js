@@ -40,9 +40,11 @@ export function signin(email, password) {
     axios
       .post("http://10.68.0.155:3001/api/login", { email, password })
       .then(async (resp) => {
-        const email = resp.data.email;
+        const { email, name, phonenumber } = resp.data;
         await getConnections(email);
         await AsyncStorage.setItem('userToken', email);
+        await AsyncStorage.setItem('userName', name);
+        await AsyncStorage.setItem('userPhone', phonenumber);
         store.dispatch({
           type: "LOGIN/REGISTER/LOGOUT",
           payload: {
@@ -63,9 +65,11 @@ export function register(email, password, phonenumber, firstname, lastname) {
     axios
       .post("http://10.68.0.155:3001/api/register", { email, password, phonenumber, firstname, lastname })
       .then(async (resp) => {
-        const email = resp.data.email;
+        const { email, name, phonenumber } = resp.data;
         await getConnections(email);
         await AsyncStorage.setItem('userToken', email);
+        await AsyncStorage.setItem('userName', name);
+        await AsyncStorage.setItem('userPhone', phonenumber);
         store.dispatch({
           type: "LOGIN/REGISTER/LOGOUT",
           payload: {

@@ -11,7 +11,18 @@ import { getConnections } from '../actions/Actions';
 
 class ConnectionsScreen extends Component {
   static navigationOptions = {
-    header: null
+    headerStyle: {
+      height: 40,
+      backgroundColor: 'dodgerblue'
+    },
+    headerTitle: "Connections",
+    headerTitleStyle: {
+      fontSize: 32,
+      color: 'white'
+    },
+    headerTitleContainerStyle: {
+      top: -16
+    }
   };
 
   state = {
@@ -49,18 +60,23 @@ class ConnectionsScreen extends Component {
         contentContainerStyle={{
           flex: 1,
           alignItems: 'center',
-          justifyContent: 'center',
+          justifyContent: 'flex-start',
           fontSize: 24
         }}
       >
-        <Text>Connections</Text>
         {this.props.connections 
           ? this.props.connections.map((contact, i) => {
-              return (<View key={'contact' + i}>
+              return (
+              <View 
+                key={'contact' + i} 
+                style={styles.connection}
+              >
                 <Text>
-                  Name:{contact.FirstName} {contact.LastName}
+                  <Text style={styles.connAttribute}>Name:</Text> {contact.FirstName} {contact.LastName}
                 </Text>
-                <Text>Phone Number: {contact.PhoneNumber}</Text>
+                <Text>
+                  <Text style={styles.connAttribute}>Phone Number:</Text> {contact.PhoneNumber}
+                </Text>
               </View>
             );
           })
@@ -70,6 +86,21 @@ class ConnectionsScreen extends Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  connection: {
+    width: '90%',
+    borderWidth: 1,
+    borderStyle: 'solid',
+    borderColor: 'rgb(210, 210, 210)',
+    padding: 10,
+    borderRadius: 10,
+    marginVertical: 10
+  },
+  connAttribute: {
+    fontWeight: 'bold'
+  }
+})
 
 function mapStateToProps(appState, ownProps) {
   return {
