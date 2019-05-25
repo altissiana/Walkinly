@@ -1,15 +1,12 @@
-import React from "react";
-import {
-  createStackNavigator,
-  createMaterialTopTabNavigator,
-  createAppContainer
-} from "react-navigation";
+import React from 'react';
+import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 import { AsyncStorage } from "react-native";
-import HomeScreen from "../screens/HomeScreen";
-import UserSettingsScreen from "../screens/UserSettingsScreen";
-import ConnectionsScreen from "../screens/ConnectionsScreen";
-import LocalReportsScreen from "../screens/LocalReportsScreen";
-import TipsScreen from "../screens/TipsScreen";
+
+import HomeScreen from '../screens/HomeScreen';
+import UserSettingsScreen from '../screens/UserSettingsScreen';
+import ConnectionsScreen from '../screens/ConnectionsScreen';
+import LocalReportsScreen from '../screens/LocalReportsScreen';
+import TipsScreen from '../screens/TipsScreen';
 import NewConnectionScreen from "../screens/NewConnectionScreen";
 
 const HomeStack = createStackNavigator({
@@ -26,10 +23,7 @@ const ConnectionsStack = createStackNavigator({
 });
 
 ConnectionsStack.navigationOptions = {
-  tabBarLabel: "Friends & Family"
-  /* tabBarOnPress: async (scene, jumpToIndex) => { 
-    getConnections(await AsyncStorage.getItem('userToken'));
-  } */
+  tabBarLabel: 'Friends & Family',
 };
 
 const UserSettingsStack = createStackNavigator({
@@ -61,8 +55,8 @@ export default createMaterialTopTabNavigator(
     HomeStack,
     ConnectionsStack,
     UserSettingsStack,
-    LocalReportsStack,
-    TipsStack
+    /* LocalReportsStack, */
+    TipsStack,
   },
   {
     tabBarOptions: {

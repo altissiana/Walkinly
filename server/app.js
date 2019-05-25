@@ -1,4 +1,4 @@
-// const dotenv = require('dotenv').config();
+const dotenv = require('dotenv').config();
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
@@ -7,14 +7,13 @@ const bodyParser = require("body-parser");
 const logger = require("morgan");
 const ejwt = require("express-jwt");
 const config = require("config");
-//const pino = require("express-pino-logger")();
-// const twilio = require("twilio")(
-//   process.env.TWILIO_ACCOUNT_SID,
-//   process.env.TWILIO_AUTH_TOKEN
-// );
+const pino = require("express-pino-logger")();
+const twilio = require("twilio")(
+  process.env.TWILIO_ACCOUNT_SID,
+  process.env.TWILIO_AUTH_TOKEN
+);
 
 var indexRouter = require("./routes/index");
-/*var privateRouter = require('./routes/private') */
 
 var app = express();
 
@@ -26,11 +25,11 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/api", indexRouter);
 
-// app.use(bodyParser.urlencoded({ extended: false }));
-// app.use(bodyParser.json());
-// app.use(pino);
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(pino);
 
-/* app.post('/api/messages', (req, res) => {
+app.post('/api/messages', (req, res) => {
   res.header('Content-Type', 'application/json');
   twilio.messages
     .create({
@@ -45,7 +44,7 @@ app.use("/api", indexRouter);
       console.log(err);
       res.send(JSON.stringify({ success: false }));
     });
-}); */
+});
 
 app.post("http://10.68.0.155:3001/api/messages", (req, res) => {
   res.header("Content-Type", "application/json");
@@ -59,7 +58,7 @@ app.post("http://10.68.0.155:3001/api/messages", (req, res) => {
       res.send(JSON.stringify({ success: true }));
     })
     .catch(err => {
-      console.log(err);
+      console.log(err)
       res.send(JSON.stringify({ success: false }));
     });
 });
