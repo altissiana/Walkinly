@@ -36,7 +36,7 @@ router.post("/register", (req, res, next) => {
         } else {
           res.json({ email, name: firstname + ' ' + lastname, phonenumber });
         }
-      )
+      })
     }
   })
 })
@@ -86,35 +86,8 @@ router.get(`/contacts/:email`, (req, res, next) => {
     if (error) {
       console.log("Contacts query error: " + error);
     }
-  });
-});
-
-router.get(`/markers/:email`, (req, res, next) => {
-  const email = req.params.email;
-
-  const sql = `
-  SELECT 
-    m.type, m.latitude, m.longitude, m.title, m.description
-  FROM 
-    Users u
-  LEFT JOIN 
-    Markers m
-  ON 
-    u.id = m.User_id
-  WHERE 
-    u.Email = ?
-  `;
-
-  conn.query(sql, [email], (err, results, fields) => {
-    if (!error) {
-      res.json(results);
-    } else {
-      res.status(401).json({
-        error: err
-      });
-    }
-  });
-});
+  })
+})
 
 router.get(`/markers/:email`, (req, res, next) => {
   const email = req.params.email;
@@ -131,11 +104,10 @@ router.get(`/markers/:email`, (req, res, next) => {
     if (err) {
       throw new Error("marker query failed")
     } else {
-      console.log(results)
       res.json(results);
     }
-  });
-});
+  })
+})
 
 router.patch('/changePassword', (req, res, next) => {
   const email = req.body.email;
@@ -152,7 +124,7 @@ router.patch('/changePassword', (req, res, next) => {
     if (err) {
       console.log("Change password error: " + err)
     }
-  });
+  })
 })
 
 router.post('/newConnection', (req, res, next) => {
@@ -190,7 +162,6 @@ router.post('/newConnection', (req, res, next) => {
 
       })
     }
-
   })
 })
 

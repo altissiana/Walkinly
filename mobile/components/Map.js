@@ -52,31 +52,32 @@ class SimpleMap extends React.Component {
   }
 
   setCheckinLocation = () => {
-    if (this.state.isMounted) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.setState({
-          checkinLocation: {
-            coordinates: {
-              latitude: position.coords.latitude,
-              longitude: position.coords.longitude
-            },
-            title: this.state.checkinLocation.title,
-            description: this.state.checkinLocation.description
-          }
-        });
-      });
-    }
-  };
+    navigator.geolocation.getCurrentPosition(position => {
+      this.setState({
+        checkinLocation: {
+          coordinates: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          },
+          title: this.state.checkinLocation.title,
+          description: this.state.checkinLocation.description
+        }
+      })
+    })
+  }
 
   setVehicleLocation = () => {
-    this.setState({
-      vehicleLocation: {
-        ...this.state.vehicleLocation,
-        coordinates: {
-          latitude: this.state.userLocation.latitude,
-          longitude: this.state.userLocation.longitude
-        },
-      }
+    navigator.geolocation.getCurrentPosition(position => {
+      this.setState({
+        vehicleLocation: {
+          coordinates: {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          },
+          title: this.state.vehicleLocation.title,
+          description: this.state.vehicleLocation.description
+        }
+      })
     })
   }
 
