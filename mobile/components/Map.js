@@ -1,10 +1,11 @@
 import MapView, { Marker } from "react-native-maps";
 import React from "react";
-import { StyleSheet, View, Alert } from "react-native";
+import { connect } from "react-redux";
+import { StyleSheet, View, Text, Alert } from "react-native";
 import { Icon } from 'react-native-elements';
 import Polyline from  '@mapbox/polyline';
 
-export default class SimpleMap extends React.Component {
+class SimpleMap extends React.Component {
   state = {
     userLocation: {
       latitude: 0,
@@ -19,6 +20,14 @@ export default class SimpleMap extends React.Component {
       },
       title: 'Your vehicle',
       description: ''
+    },
+    checkinLocation: {
+      coordinates: {
+        latitude: null,
+        longitude: null
+      },
+      title: "Check-in Location",
+      description: ""
     },
     isMounted: false,
     followsUser: true,
@@ -41,6 +50,23 @@ export default class SimpleMap extends React.Component {
       })
     })
   }
+
+  setCheckinLocation = () => {
+    if (this.state.isMounted) {
+      navigator.geolocation.getCurrentPosition(position => {
+        this.setState({
+          checkinLocation: {
+            coordinates: {
+              latitude: position.coords.latitude,
+              longitude: position.coords.longitude
+            },
+            title: this.state.checkinLocation.title,
+            description: this.state.checkinLocation.description
+          }
+        });
+      });
+    }
+  };
 
   setVehicleLocation = () => {
     this.setState({
@@ -81,9 +107,9 @@ export default class SimpleMap extends React.Component {
   componentWillUnmount() {
     this.setState({
       isMounted: false
-    })
+    });
   }
-  
+
   render() {
     return (
       <View style={styles.container}>
@@ -175,6 +201,14 @@ export default class SimpleMap extends React.Component {
             }
           }}
         >
+          {this.state.checkinLocation.coordinates.latitude &&
+            <Marker
+              pinColor={"#2673ef"}
+              coordinate={this.state.checkinLocation.coordinates}
+              title={this.state.checkinLocation.title}
+              description={this.state.checkinLocation.description}
+            />
+          }
           {
             this.state.isRouteable == true && <MapView.Polyline 
               coordinates={this.state.coords}
@@ -228,6 +262,14 @@ export default class SimpleMap extends React.Component {
               this.setState({followsUser: !this.state.followsUser})
             }}
           />
+          <Icon
+            reverse
+            type="ionicon"
+            name="ios-pin"
+            size={24}
+            color={"rgba(30, 144, 255, 0.75)"}
+            onPress={() => this.setCheckinLocation()}
+          />
         </View>
       </View>
     );
@@ -254,6 +296,25 @@ const styles = StyleSheet.create({
   mapButtons: {
     position: 'absolute',
     right: 0,
-    bottom: 0,
+    bottom: 0
+  },
+
+  checkinMarker: {
+    color: "blue"
+  },
+
+  sosMarkerText: {
+    color: "white"
   }
 });
+
+function mapStateToProps(appState, ownProps) {
+  return {
+    ...ownProps,
+    sosLocation: appState.sosLocation,
+    vehicleLocation: appState.vehicleLocation,
+    isActive: appState.isActive
+  };
+}
+
+export default connect(mapStateToProps)(SimpleMap);

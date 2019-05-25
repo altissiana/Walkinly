@@ -5,7 +5,7 @@ import {
   StatusBar,
   View,
 } from 'react-native';
-import { getConnections } from '../actions/Actions';
+import { getConnections, getMarkers } from '../actions/Actions';
 
 export default class AuthLoadingScreen extends Component {
   constructor(props) {
@@ -17,7 +17,8 @@ export default class AuthLoadingScreen extends Component {
   _bootstrapAsync = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
     if (userToken) {
-      await getConnections(userToken)
+      await getConnections(userToken);
+      await getMarkers(userToken);
     }
     this.props.navigation.navigate(userToken ? 'Main' : 'Login');
   };
