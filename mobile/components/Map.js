@@ -32,7 +32,10 @@ class SimpleMap extends React.Component {
     isMounted: false,
     followsUser: true,
     coords: [],
-    isRouteable: false
+    isRouteable: false,
+    vehicleTooltip: false,
+    followUserTooltip: false,
+    checkInTooltip: false
   }
 
   componentDidMount() {
@@ -241,6 +244,60 @@ class SimpleMap extends React.Component {
               description={this.state.vehicleLocation.description}
             />
           }
+          <Text 
+            style={
+              this.state.vehicleTooltip 
+                ? {
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                  color: 'white',
+                  position: 'absolute',
+                  borderWidth: 5,
+                  borderStyle: 'solid',
+                  borderColor: 'rgba(0, 0, 0, 0.5)',
+                  bottom: 180,
+                  right: 60
+                } 
+                : styles.invisible
+            }
+          >
+            Marks your vehicle location
+          </Text>
+          <Text 
+            style={
+              this.state.followUserTooltip 
+                ? {
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                  color: 'white',
+                  position: 'absolute',
+                  borderWidth: 5,
+                  borderStyle: 'solid',
+                  borderColor: 'rgba(0, 0, 0, 0.5)',
+                  bottom: 120,
+                  right: 60
+                } 
+                : styles.invisible
+            }
+          >
+            Toggles the map following your location
+          </Text>
+          <Text 
+            style={
+              this.state.checkInTooltip 
+                ? {
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                  color: 'white',
+                  position: 'absolute',
+                  borderWidth: 5,
+                  borderStyle: 'solid',
+                  borderColor: 'rgba(0, 0, 0, 0.5)',
+                  bottom: 60,
+                  right: 60
+                } 
+                : styles.invisible
+            }
+          >
+            Adds a marker as a check-in
+          </Text>
         </MapView>
         <View style={styles.mapButtons}>
           <Icon 
@@ -252,6 +309,18 @@ class SimpleMap extends React.Component {
             onPress={() => 
               this.setVehicleLocation()
             }
+            onLongPress={() => {
+              if (!this.state.vehicleTooltip) {
+                this.setState({
+                  vehicleTooltip: true
+                })
+                setTimeout(() => {
+                  this.setState({
+                    vehicleTooltip: false
+                  })
+                }, 5000)
+              }
+            }}
           />
           <Icon 
             reverse 
@@ -262,6 +331,18 @@ class SimpleMap extends React.Component {
             onPress={() => {
               this.setState({followsUser: !this.state.followsUser})
             }}
+            onLongPress={() => {
+              if (!this.state.followUserTooltip) {
+                this.setState({
+                  followUserTooltip: true
+                })
+                setTimeout(() => {
+                  this.setState({
+                    followUserTooltip: false
+                  })
+                }, 5000)
+              }
+            }}
           />
           <Icon
             reverse
@@ -270,6 +351,18 @@ class SimpleMap extends React.Component {
             size={24}
             color={"rgba(30, 144, 255, 0.75)"}
             onPress={() => this.setCheckinLocation()}
+            onLongPress={() => {
+              if (!this.state.checkInTooltip) {
+                this.setState({
+                  checkInTooltip: true
+                })
+                setTimeout(() => {
+                  this.setState({
+                    checkInTooltip: false
+                  })
+                }, 5000)
+              }
+            }}
           />
         </View>
       </View>
@@ -299,13 +392,18 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0
   },
-
   checkinMarker: {
     color: "blue"
   },
-
   sosMarkerText: {
     color: "white"
+  },
+  visible: {
+  },
+  invisible: {
+    backgroundColor: 'transparent',
+    color: 'transparent',
+    borderColor: 'transparent'
   }
 });
 
