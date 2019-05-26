@@ -248,14 +248,19 @@ class SimpleMap extends React.Component {
             style={
               this.state.vehicleTooltip 
                 ? {
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                  color: 'white',
+                  backgroundColor: 'rgb(255, 255, 255)',
+                  color: 'rgb(0, 0, 0)',
                   position: 'absolute',
-                  borderWidth: 5,
-                  borderStyle: 'solid',
-                  borderColor: 'rgba(0, 0, 0, 0.5)',
-                  bottom: 180,
-                  right: 60
+                  padding: 5,
+                  borderWidth: 0,
+                  shadowColor: 'black',
+                  shadowOffset: {
+                    width: 5,
+                    height: 5
+                  },
+                  shadowOpacity: 0.5,
+                  bottom: 152,
+                  right: 62
                 } 
                 : styles.invisible
             }
@@ -266,14 +271,19 @@ class SimpleMap extends React.Component {
             style={
               this.state.followUserTooltip 
                 ? {
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                  color: 'white',
+                  backgroundColor: 'rgb(255, 255, 255)',
+                  color: 'rgb(0, 0, 0)',
                   position: 'absolute',
-                  borderWidth: 5,
-                  borderStyle: 'solid',
-                  borderColor: 'rgba(0, 0, 0, 0.5)',
-                  bottom: 120,
-                  right: 60
+                  padding: 5,
+                  borderWidth: 0,
+                  shadowColor: 'black',
+                  shadowOffset: {
+                    width: 5,
+                    height: 5
+                  },
+                  shadowOpacity: 0.5,
+                  bottom: 86,
+                  right: 62
                 } 
                 : styles.invisible
             }
@@ -284,14 +294,19 @@ class SimpleMap extends React.Component {
             style={
               this.state.checkInTooltip 
                 ? {
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                  color: 'white',
+                  backgroundColor: 'rgb(255, 255, 255)',
+                  color: 'rgb(0, 0, 0)',
                   position: 'absolute',
-                  borderWidth: 5,
-                  borderStyle: 'solid',
-                  borderColor: 'rgba(0, 0, 0, 0.5)',
-                  bottom: 60,
-                  right: 60
+                  padding: 5,
+                  borderWidth: 0,
+                  shadowColor: 'black',
+                  shadowOffset: {
+                    width: 5,
+                    height: 5
+                  },
+                  shadowOpacity: 0.5,
+                  bottom: 20,
+                  right: 62
                 } 
                 : styles.invisible
             }

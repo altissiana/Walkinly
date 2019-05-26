@@ -1,11 +1,10 @@
 import React from 'react';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
-import { AsyncStorage } from "react-native";
 
 import HomeScreen from '../screens/HomeScreen';
 import UserSettingsScreen from '../screens/UserSettingsScreen';
 import ConnectionsScreen from '../screens/ConnectionsScreen';
-import LocalReportsScreen from '../screens/LocalReportsScreen';
 import TipsScreen from '../screens/TipsScreen';
 import NewConnectionScreen from "../screens/NewConnectionScreen";
 
@@ -14,7 +13,8 @@ const HomeStack = createStackNavigator({
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: "Home"
+  tabBarLabel: "Map",
+  tabBarIcon: () => {return (<Ionicons size={ 20 } name={ 'ios-map' } color={ 'white' }/>)}
 };
 
 const ConnectionsStack = createStackNavigator({
@@ -23,7 +23,8 @@ const ConnectionsStack = createStackNavigator({
 });
 
 ConnectionsStack.navigationOptions = {
-  tabBarLabel: 'Friends & Family',
+  tabBarLabel: 'Connections',
+  tabBarIcon: () => {return (<Ionicons size={ 20 } name={ 'ios-people' } color={ 'white' }/>)}
 };
 
 const UserSettingsStack = createStackNavigator({
@@ -31,15 +32,8 @@ const UserSettingsStack = createStackNavigator({
 });
 
 UserSettingsStack.navigationOptions = {
-  tabBarLabel: "User Settings"
-};
-
-const LocalReportsStack = createStackNavigator({
-  LocalReports: LocalReportsScreen
-});
-
-LocalReportsStack.navigationOptions = {
-  tabBarLabel: "Local Reports"
+  tabBarLabel: "Settings",
+  tabBarIcon: () => {return (<Ionicons size={ 20 } name={ 'ios-settings' } color={ 'white' }/>)}
 };
 
 const TipsStack = createStackNavigator({
@@ -47,7 +41,8 @@ const TipsStack = createStackNavigator({
 });
 
 TipsStack.navigationOptions = {
-  tabBarLabel: "Tips"
+  tabBarLabel: "Tips",
+  tabBarIcon: () => {return (<Ionicons size={ 20 } name={ 'ios-information-circle' } color={ 'white' }/>)}
 };
 
 export default createMaterialTopTabNavigator(
@@ -55,21 +50,22 @@ export default createMaterialTopTabNavigator(
     HomeStack,
     ConnectionsStack,
     UserSettingsStack,
-    /* LocalReportsStack, */
     TipsStack,
   },
   {
     tabBarOptions: {
       labelStyle: {
-        fontSize: 10
+        fontSize: 9
       },
       indicatorStyle: {
         backgroundColor: "red",
         height: 3
       },
       style: {
-        backgroundColor: "rgba(0,0,0,.9)"
-      }
+        backgroundColor: "rgba(0,0,0,1)"
+      },
+      showIcon: true,
+      showLabel: true
     }
   }
 );
