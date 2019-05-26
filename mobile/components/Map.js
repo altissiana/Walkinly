@@ -85,27 +85,31 @@ class SimpleMap extends React.Component {
   }
 
   getCurrentPosition = () => {
-    return new Promise((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(position => {
-        let currLoc = position.coords.latitude + ',' + position.coords.longitude;
-        resolve(currLoc)
+    if (this.state.isMounted) {
+      return new Promise((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(position => {
+          let currLoc = position.coords.latitude + ',' + position.coords.longitude;
+          resolve(currLoc)
+        })
       })
-    })
+    }
   }
 
   setRoute = (currLoc, destLoc, pos) => {
-    return new Promise(async (resolve, reject) => {
-      let data = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${currLoc}&destination=${destLoc}&key=AIzaSyBmb9R1oZn4_chPvodHHt_yCTUpPjzTcNE&mode=walking`);
-      let jsonData = await data.json();
-      let points = Polyline.decode(jsonData.routes[0].overview_polyline.points);
-      let routeCoords = points.map((point, index) => {
-        return {
-          latitude: point[0],
-          longitude: point[1]
-        }
+    if (this.state.isMounted) {
+      return new Promise(async (resolve, reject) => {
+        let data = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${currLoc}&destination=${destLoc}&key=AIzaSyBmb9R1oZn4_chPvodHHt_yCTUpPjzTcNE&mode=walking`);
+        let jsonData = await data.json();
+        let points = Polyline.decode(jsonData.routes[0].overview_polyline.points);
+        let routeCoords = points.map((point, index) => {
+          return {
+            latitude: point[0],
+            longitude: point[1]
+          }
+        })
+        resolve(routeCoords)
       })
-      resolve(routeCoords)
-    })
+    }
   }
 
   componentWillUnmount() {
