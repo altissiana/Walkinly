@@ -165,4 +165,45 @@ router.post('/newConnection', (req, res, next) => {
   })
 })
 
+router.delete('/deleteConnection', (req, res, next) => {
+  const { userEmail, phonenumber } = req.body;
+  console.log('req.body: ' + JSON.stringify(req.body))
+
+  const getUserIdSql = `
+  SELECT id
+  FROM Users
+  WHERE Email = ?
+  `
+
+  conn.query(getUserIdSql, [userEmail], (err, results, fields) => {
+
+    if (err) {
+      res.status(409).json({
+        error: 'Error deleting connection'
+      })
+    } else {
+      const userId = results[0].id;
+
+      const deleteContactSql = `
+      DELETE
+      FROM Contacts
+      WHERE User_id = ? AND PhoneNumber = ?
+      `
+
+      conn.query(deleteContactSql, [userId, phonenumber], (err, results, fields) => {
+
+        if (err) {
+          res.status(409).json({
+            error: 'Error deleting connection'
+          })
+        } else {
+          res.send('Connection deletion success')
+        }
+
+      })
+    }
+
+  })
+})
+
 module.exports = router;

@@ -9,7 +9,7 @@ import {
   Alert
 } from "react-native";
 import { connect } from "react-redux";
-import { getConnections } from "../actions/Actions";
+import { getConnections, deleteConnection } from "../actions/Actions";
 
 const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
   const paddingToBottom = 20;
@@ -69,6 +69,12 @@ class ConnectionsScreen extends Component {
     this.props.navigation.navigate("NewConnection");
   }
 
+  deleteConnection = async (phonenumber) => {
+    await AsyncStorage.getItem('userToken').then(email => {
+      deleteConnection(email, phonenumber)
+    })
+  }
+
   render() {
     return (
       <ScrollView
@@ -102,6 +108,15 @@ class ConnectionsScreen extends Component {
                 <Text>
                   <Text style={styles.bold}>Phone Number:</Text> {contact.PhoneNumber}
                 </Text>
+                <Text 
+                  style={styles.deleteConnection}
+                  onPress={() => {
+                    this.deleteConnection(contact.PhoneNumber);
+                    this.props.navigation.navigate("AuthLoading");
+                  }}
+                >
+                  X
+                </Text>
               </View>
             );
           })
@@ -131,6 +146,13 @@ const styles = StyleSheet.create({
   container:{
     flex: 1,
     fontSize: 24
+  },
+  deleteConnection: {
+    fontSize: 20,
+    padding: 14,
+    color: 'red',
+    position: 'absolute',
+    right: 0
   }
 })
 
