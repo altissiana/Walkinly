@@ -11,6 +11,12 @@ import {
 import { connect } from "react-redux";
 import { getConnections } from "../actions/Actions";
 
+const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
+  const paddingToBottom = 20;
+  return layoutMeasurement.height + contentOffset.y >=
+    contentSize.height - paddingToBottom;
+};
+
 class ConnectionsScreen extends Component {
   static navigationOptions = {
     headerStyle: {
@@ -28,7 +34,8 @@ class ConnectionsScreen extends Component {
   };
 
   state = {
-    isMounted: false
+    isMounted: false,
+    accepted: false
   };
 
   componentDidMount() {
@@ -65,12 +72,16 @@ class ConnectionsScreen extends Component {
   render() {
     return (
       <ScrollView
-        contentContainerStyle={{
-          flex: 1,
-          alignItems: 'center',
-          justifyContent: 'flex-start',
-          fontSize: 24
+        contentContainerStyle={styles.alignAndJustCenter}
+        style={styles.contentContainer}
+        onScroll={({ nativeEvent }) => {
+          if (isCloseToBottom(nativeEvent)) {
+            this.setState({
+              accepted: true
+            })
+          }
         }}
+        scrollEventThrottle={32}
       >
         <Button
           title="Add Connection"
@@ -86,10 +97,10 @@ class ConnectionsScreen extends Component {
                 style={styles.connection}
               >
                 <Text>
-                  <Text style={styles.connAttribute}>Name:</Text> {contact.FirstName} {contact.LastName}
+                  <Text style={styles.bold}>Name:</Text> {contact.FirstName} {contact.LastName}
                 </Text>
                 <Text>
-                  <Text style={styles.connAttribute}>Phone Number:</Text> {contact.PhoneNumber}
+                  <Text style={styles.bold}>Phone Number:</Text> {contact.PhoneNumber}
                 </Text>
               </View>
             );
@@ -101,6 +112,10 @@ class ConnectionsScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+  alignAndJustCenter: {
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
   connection: {
     width: '90%',
     borderWidth: 1,
@@ -110,8 +125,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginVertical: 10
   },
-  connAttribute: {
+  bold: {
     fontWeight: 'bold'
+  },
+  container:{
+    flex: 1,
+    fontSize: 24
   }
 })
 
