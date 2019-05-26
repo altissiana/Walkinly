@@ -253,8 +253,14 @@ class SimpleMap extends React.Component {
                   position: 'absolute',
                   padding: 5,
                   borderWidth: 0,
+                  shadowColor: 'black',
+                  shadowOffset: {
+                    width: 5,
+                    height: 5
+                  },
+                  shadowOpacity: 0.5,
                   bottom: 152,
-                  right: 60
+                  right: 62
                 } 
                 : styles.invisible
             }
@@ -270,8 +276,14 @@ class SimpleMap extends React.Component {
                   position: 'absolute',
                   padding: 5,
                   borderWidth: 0,
+                  shadowColor: 'black',
+                  shadowOffset: {
+                    width: 5,
+                    height: 5
+                  },
+                  shadowOpacity: 0.5,
                   bottom: 86,
-                  right: 60
+                  right: 62
                 } 
                 : styles.invisible
             }
@@ -287,8 +299,14 @@ class SimpleMap extends React.Component {
                   position: 'absolute',
                   padding: 5,
                   borderWidth: 0,
+                  shadowColor: 'black',
+                  shadowOffset: {
+                    width: 5,
+                    height: 5
+                  },
+                  shadowOpacity: 0.5,
                   bottom: 20,
-                  right: 60
+                  right: 62
                 } 
                 : styles.invisible
             }
