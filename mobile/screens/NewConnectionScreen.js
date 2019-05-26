@@ -37,7 +37,6 @@ class NewConnectionScreen extends Component {
 
   saveConnection = async () => {
     await AsyncStorage.getItem("userToken").then(email => {
-      console.log(this.state);
       newConnection(
         email,
         this.state.PhoneNumber,
