@@ -248,13 +248,12 @@ class SimpleMap extends React.Component {
             style={
               this.state.vehicleTooltip 
                 ? {
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                  color: 'white',
+                  backgroundColor: 'rgb(255, 255, 255)',
+                  color: 'rgb(0, 0, 0)',
                   position: 'absolute',
-                  borderWidth: 5,
-                  borderStyle: 'solid',
-                  borderColor: 'rgba(0, 0, 0, 0.5)',
-                  bottom: 180,
+                  padding: 5,
+                  borderWidth: 0,
+                  bottom: 152,
                   right: 60
                 } 
                 : styles.invisible
@@ -266,13 +265,12 @@ class SimpleMap extends React.Component {
             style={
               this.state.followUserTooltip 
                 ? {
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                  color: 'white',
+                  backgroundColor: 'rgb(255, 255, 255)',
+                  color: 'rgb(0, 0, 0)',
                   position: 'absolute',
-                  borderWidth: 5,
-                  borderStyle: 'solid',
-                  borderColor: 'rgba(0, 0, 0, 0.5)',
-                  bottom: 120,
+                  padding: 5,
+                  borderWidth: 0,
+                  bottom: 86,
                   right: 60
                 } 
                 : styles.invisible
@@ -284,13 +282,12 @@ class SimpleMap extends React.Component {
             style={
               this.state.checkInTooltip 
                 ? {
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                  color: 'white',
+                  backgroundColor: 'rgb(255, 255, 255)',
+                  color: 'rgb(0, 0, 0)',
                   position: 'absolute',
-                  borderWidth: 5,
-                  borderStyle: 'solid',
-                  borderColor: 'rgba(0, 0, 0, 0.5)',
-                  bottom: 60,
+                  padding: 5,
+                  borderWidth: 0,
+                  bottom: 20,
                   right: 60
                 } 
                 : styles.invisible
