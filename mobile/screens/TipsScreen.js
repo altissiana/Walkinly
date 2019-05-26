@@ -51,7 +51,9 @@ class TipsScreen extends Component {
                   accepted: true
                 })
               }
-            }}>
+            }}
+            scrollEventThrottle={32}
+          >
 
             <Text style={styles.tcL}><Text style={styles.bold}>Keep your keys ready</Text>{'\n'}
               Even if it's a quick jaunt from your front door to your car, it's a good idea to keep your keys ready at all times.
