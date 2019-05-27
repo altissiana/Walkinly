@@ -7,6 +7,7 @@ import UserSettingsScreen from '../screens/UserSettingsScreen';
 import ConnectionsScreen from '../screens/ConnectionsScreen';
 import TipsScreen from '../screens/TipsScreen';
 import NewConnectionScreen from "../screens/NewConnectionScreen";
+import EditConnectionScreen from '../screens/EditConnectionScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen
@@ -19,7 +20,8 @@ HomeStack.navigationOptions = {
 
 const ConnectionsStack = createStackNavigator({
   Connections: ConnectionsScreen,
-  NewConnection: NewConnectionScreen
+  NewConnection: NewConnectionScreen,
+  EditConnection: EditConnectionScreen
 });
 
 ConnectionsStack.navigationOptions = {
