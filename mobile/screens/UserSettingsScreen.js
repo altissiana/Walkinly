@@ -1,17 +1,35 @@
 import React, { Component, useReducer } from "react";
-import { View, Text, StyleSheet, ImageBackground, ScrollView, TextInput, Image, Alert, TouchableOpacity } from "react-native";
-import { Button } from 'react-native-elements';
+import { View, Text, StyleSheet, ImageBackground, ScrollView, TextInput, Image, Alert, TouchableOpacity, AsyncStorage } from "react-native";
+import { Button, Avatar } from 'react-native-elements';
 import { signout, changePassword } from "../actions/Actions";
 import { connect } from "react-redux";
-import { Permissions, Camera, ImagePicker } from 'expo';
+import { Permissions, Camera, ImagePicker, AppLoading, Constants } from 'expo';
 import { launchCamera, launchImageLibrary } from '../actions/Actions';
+import * as firebase from 'firebase';
 
+const firebaseConfig = {
+  apiKey: '',
+  authDomain: '',
+  databaseURL: '',
+  storageBucket: 'walkinly.appspot.com',
+  messagingSenderId: '',
+};
+
+firebase.initializeApp(firebaseConfig);
 
 export default class UserSettingsScreen extends Component {
-  constructor() {
-    super()
-    this.askPermission = this.askPermission.bind(this)
-  }
+
+  // constructor(props) {
+  //   super(props);
+  //   this.state = {
+  //     isLoadingComplete: false
+  //   }
+
+  //   if (!firebase.apps.length) { firebase.initializeApp(ApiKeys.FirebaseConfig) }
+  //   // super()
+  //   // this.askPermission = this.askPermission.bind(this)
+  // }
+
   static navigationOptions = {
     header: null
   }
@@ -26,13 +44,19 @@ export default class UserSettingsScreen extends Component {
     email: "",
     avatarSource: null,
     hasCameraPermission: null,
-    type: Camera.Constants.Type.back,
-
+    image: null,
+    uploading: false
   }
 
-
-  componentDidMount() {
-    this.askPermission()
+  async componentDidMount() {
+    // this.askPermission()
+    await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    await Permissions.askAsync(Permissions.CAMERA);
+    this.setState({
+      image: {
+        uri: await AsyncStorage.getItem('userPic')
+      }
+    })
   }
 
   async askPermission() {
@@ -60,6 +84,35 @@ export default class UserSettingsScreen extends Component {
     })
   }
 
+  uploadImageAsync = async (uri, imageName) => {
+    // Why are we using XMLHttpRequest? See:
+    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function () {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function (e) {
+        console.log(e);
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', uri, true);
+      xhr.send(null);
+    });
+
+    const ref = firebase
+      .storage()
+      .ref()
+      .child('images/' + imageName);
+    const snapshot = await ref.put(blob);
+
+    // We're done with the blob, close and release it
+    blob.close();
+
+    return await snapshot.ref.getDownloadURL();
+  }
+
 
   onChangePasswordPress = () => {
     changePassword(this.state.email, this.state.newPassword).then(() => {
@@ -69,14 +122,51 @@ export default class UserSettingsScreen extends Component {
     })
   }
 
-  launchCamera = () => {
+  onChooseImagePress = async () => {
+    const options = {
+      allowsEditing: true,
+      aspect: [4, 3]
+    };
+    let result = await ImagePicker.launchCameraAsync(options);
+    let email = await AsyncStorage.getItem('userToken');
+
+    if (!result.cancelled) {
+      let uploadURL = await this.uploadImageAsync(result.uri, `${email}-profile-image`)
+      await AsyncStorage.setItem('userPic', uploadURL)
+      Alert.alert(
+        'Image successfully uploaded!',
+        '',
+        [
+          {
+            text: 'Ok',
+          }
+        ],
+        { cancelable: false }
+      )
+      this.props.navigation.navigate('AuthLoading')
+    }
+  }
+
+  // uploadImage = (uri, imageName) => {
+  //   return new Promise(async (resolve, reject) => {
+  //     const response = await fetch(uri);
+  //     const blob = await response.blob();
+
+  //     var ref = firebase.storage().ref().child()
+  //     resolve(ref.put(blob))
+  //   })
+  // }
+
+  /* launchCamera = () => {
     if (this.state.hasCameraPermission) {
-      launchCamera().then(source => {
-        this.setState({
-          avatarSource: source
+      return new Promise((resolve, reject) => {
+        launchCamera().then(source => {
+          this.setState({
+            avatarSource: source
+          })
+        }).catch(err => {
+          console.log('camera error', err)
         })
-      }).catch(err => {
-        console.log('camera error', err)
       })
     }
   }
@@ -93,15 +183,25 @@ export default class UserSettingsScreen extends Component {
     }
   }
 
-  handleChoosePhoto = () => {
-
+  onChooseImagePress = () => {
     Alert.alert(
       'Profile Picture',
       'Would you like to change your pic?',
       [
         {
           text: 'Camera',
-          onPress: () => { this.launchCamera() }
+          onPress: async () => {
+            await this.launchCamera()
+              .then((source) => {
+                this.setState({
+                  avatarSource: source
+                })
+                this.props.navigation.navigate('AuthLoading')
+              })
+              .catch(error => {
+                console.log(error)
+              })
+          }
         },
         {
           text: 'Library',
@@ -115,24 +215,37 @@ export default class UserSettingsScreen extends Component {
         }
       ]
     );
-  }
+  } */
 
   render() {
-    const { image } = this.state;
+    let { image } = this.state;
 
     return (
       <ImageBackground
-        source={require('../assets/grady11.jpg')}
+        source={require('../assets/grady2.jpg')}
         style={styles.img}>
         <ScrollView>
+
+          {/* <Button style={styles.uploadAvatar}
+      //     title='Choose image...' onPress={this.onChooseImagePress}
+      //   /> */}
+
           <TouchableOpacity
-            onPress={() => { this.handleChoosePhoto() }}>
-            <Image
-              /* source={{ uri: image }} */
-              source={this.state.avatarSource}
-              style={styles.uploadAvatar}
-            />
+            onPress={() => this.onChooseImagePress()}
+          >
+            {this.state.image &&
+              <Image
+                source={this.state.image}
+                style={styles.uploadAvatar}
+              />
+            }
           </TouchableOpacity>
+
+          {/* //  onPress={() => { this.handleChoosePhoto() }}>
+      //   //     <Image
+      //   //     source={this.state.avatarSource} 
+      //   //    style={styles.uploadAvatar}
+      //   //  /> */}
 
           <TextInput style={styles.input}
             value={this.state.email}
@@ -205,9 +318,9 @@ export default class UserSettingsScreen extends Component {
             title='Logout'
             onPress={() => this.handleLogout()}
           />
+        </ScrollView >
+      </ImageBackground >
 
-        </ScrollView>
-      </ImageBackground>
     )
   }
 }
