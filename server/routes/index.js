@@ -43,7 +43,7 @@ router.post("/register", (req, res, next) => {
 
 router.post("/login", (req, res, next) => {
   const email = req.body.email;
-  const password = req.body.password
+  const password = sha512(req.body.password + config.get("salt"));
 
   const sql = `
   SELECT count(1) as count, FirstName, LastName, PhoneNumber 
@@ -53,6 +53,7 @@ router.post("/login", (req, res, next) => {
   `
 
   conn.query(sql, [email, password], (err, results, fields) => {
+    console.log(results)
     const count = results[0].count;
 
     if (count >= 1) {
