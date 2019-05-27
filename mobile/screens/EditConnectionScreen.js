@@ -6,15 +6,15 @@ import {
   StyleSheet,
   AsyncStorage
 } from "react-native";
-import { newConnection } from "../actions/Actions";
+import { editConnection } from "../actions/Actions";
 
-class NewConnectionScreen extends Component {
+class EditConnectionScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
     headerStyle: {
       height: 40,
       backgroundColor: "dodgerblue"
     },
-    headerTitle: "Add Connection",
+    headerTitle: "Edit Connection",
     headerTitleStyle: {
       fontSize: 32,
       color: "white"
@@ -25,24 +25,32 @@ class NewConnectionScreen extends Component {
   });
 
   state = {
-    FirstName: "",
-    LastName: "",
-    PhoneNumber: ""
-  };
+    firstname: '',
+    lastname: '',
+    phonenumber: ''
+  }
+
+  async componentDidMount() {
+    this.setState({
+      firstname: await AsyncStorage.getItem('tempConnFirst'),
+      lastname: await AsyncStorage.getItem('tempConnLast'),
+      phonenumber: await AsyncStorage.getItem('tempConnPhone')
+    })
+  }
 
   saveConnection = async () => {
-    await AsyncStorage.getItem("userToken").then(email => {
-      newConnection(
+    await AsyncStorage.getItem('userToken').then(email => {
+      editConnection(
         email,
-        this.state.PhoneNumber,
-        this.state.FirstName,
-        this.state.LastName
+        this.state.phonenumber,
+        this.state.firstname,
+        this.state.lastname
       )
       .then(() => {
         this.props.navigation.navigate("AuthLoading");
       })
     });
-  };
+  }
 
   render() {
     return (
@@ -51,27 +59,27 @@ class NewConnectionScreen extends Component {
           style={styles.text}
           title="FirstName"
           placeholder="First Name"
-          defaultValue={this.state.FirstName}
+          defaultValue={this.state.firstname}
           onChangeText={text => {
-            this.setState({ FirstName: text });
+            this.setState({ firstname: text });
           }}
         />
         <TextInput
           style={styles.text}
           title="LastName"
           placeholder="Last Name"
-          defaultValue={this.state.LastName}
+          defaultValue={this.state.lastname}
           onChangeText={text => {
-            this.setState({ LastName: text });
+            this.setState({ lastname: text });
           }}
         />
         <TextInput
           style={styles.text}
           title="PhoneNumber"
           placeholder="Phone Number"
-          defaultValue={this.state.PhoneNumber}
+          defaultValue={this.state.phonenumber}
           onChangeText={text => {
-            this.setState({ PhoneNumber: text });
+            this.setState({ phonenumber: text });
           }}
         />
         <View style={[{ width: "50%", marginLeft: 95 }]}>
@@ -80,6 +88,7 @@ class NewConnectionScreen extends Component {
             style={styles.saveButton}
             onPress={() => {
               this.saveConnection();
+              this.props.navigation.navigate("AuthLoading");
             }}
           />
         </View>
@@ -104,4 +113,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default NewConnectionScreen;
+export default EditConnectionScreen;

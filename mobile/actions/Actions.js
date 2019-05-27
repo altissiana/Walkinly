@@ -92,37 +92,6 @@ export function setSosLocation(sosLocation) {
     payload: sosLocation
   });
 }
-/* function changeProfilePic(picURL) {
-  return new Promise((resolve, reject) => {
-    axios
-      .patch('/api/change-profile-image', picURL)
-      .then(resp => {
-        const token = resp.data.token
-        axios.defaults.headers.common.Authorization = 'Bearer ' + token
-        window.localStorage.setItem('authtoken', token)
-        setUser(getUser())
-        resolve()
-      })
-      .catch(err => {
-        const error = err.response.data.error
-        reject(error)
-      })
-  })
-}
-
-function changePassword(newPass) {
-  return new Promise((resolve, reject) => {
-    axios
-      .patch('/api/change-password', newPass)
-      .then(resp => {
-        resolve()
-      })
-      .catch(err => {
-        const error = err.response.data.error
-        reject(error)
-      })
-  })
-} */
 
 export function getMarkers(email) {
   return new Promise((resolve, reject) => {
@@ -165,4 +134,39 @@ export function newConnection(userEmail, phonenumber, firstname, lastname) {
         reject(err);
       });
   });
+}
+
+export function editConnection(userEmail, phonenumber, firstname, lastname) {
+  return new Promise((resolve, reject) => {
+    axios
+      .patch('http://10.68.0.155:3001/api/editConnection', {
+        userEmail,
+        phonenumber,
+        firstname,
+        lastname
+      })
+      .then(async resp => {
+        await getConnections(userEmail);
+        resolve();
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
+export function deleteConnection(userEmail, phonenumber) {
+  return new Promise((resolve, reject) => {
+    axios
+      .delete("http://10.68.0.155:3001/api/deleteConnection", { data: {
+        userEmail, phonenumber
+      }})
+      .then(async resp => {
+        await getConnections(userEmail)
+        resolve()
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
 }

@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import { Audio } from 'expo';
-import { StyleSheet, View, Linking, NativeModules, AsyncStorage, Platform } from 'react-native';
+import { StyleSheet, View, Linking, AsyncStorage } from 'react-native';
 import { Button } from 'react-native-elements';
 import alarm from '../assets/sounds/alarm.mp3';
 import { connect } from 'react-redux';
 import { setSosLocation, setSosStatus } from "../actions/Actions";
-
-const { Torch } = NativeModules;
 
 Audio.setIsEnabledAsync(true);
 
@@ -44,19 +42,6 @@ class SosButton extends Component {
       isMounted: true
     })
   }
-  
-  //getUserLocation = async () => {
-  //  await navigator.geolocation.getCurrentPosition(position => {
-  //    this.setState({
-  //      userLocation: {
-  //        latitude: position.coords.latitude,
-  //        longitude: position.coords.longitude,
-  //        latitudeDelta: 0.1,
-  //        longitudeDelta: 0.1
-  //      }
-  //    });
-  //  });
-  //};
       
   setSosLocation = () => {
     if (this.state.isMounted) {
@@ -146,52 +131,24 @@ class SosButton extends Component {
           this.setState({
             labelSOS: 'STOP'
           })
-//           if (Platform.OS === "ios") {
-//             Torch.switchState(true);
-//           } else {
-//             const cameraAllowed = await Torch.requestCameraPermission(
-//               "Camera Permissions", // dialog title
-//               "We require camera permissions to use the torch on the back of your phone." // dialog body
-//             );
-
-//             if (cameraAllowed) {
-//               Torch.switchState(true);
-//             }
-//           }
-//           this.setSosLocation();
-//           setSosStatus(true);
           this.sendSOSMessage()
           try {
             await this.state.alarmSound.loadAsync(alarm);
             await this.state.alarmSound.playAsync();
             await this.state.alarmSound.setIsLoopingAsync(true);
-            await Torch.switchState(true)
           } catch (e) {
               console.log(`cannot play the sound file or cannot turn on flashlight`, e);
           }
-          /* setTimeout(() => {Linking.openURL(`tel:7609099640`)}, 1000) */
+          setTimeout(() => {Linking.openURL(`tel:7609099640`)}, 1000)
         } else {
           this.setState({
             labelSOS: 'SOS'
           })
           setSosStatus(false);
-          if (Platform.OS === "ios") {
-            Torch.switchState(false);
-          } else {
-            const cameraAllowed = await Torch.requestCameraPermission(
-              "Camera Permissions", // dialog title
-              "We require camera permissions to use the torch on the back of your phone." // dialog body
-            );
-
-            if (cameraAllowed) {
-              Torch.switchState(false);
-            }
-          }
           try {
             await this.state.alarmSound.setIsLoopingAsync(false)
             await this.state.alarmSound.stopAsync();
             await this.state.alarmSound.unloadAsync();
-            await Torch.switchState(false)
           } catch (e) {
             console.log('cannot stop the sound file or cannot turn off flashlight', e);
           }
