@@ -136,6 +136,25 @@ export function newConnection(userEmail, phonenumber, firstname, lastname) {
   });
 }
 
+export function editConnection(userEmail, phonenumber, firstname, lastname) {
+  return new Promise((resolve, reject) => {
+    axios
+      .patch('http://10.68.0.155:3001/api/editConnection', {
+        userEmail,
+        phonenumber,
+        firstname,
+        lastname
+      })
+      .then(async resp => {
+        await getConnections(userEmail);
+        resolve();
+      })
+      .catch(err => {
+        reject(err)
+      })
+  })
+}
+
 export function deleteConnection(userEmail, phonenumber) {
   return new Promise((resolve, reject) => {
     axios
