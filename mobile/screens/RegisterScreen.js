@@ -29,7 +29,7 @@ export default class Register extends Component {
         });
     }
 
-    handleRegister = async () => {
+    handleRegister = () => {
         const { navigation } = this.props;
         const { firstname, lastname, email, phonenumber, password } = this.state;
 
@@ -92,6 +92,7 @@ export default class Register extends Component {
                         placeholder='Email'
                         placeholderTextColor="#FFFFFF"
                         style={styles.input}
+                        autoCapitalize='none'
                         defaultValue={this.state.email}
                         onChangeText={text => this.setState({ email: text })}
                         style={styles.input}
@@ -112,6 +113,7 @@ export default class Register extends Component {
                         placeholder='Password'
                         placeholderTextColor="#FFFFFF"
                         style={styles.input}
+                        autoCapitalize='none'
                         defaultValue={this.state.password}
                         onChangeText={text => this.setState({ password: text })}
                         style={styles.input}
@@ -119,7 +121,7 @@ export default class Register extends Component {
                     <Button
                         type="outline"
                         title="Enter"
-                        onPress={() => this.handleRegister()}
+                        onPress={() => this.handleRegister(first)}
                         style={{
 
                             marginTop: 40,

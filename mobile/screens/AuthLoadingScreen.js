@@ -5,6 +5,7 @@ import {
   StatusBar,
   View,
 } from 'react-native';
+import * as firebase from 'firebase';
 import { getConnections, getMarkers } from '../actions/Actions';
 
 export default class AuthLoadingScreen extends Component {
@@ -17,6 +18,14 @@ export default class AuthLoadingScreen extends Component {
   _bootstrapAsync = async () => {
     const userToken = await AsyncStorage.getItem('userToken');
     if (userToken) {
+      const ref = firebase
+        .storage()
+        .ref()
+        .child('images/' + `${userToken}-profile-image`)
+        .getDownloadURL()
+        .then(async url => {
+          await AsyncStorage.setItem('userPic', url)
+        })
       await getConnections(userToken);
       await getMarkers(userToken);
     }
