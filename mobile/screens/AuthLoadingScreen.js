@@ -24,7 +24,12 @@ export default class AuthLoadingScreen extends Component {
         .child('images/' + `${userToken}-profile-image`)
         .getDownloadURL()
         .then(async url => {
-          await AsyncStorage.setItem('userPic', url)
+          if (url) {
+            await AsyncStorage.setItem('userPic', url)
+          }
+        })
+        .catch(err => {
+          console.log(err)
         })
       await getConnections(userToken);
       await getMarkers(userToken);

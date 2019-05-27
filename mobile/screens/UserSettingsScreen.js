@@ -1,4 +1,4 @@
-import React, { Component, useReducer } from "react";
+import React, { Component } from "react";
 import { View, Text, StyleSheet, ImageBackground, ScrollView, TextInput, Image, Alert, TouchableOpacity, AsyncStorage } from "react-native";
 import { Button, Avatar } from 'react-native-elements';
 import { signout, changePassword } from "../actions/Actions";
@@ -52,17 +52,10 @@ export default class UserSettingsScreen extends Component {
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
     await Permissions.askAsync(Permissions.CAMERA);
     this.setState({
+      isMounted: true,
       image: {
         uri: await AsyncStorage.getItem('userPic')
       }
-    })
-  }
-
-  async askPermission() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
-    this.setState({
-      isMounted: true,
-      hasCameraPermission: status === 'granted'
     })
   }
 
@@ -72,15 +65,9 @@ export default class UserSettingsScreen extends Component {
     if (this.state.isMounted) {
       signout()
         .then(() => {
-          navigation.navigate('AuthLoading');
-        });
+          navigation.navigate('AuthLoading')
+        })
     }
-  }
-
-  componentWillUnmount() {
-    this.setState({
-      isMounted: false
-    })
   }
 
   onChangePasswordPress = () => {
@@ -183,6 +170,12 @@ export default class UserSettingsScreen extends Component {
         }
       ]
     );
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      isMounted: false
+    })
   }
 
   render() {
