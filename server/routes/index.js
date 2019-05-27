@@ -43,7 +43,7 @@ router.post("/register", (req, res, next) => {
 
 router.post("/login", (req, res, next) => {
   const email = req.body.email;
-  const password = sha512(req.body.password + config.get("salt"));
+  const password = req.body.password
 
   const sql = `
   SELECT count(1) as count, FirstName, LastName, PhoneNumber 
@@ -246,6 +246,28 @@ router.delete('/deleteConnection', (req, res, next) => {
     }
 
   })
+})
+
+router.get('/forgotPassword', (req, res, next) => {
+
+})
+
+router.patch('/changePassword', (req, res, next) => {
+  const email = req.body.email;
+  const newPassword = sha512(req.body.newPassword + config.get("salt"));
+
+  const sql = `
+  UPDATE Users 
+  SET Password = ?
+  WHERE Email = ?
+  `
+
+  conn.query(sql, [newPassword, email], (err, results, fields) => {
+    res.json(results)
+    if (err) {
+      console.log("Change password err: " + error)
+    }
+  });
 })
 
 module.exports = router;

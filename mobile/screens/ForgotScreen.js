@@ -1,89 +1,111 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { TextField } from 'react-native'
+import axios from 'axios'
+import { Button } from 'react-native-elements';
+
 import {
     Keyboard,
     StyleSheet,
     Text,
+    View,
     TextInput,
-    TouchableOpacity,
-    View
+    AsyncStorage,
+    ImageBackground,
+    Form
+
 } from 'react-native';
 
-const VALID_EMAIL = '';
+const title = {
+    pageTitle: 'Forgot Password Screen'
+}
 
+class ForgotScreen extends Component {
+    constructor() {
+        super();
 
-class Forgot extends Component {
-    state = {
-        email: VALID_EMAIL,
-        errors: [],
-        loading: false,
-        accepted: true
+        this.state = {
+            email: '',
+            showError: false,
+            messageFromServer: '',
+        }
     }
 
-    handleLogin = () => {
-        const { navigation } = this.props;
-        const { email } = this.state;
-        const errors = [];
+    handleChange = name => event => {
+        this.setState({
+            [name]: event.target.value,
+        })
+    }
 
-        Keyboard.dismiss();
-        this.setState({ loading: true });
-
+    sendEmail = e => {
+        e.preventDefault();
+        if (this.state.email = '') {
+            this.setState({
+                showError: false,
+                messageFromServer: '',
+            });
+        } else {
+            axios
+                .post('http://10.68.0.155:3001/api/forgotPassword', {
+                    email: this.state.email
+                })
+                .then(response => {
+                    if (response.data.emailFound) {
+                        this.setState({
+                            showError: false,
+                            messageFromServer: 'recovery email sent',
+                        });
+                    } else {
+                        this.setState({
+                            showError: true,
+                            messageFromServer: '',
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.log(error.data)
+                })
+        }
     }
 
     render() {
-        const { navigation } = this.props;
-        const { loading, errors } = this.state;
-        const hasErrors = key => errors.includes(key) ? styles.hasErrors : null;
+        const { email, messageFromServer, showNullError, showError } = this.state;
 
         return (
             <View>
-                <TextInput
-                    secure
-                    label='Email'
-                    placeholder='Email'
-                    style={[styles.input, hasErrors('email')]}
-                    defaultValue={this.state.email}
-                    onChangeText={text => this.setState({ email: text })}
-                    style={styles.input}
+                <Form className='profile-form' onSubmit={this.sendEmail}>
+                    <TextField
+                        style={style.input}
+                        id='email'
+                        label='email'
+                        value={email}
+                        onChange={this.handleChange('email')}
+                        placeholder='Email Address'
+                    />
+                    <SubmitButtons
+                        style={style.butt}
+                        buttonText={'Send Password Reset Email'}
+                    />
+                </Form>
+                {showNullError && (
+                    <View>
+                        <p>The email address cannot be null.</p>
+                    </View>
+                )}
+                {showError && (
+                    <View>
+                        <p>
+                            That email address isn't recognized. Please try again or register for a new account.
+                        </p>
+                    </View>
+                )}
+                <Button
+                    title='Go Home'
+                    onPress={() => this.props.navigation.navigate('Welcome')}
                 />
-                <TouchableOpacity disabled={!this.state.accepted}
-                    onPress={() => alert("Check your email")}
-                    style={this.state.accepted ? styles.button : styles.buttonDisabled}>
-                    <Text style={styles.buttonLabel}> Send</Text>
-                </TouchableOpacity>
             </View>
-        );
+
+        )
     }
 }
 
-
-const styles = StyleSheet.create({
-    input: {
-        borderRadius: 0,
-        borderWidth: 2,
-        borderColor: 'transparent',
-        borderBottomColor: 'black',
-        padding: 10,
-        marginTop: 40,
-        fontSize: 25
-
-    },
-    buttonDisabled: {
-        backgroundColor: '#999',
-        borderRadius: 5,
-        padding: 10
-    },
-
-    buttonLabel: {
-        fontSize: 30,
-        color: '#000',
-        alignSelf: 'center',
-        backgroundColor: 'dodgerblue',
-        height: 80,
-        width: 120,
-        backgroundColor: '#6a7189',
-        padding: 20
-
-    }
-})
-
-export default Forgot
+export default ForgotScreen
