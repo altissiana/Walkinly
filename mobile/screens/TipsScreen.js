@@ -19,7 +19,18 @@ const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
 
 class TipsScreen extends Component {
   static navigationOptions = {
-    header: null
+    headerStyle: {
+      height: 40,
+      backgroundColor: 'dodgerblue'
+    },
+    headerTitle: "Safety Tips",
+    headerTitleStyle: {
+      fontSize: 32,
+      color: 'white'
+    },
+    headerTitleContainerStyle: {
+      top: -16
+    }
   }
 
   state = {
@@ -32,7 +43,6 @@ class TipsScreen extends Component {
         source={require('../assets/grady5.jpg')}
         style={styles.img}>
         <View style={styles.container}>
-          <Text style={styles.title}>Safety Tips</Text>
           <ScrollView
             style={styles.tcContainer}
             onScroll={({ nativeEvent }) => {
@@ -41,7 +51,9 @@ class TipsScreen extends Component {
                   accepted: true
                 })
               }
-            }}>
+            }}
+            scrollEventThrottle={32}
+          >
 
             <Text style={styles.tcL}><Text style={styles.bold}>Keep your keys ready</Text>{'\n'}
               Even if it's a quick jaunt from your front door to your car, it's a good idea to keep your keys ready at all times.
@@ -93,12 +105,6 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     marginRight: 10,
     marginBottom: 40,
-    color: 'white'
-  },
-  title: {
-    marginTop: 25,
-    fontSize: 25,
-    alignSelf: 'center',
     color: 'white'
   },
   tcL: {

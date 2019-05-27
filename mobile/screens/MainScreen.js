@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { Component } from "react";
+import { View, StyleSheet } from "react-native";
 
-import MainTabNavigator from '../navigation/MainTabNavigator';
-import SosButton from '../components/SosButton';
+import MainTabNavigator from "../navigation/MainTabNavigator";
+import SosButton from "../components/SosButton";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-  },
+    backgroundColor: "#fff"
+  }
 });
 
 class MainScreen extends Component {
@@ -18,9 +18,9 @@ class MainScreen extends Component {
     return (
       <View style={styles.container}>
         <MainTabNavigator navigation={this.props.navigation} />
-        <SosButton />
+        <SosButton {...this.props} />
       </View>
-    )
+    );
   }
 }
 
