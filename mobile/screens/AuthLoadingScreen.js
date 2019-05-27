@@ -6,6 +6,7 @@ import {
   View,
 } from 'react-native';
 import * as firebase from 'firebase';
+import { getConnections, getMarkers } from '../actions/Actions';
 
 export default class AuthLoadingScreen extends Component {
   constructor(props) {
@@ -25,6 +26,8 @@ export default class AuthLoadingScreen extends Component {
         .then(async url => {
           await AsyncStorage.setItem('userPic', url)
         })
+      await getConnections(userToken);
+      await getMarkers(userToken);
     }
     this.props.navigation.navigate(userToken ? 'Main' : 'Login');
   };

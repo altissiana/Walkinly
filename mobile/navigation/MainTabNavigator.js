@@ -1,76 +1,73 @@
 import React from 'react';
-import { createStackNavigator, createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
-import { AsyncStorage } from 'react-native';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import { createStackNavigator, createMaterialTopTabNavigator } from 'react-navigation';
 
 import HomeScreen from '../screens/HomeScreen';
 import UserSettingsScreen from '../screens/UserSettingsScreen';
 import ConnectionsScreen from '../screens/ConnectionsScreen';
-import LocalReportsScreen from '../screens/LocalReportsScreen';
 import TipsScreen from '../screens/TipsScreen';
-
-import { getConnections } from '../actions/Actions';
+import NewConnectionScreen from "../screens/NewConnectionScreen";
+import EditConnectionScreen from '../screens/EditConnectionScreen';
 
 const HomeStack = createStackNavigator({
-  Home: HomeScreen,
+  Home: HomeScreen
 });
 
 HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+  tabBarLabel: "Map",
+  tabBarIcon: () => {return (<Ionicons size={ 20 } name={ 'ios-map' } color={ 'white' }/>)}
 };
 
 const ConnectionsStack = createStackNavigator({
   Connections: ConnectionsScreen,
+  NewConnection: NewConnectionScreen,
+  EditConnection: EditConnectionScreen
 });
 
 ConnectionsStack.navigationOptions = {
-  tabBarLabel: 'Friends & Family',
-  /* tabBarOnPress: async (scene, jumpToIndex) => { 
-    getConnections(await AsyncStorage.getItem('userToken'));
-  } */
+  tabBarLabel: 'Connections',
+  tabBarIcon: () => {return (<Ionicons size={ 20 } name={ 'ios-people' } color={ 'white' }/>)}
 };
 
 const UserSettingsStack = createStackNavigator({
-  UserSettings: UserSettingsScreen,
+  UserSettings: UserSettingsScreen
 });
 
 UserSettingsStack.navigationOptions = {
-  tabBarLabel: 'User Settings',
-};
-
-const LocalReportsStack = createStackNavigator({
-  LocalReports: LocalReportsScreen,
-});
-
-LocalReportsStack.navigationOptions = {
-  tabBarLabel: 'Local Reports',
+  tabBarLabel: "Settings",
+  tabBarIcon: () => {return (<Ionicons size={ 20 } name={ 'ios-settings' } color={ 'white' }/>)}
 };
 
 const TipsStack = createStackNavigator({
-  Tips: TipsScreen,
+  Tips: TipsScreen
 });
 
 TipsStack.navigationOptions = {
-  tabBarLabel: 'Tips',
+  tabBarLabel: "Tips",
+  tabBarIcon: () => {return (<Ionicons size={ 20 } name={ 'ios-information-circle' } color={ 'white' }/>)}
 };
 
-export default createMaterialTopTabNavigator({
-  HomeStack,
-  ConnectionsStack,
-  UserSettingsStack,
-  LocalReportsStack,
-  TipsStack,
-},
+export default createMaterialTopTabNavigator(
+  {
+    HomeStack,
+    ConnectionsStack,
+    UserSettingsStack,
+    TipsStack,
+  },
   {
     tabBarOptions: {
       labelStyle: {
-        fontSize: 10,
+        fontSize: 9
       },
       indicatorStyle: {
-        backgroundColor: 'red',
-        height: 3,
+        backgroundColor: "red",
+        height: 3
       },
       style: {
-        backgroundColor: 'rgba(0,0,0,.9)'
+        backgroundColor: "rgba(0,0,0,1)"
       },
+      showIcon: true,
+      showLabel: true
     }
-  })
+  }
+);
