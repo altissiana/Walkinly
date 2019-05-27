@@ -24,7 +24,8 @@
       "supportsTablet": true,
       "infoPlist": {
         "NSLocationWhenInUseUsageDescription": "This app uses the geolocation to determine a user's location for tracking for themselves and their 'followers'.",
-        "NSCameraUsageDescription": "This app uses the native camera to take pictures or access the image library to change their profile image."
+        "NSCameraUsageDescription": "This app uses the native camera to take pictures or access the image library to change their profile image.",
+        "NSPhotoLibraryUsageDescription": "This app uses the user's photo library to give them an option to select from their pictures to change their profile's avatar."
       }
     }
   }
