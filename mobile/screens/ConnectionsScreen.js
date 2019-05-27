@@ -6,7 +6,9 @@ import {
   AsyncStorage,
   StyleSheet,
   Button,
-  Alert
+  Alert,
+  TouchableOpacity,
+  Linking
 } from "react-native";
 import { connect } from "react-redux";
 import { getConnections, deleteConnection } from "../actions/Actions";
@@ -54,25 +56,48 @@ class ConnectionsScreen extends Component {
       try {
         getConnections(await AsyncStorage.getItem("userToken"));
       } catch (e) {
-        throw new Error(e);
+        console.log(e)
       }
     }
   };
-
-  componentWillUnmount() {
-    this.setState({
-      isMounted: false
-    });
-  }
 
   addConnection() {
     this.props.navigation.navigate("NewConnection");
   }
 
   deleteConnection = async (phonenumber) => {
-    await AsyncStorage.getItem('userToken').then(email => {
-      deleteConnection(email, phonenumber)
-    })
+    if (this.state.isMounted) {
+      await AsyncStorage.getItem('userToken').then(email => {
+        deleteConnection(email, phonenumber)
+          .then(() => {
+            this.props.navigation.navigate("AuthLoading");
+          })
+      })
+    }
+  }
+
+  editConnection = async (phonenumber, firstname, lastname) => {
+    if (this.state.isMounted) {
+      await AsyncStorage.setItem('tempConnPhone', phonenumber)
+        .then(async () => {
+          await AsyncStorage.setItem('tempConnFirst', firstname)
+        })
+        .then(async () => {
+          await AsyncStorage.setItem('tempConnLast', lastname)
+        })
+        .then(() => {
+          this.props.navigation.navigate("EditConnection")
+        })
+        .catch(error => {
+          console.log(error)
+        })
+    }
+  }
+
+  componentWillUnmount() {
+    this.setState({
+      isMounted: false
+    });
   }
 
   render() {
@@ -98,26 +123,56 @@ class ConnectionsScreen extends Component {
         {this.props.connections 
           && this.props.connections.map((contact, i) => {
               return (
-              <View 
-                key={'contact' + i} 
-                style={styles.connection}
-              >
-                <Text>
-                  <Text style={styles.bold}>Name:</Text> {contact.FirstName} {contact.LastName}
-                </Text>
-                <Text>
-                  <Text style={styles.bold}>Phone Number:</Text> {contact.PhoneNumber}
-                </Text>
-                <Text 
-                  style={styles.deleteConnection}
+                <TouchableOpacity 
+                  key={'contact' + i}
+                  style={styles.connection}
                   onPress={() => {
-                    this.deleteConnection(contact.PhoneNumber);
-                    this.props.navigation.navigate("AuthLoading");
+                    Alert.alert(
+                      `${contact.FirstName} ${contact.LastName}`,
+                      'Would you like to edit or call this connection?',
+                      [
+                        {
+                          text: 'Call',
+                          onPress: () => {
+                            Linking.openURL(`tel:${contact.PhoneNumber}`)
+                          }
+                        },
+                        {
+                          text: 'Edit', 
+                          onPress: () => {
+                            this.editConnection(contact.PhoneNumber, contact.FirstName, contact.LastName);
+                          }
+                        },
+                        {
+                          text: 'Delete',
+                          onPress: () => {
+                            this.deleteConnection(contact.PhoneNumber);
+                          }
+                        },
+                        {
+                          text: 'Cancel',
+                          onPress: () => console.log('Cancelled'),
+                          style: 'cancel',
+                        },
+                      ],
+                      {cancelable: false}
+                    )
                   }}
                 >
-                  X
-                </Text>
-              </View>
+
+                  <View>
+
+                    <Text>
+                      <Text style={styles.bold}>Name:</Text> {contact.FirstName} {contact.LastName}
+                    </Text>
+
+                    <Text>
+                      <Text style={styles.bold}>Phone Number:</Text> {contact.PhoneNumber}
+                    </Text>
+
+                  </View>
+
+                </TouchableOpacity>
             );
           })
         }
