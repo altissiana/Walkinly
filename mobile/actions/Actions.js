@@ -133,7 +133,7 @@ const options = {
 
 export function launchCamera() {
   return new Promise((resolve, reject) => {
-    ImagePicker.launchCameraAsync(options, (response) => {
+    ImagePicker.showImagePicker.launchCameraAsync(options, (response) => {
       console.log('Response = ', response);
 
       if (response.didCancel) {
@@ -143,15 +143,8 @@ export function launchCamera() {
       } else if (response.customButton) {
         console.log('User tapped custom button: ', response.customButton);
       } else {
-        let source = response;
-        this.setState({
-          filePath: source,
-        });
-
-        // const source = { uri: response.uri };
-        // resolve(source)
-
-
+        const source = { uri: response.uri };
+        resolve(source)
       }
     })
   })
@@ -159,7 +152,7 @@ export function launchCamera() {
 
 export function launchImageLibrary() {
   return new Promise((resolve, reject) => {
-    ImagePicker.launchImageLibraryAsync(options, (response) => {
+    ImagePicker.showImagePicker.launchImageLibrary(options, (response) => {
       console.log('Response = ', response);
 
       if (response.didCancel) {
