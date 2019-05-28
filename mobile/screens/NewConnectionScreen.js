@@ -1,41 +1,35 @@
 import React, { Component } from "react";
-import {
-  TextInput,
-  View,
-  Button,
-  StyleSheet,
-  AsyncStorage
-} from "react-native";
+import { TextInput, View, StyleSheet, AsyncStorage } from "react-native";
+import { Button } from "react-native-elements";
 import { newConnection } from "../actions/Actions";
-import validator from 'validator';
+import validator from "validator";
 
 class NewConnectionScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
-
     headerStyle: {
       height: 40,
-      backgroundColor: 'black',
+      backgroundColor: "black",
       zIndex: 1,
       shadowColor: "#000",
       shadowOffset: {
         width: 0,
-        height: 12,
+        height: 12
       },
       shadowOpacity: 0.58,
-      shadowRadius: 16.00,
+      shadowRadius: 16.0,
 
-      elevation: 24,
+      elevation: 24
     },
     headerTitle: "Add Connection",
     headerTitleStyle: {
       fontSize: 30,
-      color: 'white',
-      fontFamily: 'Arial'
+      color: "white",
+      fontFamily: "Arial"
     },
     headerTitleContainerStyle: {
       top: -16
     }
-  })
+  });
 
   state = {
     FirstName: "",
@@ -45,19 +39,22 @@ class NewConnectionScreen extends Component {
 
   saveConnection = async () => {
     await AsyncStorage.getItem("userToken").then(email => {
-      if (validator.isNumeric(this.state.PhoneNumber) && validator.isAlpha(this.state.FirstName) && validator.isAlpha(this.state.LastName)) {
+      if (
+        validator.isNumeric(this.state.PhoneNumber) &&
+        validator.isAlpha(this.state.FirstName) &&
+        validator.isAlpha(this.state.LastName)
+      ) {
         newConnection(
           email,
           this.state.PhoneNumber,
           this.state.FirstName,
           this.state.LastName
-        )
-        .then(() => {
+        ).then(() => {
           this.props.navigation.navigate("AuthLoading");
-        })
+        });
       }
-    })
-  }
+    });
+  };
 
   render() {
     return (
@@ -89,10 +86,31 @@ class NewConnectionScreen extends Component {
             this.setState({ PhoneNumber: text });
           }}
         />
-        <View style={[{ width: "50%", marginLeft: 95 }]}>
+        <View style={[{ width: "50%", marginLeft: 75 }]}>
           <Button
+            style={{
+              marginBottom: 100,
+              shadowColor: "#fff",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 3
+              },
+              shadowOpacity: 0.27,
+              shadowRadius: 4.65,
+              elevation: 6
+            }}
+            buttonStyle={{
+              height: 50,
+              width: 250,
+              backgroundColor: "black"
+            }}
+            titleStyle={{
+              color: "gray",
+              fontSize: 20
+            }}
+            type="solid"
             title="Save"
-            style={styles.saveButton}
             onPress={() => {
               this.saveConnection();
             }}
