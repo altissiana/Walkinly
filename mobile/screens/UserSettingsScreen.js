@@ -13,6 +13,7 @@ import { Button } from "react-native-elements";
 import { signout, changePassword } from "../actions/Actions";
 import { Permissions, ImagePicker } from "expo";
 import * as firebase from "firebase";
+import validator from 'validator';
 
 import { firebaseConfig } from '../constants/apiKeys';
 
@@ -79,14 +80,16 @@ export default class UserSettingsScreen extends Component {
   };
 
   onChangePasswordPress = () => {
-    changePassword(this.state.email, this.state.newPassword)
+    if (validator.isEmail(this.state.email) && validator.isAscii(this.state.newPassword)) {
+      changePassword(this.state.email, this.state.newPassword)
       .then(() => {
         Alert.alert("Password was changed");
       })
       .catch(error => {
         console.log(error);
-      });
-  };
+      })
+    }
+  }
 
   uploadImageAsync = async (uri, imageName) => {
     const blob = await new Promise((resolve, reject) => {
