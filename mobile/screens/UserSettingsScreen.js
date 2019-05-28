@@ -22,12 +22,23 @@ export default class UserSettingsScreen extends Component {
   static navigationOptions = {
     headerStyle: {
       height: 40,
-      backgroundColor: 'dodgerblue'
+      backgroundColor: 'black',
+      zIndex: 1,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 12,
+      },
+      shadowOpacity: 0.58,
+      shadowRadius: 16.00,
+
+      elevation: 24,
     },
     headerTitle: "Settings",
     headerTitleStyle: {
-      fontSize: 32,
-      color: 'white'
+      fontSize: 30,
+      color: 'white',
+      fontFamily: 'Arial'
     },
     headerTitleContainerStyle: {
       top: -16
@@ -302,8 +313,8 @@ const styles = StyleSheet.create({
   },
   uploadAvatar: {
     borderWidth: 2,
-    borderColor: 'white',
-    marginTop: 300,
+    borderColor: 'rgba(255, 255, 255, .5)',
+    marginTop: 50,
     borderRadius: 100,
     height: 200,
     width: 200

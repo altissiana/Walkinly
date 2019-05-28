@@ -42,7 +42,7 @@ class SosButton extends Component {
       isMounted: true
     })
   }
-      
+
   setSosLocation = () => {
     if (this.state.isMounted) {
       navigator.geolocation.getCurrentPosition(position => {
@@ -58,7 +58,7 @@ class SosButton extends Component {
       });
     }
   };
-      
+
   getUserLocation = (isReturned) => {
     if (this.state.isMounted) {
       return new Promise((resolve, reject) => {
@@ -82,7 +82,7 @@ class SosButton extends Component {
   }
 
   sendSOSMessage = async () => {
-    if (this.state.isMounted) {  
+    if (this.state.isMounted) {
       this.setState({ submitting: true });
       const name = await AsyncStorage.getItem('userName');
       const phone = await AsyncStorage.getItem('userPhone');
@@ -137,9 +137,9 @@ class SosButton extends Component {
             await this.state.alarmSound.playAsync();
             await this.state.alarmSound.setIsLoopingAsync(true);
           } catch (e) {
-              console.log(`cannot play the sound file or cannot turn on flashlight`, e);
+            console.log(`cannot play the sound file or cannot turn on flashlight`, e);
           }
-          setTimeout(() => {Linking.openURL(`tel:7609099640`)}, 1000)
+          setTimeout(() => { Linking.openURL(`tel:7609099640`) }, 1000)
         } else {
           this.setState({
             labelSOS: 'SOS'
@@ -194,7 +194,16 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 0
+    borderRadius: 0,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.00,
+
+    elevation: 24,
   },
   sosText: {
     fontSize: 40,
