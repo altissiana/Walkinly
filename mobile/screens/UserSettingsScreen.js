@@ -118,6 +118,7 @@ export default class UserSettingsScreen extends Component {
 
     if (!result.cancelled) {
       let uploadURL = await this.uploadImageAsync(result.uri, `${email}-profile-image`)
+      await AsyncStorage.removeItem('userPic')
       await AsyncStorage.setItem('userPic', uploadURL)
       Alert.alert(
         'Image successfully uploaded!',
