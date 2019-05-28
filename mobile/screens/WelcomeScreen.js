@@ -26,12 +26,12 @@ export default class Welcome extends Component {
       >
 
         <View>
-          
+
           <View style={styles.container}>
 
             <View>
               <Text style={styles.welcome}>
-                Walk With Us
+                Don't Walk. Alone.
               </Text>
             </View>
 
@@ -51,8 +51,8 @@ export default class Welcome extends Component {
 
                   shadowColor: "#000",
                   shadowOffset: {
-                      width: 0,
-                      height: 3,
+                    width: 0,
+                    height: 3,
                   },
                   shadowOpacity: 0.27,
                   shadowRadius: 4.65,
@@ -95,7 +95,7 @@ export default class Welcome extends Component {
                 title='Terms of Service'
                 onPress={() => navigation.navigate('terms')}
                 style={{ marginBottom: 40 }}
-                titleStyle={{ color: '#6a7189', fontSize: 20 }}
+                titleStyle={{ color: '#6a7189', fontSize: 15 }}
               />
 
             </View>
