@@ -62,80 +62,78 @@ export default class Login extends Component {
         const hasErrors = key => errors.includes(key) ? styles.hasErrors : null;
 
         return (
-            <ImageBackground
-                source={require('../assets/grady10.jpg')}
-                style={styles.img}>
-                <View>
-                    <Text style={{
-                        color: '#6a7189', fontSize: 40
-                    }}>Login</Text>
 
-                    <TextInput
-                        label='Email'
-                        placeholder='Email'
-                        placeholderTextColor="#FFFFFF"
-                        style={[styles.input, hasErrors('email')]}
-                        autoCapitalize='none'
-                        defaultValue={this.state.email}
-                        onChangeText={text => this.setState({ email: text })}
-                        style={styles.input}
-                    />
-                    <TextInput
-                        secure
-                        label='Password'
-                        placeholder='Password'
-                        placeholderTextColor="#FFFFFF"
-                        style={[styles.input, hasErrors('password')]}
-                        autoCapitalize='none'
-                        secureTextEntry={true}
-                        defaultValue={this.state.password}
-                        onChangeText={text => this.setState({ password: text })}
-                        style={styles.input}
-                    />
+            <View>
+                <Text style={{
+                    color: '#6a7189', fontSize: 40
+                }}>Login</Text>
 
-                    <Button
-                        type="outline"
-                        title="Enter"
-                        onPress={() => this.handleLogin()} style={{
-                            marginTop: 40,
-                            alignSelf: 'center',
-                            shadowColor: "#cccfd8",
-                            shadowOpacity: 0.8,
-                            shadowRadius: 2,
-                            shadowOffset: {
-                                height: 1,
-                                width: 1
-                            }
-                        }}
-                        buttonStyle={{
-                            height: 50,
-                            width: 150,
-                            borderColor: 'white',
-                            borderWidth: 2,
-                        }}
-                        titleStyle={{ color: 'white', fontSize: 20 }}
-                    />
-                    <Button
-                        style={{ color: 'white', marginTop: 40 }}
-                        titleStyle={{
-                            color: 'white', fontSize: 20,
-                            marginTop: 40,
-                            alignSelf: 'center',
-                            shadowColor: "#cccfd8",
-                            shadowOpacity: 0.8,
-                            shadowRadius: 2,
-                            shadowOffset: {
-                                height: 1,
-                                width: 1
-                            }
-                        }}
-                        type='clear'
-                        title='Forgot your password?'
-                        onPress={() => this.props.navigation.navigate('Forgot')}>
-                    </Button>
+                <TextInput
+                    label='Email'
+                    placeholder='Email'
+                    placeholderTextColor="#FFFFFF"
+                    style={[styles.input, hasErrors('email')]}
+                    autoCapitalize='none'
+                    defaultValue={this.state.email}
+                    onChangeText={text => this.setState({ email: text })}
+                    style={styles.input}
+                />
+                <TextInput
+                    secure
+                    label='Password'
+                    placeholder='Password'
+                    placeholderTextColor="#FFFFFF"
+                    style={[styles.input, hasErrors('password')]}
+                    autoCapitalize='none'
+                    secureTextEntry={true}
+                    defaultValue={this.state.password}
+                    onChangeText={text => this.setState({ password: text })}
+                    style={styles.input}
+                />
 
-                </View>
-            </ImageBackground>
+                <Button
+                    type="outline"
+                    title="Enter"
+                    onPress={() => this.handleLogin()} style={{
+                        marginTop: 40,
+                        alignSelf: 'center',
+                        shadowColor: "#cccfd8",
+                        shadowOpacity: 0.8,
+                        shadowRadius: 2,
+                        shadowOffset: {
+                            height: 1,
+                            width: 1
+                        }
+                    }}
+                    buttonStyle={{
+                        height: 50,
+                        width: 150,
+                        borderColor: 'white',
+                        borderWidth: 2,
+                    }}
+                    titleStyle={{ color: 'white', fontSize: 20 }}
+                />
+                <Button
+                    style={{ color: 'white', marginTop: 40 }}
+                    titleStyle={{
+                        color: 'white', fontSize: 20,
+                        marginTop: 40,
+                        alignSelf: 'center',
+                        shadowColor: "#cccfd8",
+                        shadowOpacity: 0.8,
+                        shadowRadius: 2,
+                        shadowOffset: {
+                            height: 1,
+                            width: 1
+                        }
+                    }}
+                    type='clear'
+                    title='Forgot your password?'
+                    onPress={() => this.props.navigation.navigate('Forgot')}>
+                </Button>
+
+            </View>
+
         );
     }
 }

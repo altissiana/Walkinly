@@ -91,10 +91,10 @@ export default class UserSettingsScreen extends Component {
   uploadImageAsync = async (uri, imageName) => {
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      xhr.onload = function() {
+      xhr.onload = function () {
         resolve(xhr.response);
       };
-      xhr.onerror = function(e) {
+      xhr.onerror = function (e) {
         console.log(e);
         reject(new TypeError("Network request failed"));
       };
@@ -187,87 +187,85 @@ export default class UserSettingsScreen extends Component {
     let { image } = this.state;
 
     return (
-      <ImageBackground
-        source={require('../assets/grady2.jpg')}
-        style={styles.img}>
-        <ScrollView>
 
-          <TouchableOpacity
-            onPress={() => this.imageSelect()}
-          >
-            {this.state.image &&
-              <Image
-                source={this.state.image}
-                style={styles.uploadAvatar}
-              />
-            }
-          </TouchableOpacity>
+      <ScrollView>
 
-          <TextInput style={styles.input}
-            value={this.state.newPassword}
-            placeholder='New Password'
-            placeholderTextColor="#FFFFFF"
-            autoCapitalize='none'
-            // secureTextEntry={true}? find out how to make this work later!
-            onChangeText={(text) => { this.setState({ newPassword: text }) }}
-          />
+        <TouchableOpacity
+          onPress={() => this.imageSelect()}
+        >
+          {this.state.image &&
+            <Image
+              source={this.state.image}
+              style={styles.uploadAvatar}
+            />
+          }
+        </TouchableOpacity>
 
-          <Button
-            title='Change Password'
-            type='solid'
-            onPress={this.onChangePasswordPress}
-            style={{
-              marginBottom: 20,
-              shadowColor: "#fff",
+        <TextInput style={styles.input}
+          value={this.state.newPassword}
+          placeholder='New Password'
+          placeholderTextColor="#000000"
+          autoCapitalize='none'
+          // secureTextEntry={true}? find out how to make this work later!
+          onChangeText={(text) => { this.setState({ newPassword: text }) }}
+        />
 
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 3,
-              },
-              shadowOpacity: 0.27,
-              shadowRadius: 4.65,
+        <Button
+          title='Change Password'
+          type='solid'
+          onPress={this.onChangePasswordPress}
+          style={{
+            marginBottom: 20,
+            shadowColor: "#fff",
 
-              elevation: 6,
-            }}
-            buttonStyle={{
-              height: 50,
-              width: 250,
-              backgroundColor: '#e2e4e9',
-            }}
-            titleStyle={{ color: '#767689', fontSize: 20 }}
-          />
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 3,
+            },
+            shadowOpacity: 0.27,
+            shadowRadius: 4.65,
 
-          <Button
-            style={{
-              marginBottom: 100,
-              shadowColor: "#fff",
+            elevation: 6,
+          }}
+          buttonStyle={{
+            height: 50,
+            width: 250,
+            backgroundColor: '#e2e4e9',
+          }}
+          titleStyle={{ color: '#767689', fontSize: 20 }}
+        />
 
-              shadowColor: "#000",
-              shadowOffset: {
-                width: 0,
-                height: 3,
-              },
-              shadowOpacity: 0.27,
-              shadowRadius: 4.65,
+        <Button
+          style={{
+            marginBottom: 100,
+            shadowColor: "#fff",
 
-              elevation: 6,
-            }}
-            buttonStyle={{
-              height: 50,
-              width: 250,
-              backgroundColor: '#e2e4e9',
-            }}
-            titleStyle={{
-              color: '#767689', fontSize: 20
-            }}
+            shadowColor: "#000",
+            shadowOffset: {
+              width: 0,
+              height: 3,
+            },
+            shadowOpacity: 0.27,
+            shadowRadius: 4.65,
 
-            type='solid'
-            title='Logout'
-            onPress={() => this.handleLogout()}
-          />
-        </ScrollView >
-      </ImageBackground >
+            elevation: 6,
+          }}
+          buttonStyle={{
+            height: 50,
+            width: 250,
+            backgroundColor: '#e2e4e9',
+          }}
+          titleStyle={{
+            color: '#767689', fontSize: 20
+          }}
+
+          type='solid'
+          title='Logout'
+          onPress={() => this.handleLogout()}
+        />
+      </ScrollView >
+
     )
   }
 }
@@ -297,10 +295,19 @@ const styles = StyleSheet.create({
   },
   uploadAvatar: {
     borderWidth: 2,
-    borderColor: 'rgba(255, 255, 255, .5)',
-    marginTop: 50,
+    borderColor: 'white',
+    marginTop: 100,
+    marginLeft: '25%',
     borderRadius: 100,
     height: 200,
-    width: 200
+    width: 200,
+    shadowColor: "#cccfd8",
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    shadowOffset: {
+      height: 1,
+      width: 1
+    },
   }
+
 });

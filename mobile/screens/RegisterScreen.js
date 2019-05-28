@@ -14,6 +14,7 @@ import * as firebase from 'firebase';
 import validator from 'validator';
 
 export default class Register extends Component {
+
     state = {
         firstname: '',
         lastname: '',
@@ -31,41 +32,41 @@ export default class Register extends Component {
     }
 
     uploadImageAsync = async (uri, imageName) => {
-      const blob = await new Promise((resolve, reject) => {
-        const xhr = new XMLHttpRequest();
-        xhr.onload = function () {
-          resolve(xhr.response);
-        };
-        xhr.onerror = function (e) {
-          console.log(e);
-          reject(new TypeError('Network request failed'));
-        };
-        xhr.responseType = 'blob';
-        xhr.open('GET', uri, true);
-        xhr.send(null);
-      });
-  
-      const ref = firebase
-        .storage()
-        .ref()
-        .child('images/' + imageName);
-      const snapshot = await ref.put(blob);
-  
-      blob.close();
-  
-      return await snapshot.ref.getDownloadURL();
+        const blob = await new Promise((resolve, reject) => {
+            const xhr = new XMLHttpRequest();
+            xhr.onload = function () {
+                resolve(xhr.response);
+            };
+            xhr.onerror = function (e) {
+                console.log(e);
+                reject(new TypeError('Network request failed'));
+            };
+            xhr.responseType = 'blob';
+            xhr.open('GET', uri, true);
+            xhr.send(null);
+        });
+
+        const ref = firebase
+            .storage()
+            .ref()
+            .child('images/' + imageName);
+        const snapshot = await ref.put(blob);
+
+        blob.close();
+
+        return await snapshot.ref.getDownloadURL();
     }
 
     createProfilePic = (email) => {
-      return new Promise(async (resolve, reject) => {
-        let uploadURL = await this.uploadImageAsync('http://chittagongit.com/images/default-profile-icon/default-profile-icon-24.jpg', `${email}-profile-image`)
-        await AsyncStorage.removeItem('userPic')
-        await AsyncStorage.setItem('userPic', uploadURL)
-        resolve()
-      })
-      .catch(error => {
-        console.log(error)
-      })
+        return new Promise(async (resolve, reject) => {
+            let uploadURL = await this.uploadImageAsync('http://chittagongit.com/images/default-profile-icon/default-profile-icon-24.jpg', `${email}-profile-image`)
+            await AsyncStorage.removeItem('userPic')
+            await AsyncStorage.setItem('userPic', uploadURL)
+            resolve()
+        })
+            .catch(error => {
+                console.log(error)
+            })
     }
 
     handleRegister = async () => {
@@ -101,89 +102,87 @@ export default class Register extends Component {
         const { loading } = this.state;
 
         return (
-            <ImageBackground
-                source={require('../assets/grady7.jpg')}
-                style={styles.img}>
-                <View>
-                    <Text style={{
-                        color: '#6a7189', fontSize: 40
-                    }}>Register</Text>
-                    <TextInput
-                        label='FirstName'
-                        placeholder='First Name'
-                        placeholderTextColor="#FFFFFF"
-                        style={styles.input}
-                        defaultValue={this.state.firstname}
-                        onChangeText={text => this.setState({ firstname: text })}
-                        style={styles.input}
-                    />
-                    <TextInput
-                        label='LastName'
-                        placeholder='Last Name'
-                        placeholderTextColor="#FFFFFF"
-                        style={styles.input}
-                        defaultValue={this.state.lastname}
-                        onChangeText={text => this.setState({ lastname: text })}
-                        style={styles.input}
-                    />
-                    <TextInput
-                        secure
-                        label='Email'
-                        placeholder='Email'
-                        placeholderTextColor="#FFFFFF"
-                        style={styles.input}
-                        autoCapitalize='none'
-                        defaultValue={this.state.email}
-                        onChangeText={text => this.setState({ email: text })}
-                        style={styles.input}
-                    />
-                    <TextInput
-                        secure
-                        label='PhoneNumber'
-                        placeholder='Phone Number'
-                        placeholderTextColor="#FFFFFF"
-                        style={styles.input}
-                        defaultValue={this.state.phonenumber}
-                        onChangeText={text => this.setState({ phonenumber: text })}
-                        style={styles.input}
-                    />
-                    <TextInput
-                        secure
-                        label='Password'
-                        placeholder='Password'
-                        placeholderTextColor="#FFFFFF"
-                        style={styles.input}
-                        autoCapitalize='none'
-                        defaultValue={this.state.password}
-                        onChangeText={text => this.setState({ password: text })}
-                        style={styles.input}
-                    />
-                    <Button
-                        type="outline"
-                        title="Enter"
-                        onPress={() => this.handleRegister()}
-                        style={{
 
-                            marginTop: 40,
-                            alignSelf: 'center',
-                            shadowColor: "#cccfd8",
-                            shadowOpacity: 0.8,
-                            shadowRadius: 2,
-                            shadowOffset: {
-                                height: 1,
-                                width: 1
-                            }
-                        }}
-                        buttonStyle={{
-                            height: 50,
-                            width: 150,
-                            borderColor: 'white',
-                            borderWidth: 2,
-                        }}
-                        titleStyle={{ color: 'white', fontSize: 20 }}
-                    />
-                </View>
-            </ImageBackground>
+            <View>
+                <Text style={{
+                    color: '#6a7189', fontSize: 40
+                }}>Register</Text>
+                <TextInput
+                    label='FirstName'
+                    placeholder='First Name'
+                    placeholderTextColor="#FFFFFF"
+                    style={styles.input}
+                    defaultValue={this.state.firstname}
+                    onChangeText={text => this.setState({ firstname: text })}
+                    style={styles.input}
+                />
+                <TextInput
+                    label='LastName'
+                    placeholder='Last Name'
+                    placeholderTextColor="#FFFFFF"
+                    style={styles.input}
+                    defaultValue={this.state.lastname}
+                    onChangeText={text => this.setState({ lastname: text })}
+                    style={styles.input}
+                />
+                <TextInput
+                    secure
+                    label='Email'
+                    placeholder='Email'
+                    placeholderTextColor="#FFFFFF"
+                    style={styles.input}
+                    autoCapitalize='none'
+                    defaultValue={this.state.email}
+                    onChangeText={text => this.setState({ email: text })}
+                    style={styles.input}
+                />
+                <TextInput
+                    secure
+                    label='PhoneNumber'
+                    placeholder='Phone Number'
+                    placeholderTextColor="#FFFFFF"
+                    style={styles.input}
+                    defaultValue={this.state.phonenumber}
+                    onChangeText={text => this.setState({ phonenumber: text })}
+                    style={styles.input}
+                />
+                <TextInput
+                    secure
+                    label='Password'
+                    placeholder='Password'
+                    placeholderTextColor="#FFFFFF"
+                    style={styles.input}
+                    autoCapitalize='none'
+                    defaultValue={this.state.password}
+                    onChangeText={text => this.setState({ password: text })}
+                    style={styles.input}
+                />
+                <Button
+                    type="outline"
+                    title="Enter"
+                    onPress={() => this.handleRegister()}
+                    style={{
+
+                        marginTop: 40,
+                        alignSelf: 'center',
+                        shadowColor: "#cccfd8",
+                        shadowOpacity: 0.8,
+                        shadowRadius: 2,
+                        shadowOffset: {
+                            height: 1,
+                            width: 1
+                        }
+                    }}
+                    buttonStyle={{
+                        height: 50,
+                        width: 150,
+                        borderColor: 'white',
+                        borderWidth: 2,
+                    }}
+                    titleStyle={{ color: 'white', fontSize: 20 }}
+                />
+            </View>
+
         )
     }
 }
