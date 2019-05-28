@@ -5,12 +5,12 @@ import {
   Text,
   AsyncStorage,
   StyleSheet,
-  Button,
   Alert,
   TouchableOpacity,
   Linking,
   ImageBackground
 } from "react-native";
+import { Button } from "react-native-elements";
 import { connect } from "react-redux";
 import { getConnections, deleteConnection } from "../actions/Actions";
 
@@ -26,7 +26,9 @@ class ConnectionsScreen extends Component {
   static navigationOptions = {
     headerStyle: {
       height: 40,
-      backgroundColor: 'black',
+      borderTopWidth: 2,
+      borderColor: "gray",
+      backgroundColor: "black",
       zIndex: 1,
       shadowColor: "#000",
       shadowOffset: {
@@ -34,20 +36,20 @@ class ConnectionsScreen extends Component {
         height: 12
       },
       shadowOpacity: 0.58,
-      shadowRadius: 16.00,
+      shadowRadius: 16.0,
 
-      elevation: 24,
+      elevation: 24
     },
     headerTitle: "Connections",
     headerTitleStyle: {
       fontSize: 30,
-      color: 'white',
-      fontFamily: 'Arial'
+      color: "white",
+      fontFamily: "Arial"
     },
     headerTitleContainerStyle: {
       top: -16
     }
-  }
+  };
 
   state = {
     isMounted: false,
@@ -127,76 +129,122 @@ class ConnectionsScreen extends Component {
         }}
         scrollEventThrottle={32}
       >
-        <Button
-          title="Add Connection"
-          onPress={() => {
-            this.addConnection();
+        <View
+          style={{
+            borderRadius: 5,
+            backgroundColor: "black",
+            marginTop: 30,
+            height: 50,
+            width: 250,
+            fontSize: 20,
+            marginBottom: 30
           }}
-        />
-        {this.props.connections
-          && this.props.connections.map((contact, i) => {
-            if (contact.FirstName !== null && contact.LastName !== null && contact.PhoneNumber !== null) {
+        >
+          <Button
+            style={{
+              marginBottom: 100,
+              shadowColor: "#fff",
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 3
+              },
+              shadowOpacity: 0.27,
+              shadowRadius: 4.65,
+              elevation: 6
+            }}
+            buttonStyle={{
+              height: 50,
+              width: 250,
+              marginLeft: 10,
+              backgroundColor: "black"
+            }}
+            titleStyle={{
+              color: "gray",
+              fontSize: 20
+            }}
+            type="solid"
+            title="Add Connection"
+            onPress={() => {
+              this.addConnection();
+            }}
+          />
+        </View>
+
+        {this.props.connections &&
+          this.props.connections.map((contact, i) => {
+            if (
+              contact.FirstName !== null &&
+              contact.LastName !== null &&
+              contact.PhoneNumber !== null
+            ) {
               return (
                 <TouchableOpacity
-                  key={'contact' + i}
+                  key={"contact" + i}
                   style={styles.connection}
                   onPress={() => {
                     Alert.alert(
                       `${contact.FirstName} ${contact.LastName}`,
-                      'Would you like to edit or call this connection?',
+                      "Would you like to edit or call this connection?",
                       [
                         {
-                          text: 'Call',
+                          text: "Call",
                           onPress: () => {
-                            Linking.openURL(`tel:${contact.PhoneNumber}`)
+                            Linking.openURL(`tel:${contact.PhoneNumber}`);
                           }
                         },
                         {
-                          text: 'Edit',
+                          text: "Edit",
                           onPress: () => {
-                            this.editConnection(contact.PhoneNumber, contact.FirstName, contact.LastName);
+                            this.editConnection(
+                              contact.PhoneNumber,
+                              contact.FirstName,
+                              contact.LastName
+                            );
                           }
                         },
                         {
-                          text: 'Delete',
+                          text: "Delete",
                           onPress: () => {
                             this.deleteConnection(contact.PhoneNumber);
                           }
                         },
                         {
-                          text: 'Cancel',
-                          onPress: () => console.log('Cancelled'),
-                          style: 'cancel',
-                        },
+                          text: "Cancel",
+                          onPress: () => console.log("Cancelled"),
+                          style: "cancel"
+                        }
                       ],
                       { cancelable: false }
-                    )
+                    );
                   }}
                 >
-
                   <View>
-
                     <Text>
-                      <Text style={styles.bold}>Name:</Text> {contact.FirstName} {contact.LastName}
+                      <Text style={styles.bold}>Name:</Text> {contact.FirstName}{" "}
+                      {contact.LastName}
                     </Text>
 
                     <Text>
-                      <Text style={styles.bold}>Phone Number:</Text> {contact.PhoneNumber}
+                      <Text style={styles.bold}>Phone Number:</Text>{" "}
+                      {contact.PhoneNumber}
                     </Text>
-
                   </View>
-
                 </TouchableOpacity>
-              )
+              );
             }
-          })
-        }
+          })}
       </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  addButton: {
+    borderWidth: 2,
+    borderColor: "black"
+  },
+
   img: {
     flex: 1,
     width: "100%",

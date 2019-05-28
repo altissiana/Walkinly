@@ -14,7 +14,7 @@ import { signout, changePassword } from "../actions/Actions";
 import { Permissions, ImagePicker } from "expo";
 import * as firebase from "firebase";
 
-import { firebaseConfig } from '../constants/apiKeys';
+import { firebaseConfig } from "../constants/apiKeys";
 
 firebase.initializeApp(firebaseConfig);
 
@@ -22,7 +22,9 @@ export default class UserSettingsScreen extends Component {
   static navigationOptions = {
     headerStyle: {
       height: 40,
-      backgroundColor: 'black',
+      borderTopWidth: 2,
+      borderColor: "gray",
+      backgroundColor: "black",
       zIndex: 1,
       shadowColor: "#000",
       shadowOffset: {
@@ -30,15 +32,15 @@ export default class UserSettingsScreen extends Component {
         height: 12
       },
       shadowOpacity: 0.58,
-      shadowRadius: 16.00,
+      shadowRadius: 16.0,
 
-      elevation: 24,
+      elevation: 24
     },
     headerTitle: "Settings",
     headerTitleStyle: {
       fontSize: 30,
-      color: 'white',
-      fontFamily: 'Arial'
+      color: "white",
+      fontFamily: "Arial"
     },
     headerTitleContainerStyle: {
       top: -16
@@ -48,8 +50,8 @@ export default class UserSettingsScreen extends Component {
   state = {
     isMounted: false,
     isChanging: false,
-    newPassword: '',
-    email: '',
+    newPassword: "",
+    email: "",
     avatarSource: null,
     hasCameraPermission: null,
     image: null,
@@ -62,10 +64,10 @@ export default class UserSettingsScreen extends Component {
     this.setState({
       isMounted: true,
       image: {
-        uri: await AsyncStorage.getItem('userPic')
+        uri: await AsyncStorage.getItem("userPic")
       },
-      email: await AsyncStorage.getItem('userToken')
-    })
+      email: await AsyncStorage.getItem("userToken")
+    });
   }
 
   handleLogout = () => {
@@ -91,10 +93,10 @@ export default class UserSettingsScreen extends Component {
   uploadImageAsync = async (uri, imageName) => {
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
+      xhr.onload = function() {
         resolve(xhr.response);
       };
-      xhr.onerror = function (e) {
+      xhr.onerror = function(e) {
         console.log(e);
         reject(new TypeError("Network request failed"));
       };
@@ -187,53 +189,51 @@ export default class UserSettingsScreen extends Component {
     let { image } = this.state;
 
     return (
-
       <ScrollView>
-
-        <TouchableOpacity
-          onPress={() => this.imageSelect()}
-        >
-          {this.state.image &&
-            <Image
-              source={this.state.image}
-              style={styles.uploadAvatar}
-            />
-          }
+        <TouchableOpacity onPress={() => this.imageSelect()}>
+          {this.state.image && (
+            <Image source={this.state.image} style={styles.uploadAvatar} />
+          )}
         </TouchableOpacity>
 
-        <TextInput style={styles.input}
+        <TextInput
+          style={styles.input}
           value={this.state.newPassword}
-          placeholder='New Password'
+          placeholder="New Password"
           placeholderTextColor="#000000"
-          autoCapitalize='none'
+          autoCapitalize="none"
           // secureTextEntry={true}? find out how to make this work later!
-          onChangeText={(text) => { this.setState({ newPassword: text }) }}
+          onChangeText={text => {
+            this.setState({ newPassword: text });
+          }}
         />
 
         <Button
-          title='Change Password'
-          type='solid'
+          title="Change Password"
+          type="solid"
           onPress={this.onChangePasswordPress}
           style={{
             marginBottom: 20,
+            marginLeft: 80,
+            marginTop: 30,
             shadowColor: "#fff",
 
             shadowColor: "#000",
             shadowOffset: {
               width: 0,
-              height: 3,
+              height: 3
             },
             shadowOpacity: 0.27,
             shadowRadius: 4.65,
 
-            elevation: 6,
+            elevation: 6
           }}
           buttonStyle={{
             height: 50,
             width: 250,
-            backgroundColor: '#e2e4e9',
+            backgroundColor: "black"
           }}
-          titleStyle={{ color: '#767689', fontSize: 20 }}
+          titleStyle={{ color: "#767689", fontSize: 20 }}
         />
 
         <Button
@@ -244,29 +244,29 @@ export default class UserSettingsScreen extends Component {
             shadowColor: "#000",
             shadowOffset: {
               width: 0,
-              height: 3,
+              height: 3
             },
             shadowOpacity: 0.27,
             shadowRadius: 4.65,
 
-            elevation: 6,
+            elevation: 6
           }}
           buttonStyle={{
             height: 50,
             width: 250,
-            backgroundColor: '#e2e4e9',
+            marginLeft: 80,
+            backgroundColor: "black"
           }}
           titleStyle={{
-            color: '#767689', fontSize: 20
+            color: "#767689",
+            fontSize: 20
           }}
-
-          type='solid'
-          title='Logout'
+          type="solid"
+          title="Logout"
           onPress={() => this.handleLogout()}
         />
-      </ScrollView >
-
-    )
+      </ScrollView>
+    );
   }
 }
 
@@ -282,7 +282,7 @@ const styles = StyleSheet.create({
     borderColor: "transparent",
     borderBottomColor: "white",
     padding: 10,
-    marginTop: 500,
+    marginTop: 40,
     fontSize: 20,
     color: "white",
     shadowColor: "#cccfd8",
@@ -295,9 +295,9 @@ const styles = StyleSheet.create({
   },
   uploadAvatar: {
     borderWidth: 2,
-    borderColor: 'white',
-    marginTop: 100,
-    marginLeft: '25%',
+    borderColor: "black",
+    marginTop: 20,
+    marginLeft: "25%",
     borderRadius: 100,
     height: 200,
     width: 200,
@@ -307,7 +307,6 @@ const styles = StyleSheet.create({
     shadowOffset: {
       height: 1,
       width: 1
-    },
+    }
   }
-
 });
