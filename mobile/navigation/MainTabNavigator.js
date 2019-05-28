@@ -15,7 +15,7 @@ const HomeStack = createStackNavigator({
 
 HomeStack.navigationOptions = {
   tabBarLabel: "Map",
-  tabBarIcon: () => {return (<Ionicons size={ 20 } name={ 'ios-map' } color={ 'white' }/>)}
+  tabBarIcon: () => { return (<Ionicons size={20} name={'ios-map'} color={'white'} />) }
 };
 
 const ConnectionsStack = createStackNavigator({
@@ -26,7 +26,7 @@ const ConnectionsStack = createStackNavigator({
 
 ConnectionsStack.navigationOptions = {
   tabBarLabel: 'Connections',
-  tabBarIcon: () => {return (<Ionicons size={ 20 } name={ 'ios-people' } color={ 'white' }/>)}
+  tabBarIcon: () => { return (<Ionicons size={20} name={'ios-people'} color={'white'} />) }
 };
 
 const UserSettingsStack = createStackNavigator({
@@ -35,7 +35,7 @@ const UserSettingsStack = createStackNavigator({
 
 UserSettingsStack.navigationOptions = {
   tabBarLabel: "Settings",
-  tabBarIcon: () => {return (<Ionicons size={ 20 } name={ 'ios-settings' } color={ 'white' }/>)}
+  tabBarIcon: () => { return (<Ionicons size={20} name={'ios-settings'} color={'white'} />) }
 };
 
 const TipsStack = createStackNavigator({
@@ -44,7 +44,7 @@ const TipsStack = createStackNavigator({
 
 TipsStack.navigationOptions = {
   tabBarLabel: "Tips",
-  tabBarIcon: () => {return (<Ionicons size={ 20 } name={ 'ios-information-circle' } color={ 'white' }/>)}
+  tabBarIcon: () => { return (<Ionicons size={20} name={'ios-information-circle'} color={'white'} />) }
 };
 
 export default createMaterialTopTabNavigator(
@@ -64,7 +64,16 @@ export default createMaterialTopTabNavigator(
         height: 3
       },
       style: {
-        backgroundColor: "rgba(0,0,0,1)"
+        backgroundColor: "rgba(0,0,0,1)",
+        shadowColor: "#000",
+        shadowOffset: {
+          width: 0,
+          height: 12,
+        },
+        shadowOpacity: 0.58,
+        shadowRadius: 16.00,
+
+        elevation: 24,
       },
       showIcon: true,
       showLabel: true
