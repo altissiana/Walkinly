@@ -103,14 +103,14 @@ export default class Register extends Component {
 
         return (
 
-            <View>
+            <View style={{ backgroundColor: 'black', flex: 1 }}>
                 <Text style={{
-                    color: '#6a7189', fontSize: 40
+                    color: 'white', fontSize: 40
                 }}>Register</Text>
                 <TextInput
                     label='FirstName'
                     placeholder='First Name'
-                    placeholderTextColor="#FFFFFF"
+                    placeholderTextColor="#B0B0B0"
                     style={styles.input}
                     defaultValue={this.state.firstname}
                     onChangeText={text => this.setState({ firstname: text })}
@@ -119,7 +119,7 @@ export default class Register extends Component {
                 <TextInput
                     label='LastName'
                     placeholder='Last Name'
-                    placeholderTextColor="#FFFFFF"
+                    placeholderTextColor="#B0B0B0"
                     style={styles.input}
                     defaultValue={this.state.lastname}
                     onChangeText={text => this.setState({ lastname: text })}
@@ -129,7 +129,7 @@ export default class Register extends Component {
                     secure
                     label='Email'
                     placeholder='Email'
-                    placeholderTextColor="#FFFFFF"
+                    placeholderTextColor="#B0B0B0"
                     style={styles.input}
                     autoCapitalize='none'
                     defaultValue={this.state.email}
@@ -140,7 +140,7 @@ export default class Register extends Component {
                     secure
                     label='PhoneNumber'
                     placeholder='Phone Number'
-                    placeholderTextColor="#FFFFFF"
+                    placeholderTextColor="#B0B0B0"
                     style={styles.input}
                     defaultValue={this.state.phonenumber}
                     onChangeText={text => this.setState({ phonenumber: text })}
@@ -150,7 +150,7 @@ export default class Register extends Component {
                     secure
                     label='Password'
                     placeholder='Password'
-                    placeholderTextColor="#FFFFFF"
+                    placeholderTextColor="#B0B0B0"
                     style={styles.input}
                     autoCapitalize='none'
                     defaultValue={this.state.password}
@@ -188,6 +188,7 @@ export default class Register extends Component {
 }
 
 const styles = StyleSheet.create({
+
     input: {
         borderRadius: 0,
         borderWidth: 2,
@@ -209,10 +210,5 @@ const styles = StyleSheet.create({
         marginTop: 20,
         marginBottom: 80
     },
-    img: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        resizeMode: 'cover',
-    }
+
 });

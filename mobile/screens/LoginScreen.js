@@ -63,15 +63,15 @@ export default class Login extends Component {
 
         return (
 
-            <View>
+            <View style={{ backgroundColor: 'black', flex: 1 }}>
                 <Text style={{
-                    color: '#6a7189', fontSize: 40
+                    color: 'white', fontSize: 40
                 }}>Login</Text>
 
                 <TextInput
                     label='Email'
                     placeholder='Email'
-                    placeholderTextColor="#FFFFFF"
+                    placeholderTextColor="#B0B0B0"
                     style={[styles.input, hasErrors('email')]}
                     autoCapitalize='none'
                     defaultValue={this.state.email}
@@ -82,7 +82,7 @@ export default class Login extends Component {
                     secure
                     label='Password'
                     placeholder='Password'
-                    placeholderTextColor="#FFFFFF"
+                    placeholderTextColor="#B0B0B0"
                     style={[styles.input, hasErrors('password')]}
                     autoCapitalize='none'
                     secureTextEntry={true}
@@ -143,7 +143,7 @@ const styles = StyleSheet.create({
         borderRadius: 0,
         borderWidth: 2,
         borderColor: 'transparent',
-        borderBottomColor: '#6a7189',
+        borderBottomColor: 'white',
         padding: 10,
         marginTop: 40,
         fontSize: 25,
@@ -157,10 +157,5 @@ const styles = StyleSheet.create({
         }
     },
 
-    img: {
-        flex: 1,
-        width: '100%',
-        height: '100%',
-        resizeMode: 'cover',
-    }
+
 });
