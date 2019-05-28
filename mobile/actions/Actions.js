@@ -1,4 +1,3 @@
-import { ImagePicker, Permissions } from 'expo';
 import { AsyncStorage } from "react-native";
 import store from "../store";
 import axios from "axios";
