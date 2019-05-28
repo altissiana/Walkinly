@@ -44,12 +44,9 @@ export default class UserSettingsScreen extends Component {
 
   state = {
     isMounted: false,
-    password: "",
-    oldPassword: "",
     isChanging: false,
-    confirmPassword: "",
-    newPassword: "",
-    email: "",
+    newPassword: '',
+    email: '',
     avatarSource: null,
     hasCameraPermission: null,
     image: null,
@@ -62,9 +59,10 @@ export default class UserSettingsScreen extends Component {
     this.setState({
       isMounted: true,
       image: {
-        uri: await AsyncStorage.getItem("userPic")
-      }
-    });
+        uri: await AsyncStorage.getItem('userPic')
+      },
+      email: await AsyncStorage.getItem('userToken')
+    })
   }
 
   handleLogout = () => {
@@ -186,85 +184,88 @@ export default class UserSettingsScreen extends Component {
     let { image } = this.state;
 
     return (
-      // <ImageBackground
-      //   source={require("../assets/grady2.jpg")}
-      //   style={styles.img}
-      // >
-      <ScrollView>
-        <TouchableOpacity onPress={() => this.imageSelect()}>
-          {this.state.image && (
-            <Image source={this.state.image} style={styles.uploadAvatar} />
-          )}
-        </TouchableOpacity>
+      <ImageBackground
+        source={require('../assets/grady2.jpg')}
+        style={styles.img}>
+        <ScrollView>
 
-        <TextInput
-          style={styles.input}
-          value={this.state.newPassword}
-          placeholder="New Password"
-          placeholderTextColor="#FFFFFF"
-          autoCapitalize="none"
-          onChangeText={text => {
-            this.setState({ newPassword: text });
-          }}
-        />
+          <TouchableOpacity
+            onPress={() => this.imageSelect()}
+          >
+            {this.state.image &&
+              <Image
+                source={this.state.image}
+                style={styles.uploadAvatar}
+              />
+            }
+          </TouchableOpacity>
 
-        <Button
-          title="Change Password"
-          type="solid"
-          onPress={this.onChangePasswordPress}
-          style={{
-            marginBottom: 20,
-            shadowColor: "#fff",
+          <TextInput style={styles.input}
+            value={this.state.newPassword}
+            placeholder='New Password'
+            placeholderTextColor="#FFFFFF"
+            autoCapitalize='none'
+            // secureTextEntry={true}? find out how to make this work later!
+            onChangeText={(text) => { this.setState({ newPassword: text }) }}
+          />
 
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 3
-            },
-            shadowOpacity: 0.27,
-            shadowRadius: 4.65,
+          <Button
+            title='Change Password'
+            type='solid'
+            onPress={this.onChangePasswordPress}
+            style={{
+              marginBottom: 20,
+              shadowColor: "#fff",
 
-            elevation: 6
-          }}
-          buttonStyle={{
-            height: 50,
-            width: 250,
-            backgroundColor: "#e2e4e9"
-          }}
-          titleStyle={{ color: "#767689", fontSize: 20 }}
-        />
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 3,
+              },
+              shadowOpacity: 0.27,
+              shadowRadius: 4.65,
 
-        <Button
-          style={{
-            marginBottom: 100,
-            shadowColor: "#fff",
+              elevation: 6,
+            }}
+            buttonStyle={{
+              height: 50,
+              width: 250,
+              backgroundColor: '#e2e4e9',
+            }}
+            titleStyle={{ color: '#767689', fontSize: 20 }}
+          />
 
-            shadowColor: "#000",
-            shadowOffset: {
-              width: 0,
-              height: 3
-            },
-            shadowOpacity: 0.27,
-            shadowRadius: 4.65,
+          <Button
+            style={{
+              marginBottom: 100,
+              shadowColor: "#fff",
 
-            elevation: 6
-          }}
-          buttonStyle={{
-            height: 50,
-            width: 250,
-            backgroundColor: "#e2e4e9"
-          }}
-          titleStyle={{
-            color: "#767689",
-            fontSize: 20
-          }}
-          type="solid"
-          title="Logout"
-          onPress={() => this.handleLogout()}
-        />
-      </ScrollView>
-      // </ImageBackground>
-    );
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 3,
+              },
+              shadowOpacity: 0.27,
+              shadowRadius: 4.65,
+
+              elevation: 6,
+            }}
+            buttonStyle={{
+              height: 50,
+              width: 250,
+              backgroundColor: '#e2e4e9',
+            }}
+            titleStyle={{
+              color: '#767689', fontSize: 20
+            }}
+
+            type='solid'
+            title='Logout'
+            onPress={() => this.handleLogout()}
+          />
+        </ScrollView >
+      </ImageBackground >
+    )
   }
 }
 
