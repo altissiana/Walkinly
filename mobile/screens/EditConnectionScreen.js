@@ -10,19 +10,31 @@ import { editConnection } from "../actions/Actions";
 
 class EditConnectionScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
+
     headerStyle: {
       height: 40,
-      backgroundColor: "dodgerblue"
+      backgroundColor: 'black',
+      zIndex: 1,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 12,
+      },
+      shadowOpacity: 0.58,
+      shadowRadius: 16.00,
+
+      elevation: 24,
     },
     headerTitle: "Edit Connection",
     headerTitleStyle: {
-      fontSize: 32,
-      color: "white"
+      fontSize: 30,
+      color: 'white',
+      fontFamily: 'Arial'
     },
     headerTitleContainerStyle: {
       top: -16
     }
-  });
+  })
 
   state = {
     firstname: '',
