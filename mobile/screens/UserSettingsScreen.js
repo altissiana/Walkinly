@@ -1,36 +1,46 @@
 import React, { Component } from "react";
-import { StyleSheet, ImageBackground, ScrollView, TextInput, Image, Alert, TouchableOpacity, AsyncStorage } from "react-native";
-import { Button } from 'react-native-elements';
+import {
+  StyleSheet,
+  ImageBackground,
+  ScrollView,
+  TextInput,
+  Image,
+  Alert,
+  TouchableOpacity,
+  AsyncStorage
+} from "react-native";
+import { Button } from "react-native-elements";
 import { signout, changePassword } from "../actions/Actions";
-import { Permissions, ImagePicker } from 'expo';
-import * as firebase from 'firebase';
+import { Permissions, ImagePicker } from "expo";
+import * as firebase from "firebase";
 
 const firebaseConfig = {
-  apiKey: '',
-  authDomain: '',
-  databaseURL: '',
-  storageBucket: 'walkinly.appspot.com',
-  messagingSenderId: '',
+  apiKey: "",
+  authDomain: "",
+  databaseURL: "",
+  storageBucket: "walkinly.appspot.com",
+  messagingSenderId: ""
 };
 
 firebase.initializeApp(firebaseConfig);
 
 export default class UserSettingsScreen extends Component {
-
   static navigationOptions = {
     headerStyle: {
       height: 40,
-      backgroundColor: 'dodgerblue'
+      backgroundColor: "black",
+      borderColor: "gray",
+      borderTopWidth: 2
     },
     headerTitle: "Settings",
     headerTitleStyle: {
       fontSize: 32,
-      color: 'white'
+      color: "white"
     },
     headerTitleContainerStyle: {
       top: -16
     }
-  }
+  };
 
   state = {
     isMounted: false,
@@ -41,7 +51,7 @@ export default class UserSettingsScreen extends Component {
     hasCameraPermission: null,
     image: null,
     uploading: false
-  }
+  };
 
   async componentDidMount() {
     await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -59,120 +69,115 @@ export default class UserSettingsScreen extends Component {
     const { navigation } = this.props;
 
     if (this.state.isMounted) {
-      signout()
-        .then(() => {
-          navigation.navigate('AuthLoading')
-        })
+      signout().then(() => {
+        navigation.navigate("AuthLoading");
+      });
     }
-  }
+  };
 
   onChangePasswordPress = () => {
-    changePassword(this.state.email, this.state.newPassword).then(() => {
-      Alert.alert('Password was changed');
-    }).catch((error) => {
-      console.log(error)
-    })
-  }
+    changePassword(this.state.email, this.state.newPassword)
+      .then(() => {
+        Alert.alert("Password was changed");
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  };
 
   uploadImageAsync = async (uri, imageName) => {
-    // Why are we using XMLHttpRequest? See:
-    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
     const blob = await new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
-      xhr.onload = function () {
+      xhr.onload = function() {
         resolve(xhr.response);
       };
-      xhr.onerror = function (e) {
+      xhr.onerror = function(e) {
         console.log(e);
-        reject(new TypeError('Network request failed'));
+        reject(new TypeError("Network request failed"));
       };
-      xhr.responseType = 'blob';
-      xhr.open('GET', uri, true);
+      xhr.responseType = "blob";
+      xhr.open("GET", uri, true);
       xhr.send(null);
     });
 
     const ref = firebase
       .storage()
       .ref()
-      .child('images/' + imageName);
+      .child("images/" + imageName);
     const snapshot = await ref.put(blob);
 
-    // We're done with the blob, close and release it
     blob.close();
 
     return await snapshot.ref.getDownloadURL();
-  }
+  };
 
-  onChooseImagePress = async (result) => {
+  onChooseImagePress = async result => {
     const options = {
       allowsEditing: true,
       aspect: [4, 3]
     };
 
-    // let result = await ImagePicker.imageSelect(options);
-    let email = await AsyncStorage.getItem('userToken');
+    let email = await AsyncStorage.getItem("userToken");
 
     if (!result.cancelled) {
-      let uploadURL = await this.uploadImageAsync(result.uri, `${email}-profile-image`)
-      await AsyncStorage.removeItem('userPic')
-      await AsyncStorage.setItem('userPic', uploadURL)
+      let uploadURL = await this.uploadImageAsync(
+        result.uri,
+        `${email}-profile-image`
+      );
+      await AsyncStorage.removeItem("userPic");
+      await AsyncStorage.setItem("userPic", uploadURL);
       Alert.alert(
-        'Image successfully uploaded!',
-        '',
+        "Image successfully uploaded!",
+        "",
         [
           {
-            text: 'Ok',
+            text: "Ok"
           }
         ],
         { cancelable: false }
-      )
-      this.props.navigation.navigate('AuthLoading')
+      );
+      this.props.navigation.navigate("AuthLoading");
     }
-  }
+  };
 
-  imageSelect = (options) => {
-    Alert.alert(
-      'Profile Picture',
-      'Would you like to change your pic?',
-      [
-        {
-          text: 'Camera',
-          onPress: async () => {
-            await ImagePicker.launchCameraAsync(options)
-              .then((source) => {
-                this.onChooseImagePress(source)
-              })
-              .catch(error => {
-                console.log(error)
-              })
-          }
-        },
-        {
-          text: 'Library',
-          onPress: async () => {
-            await ImagePicker.launchImageLibraryAsync(options)
-              .then((source) => {
-                this.onChooseImagePress(source)
-              })
-              .catch(error => {
-                console.log(error)
-              })
-          }
-
-        },
-        {
-          text: 'Cancel',
-          onPress: () => console.log('Cancelled'),
-          style: 'cancel',
+  imageSelect = options => {
+    Alert.alert("Profile Picture", "Would you like to change your pic?", [
+      {
+        text: "Camera",
+        onPress: async () => {
+          await ImagePicker.launchCameraAsync(options)
+            .then(source => {
+              this.onChooseImagePress(source);
+            })
+            .catch(error => {
+              console.log(error);
+            });
         }
-      ]
-    );
-  }
+      },
+      {
+        text: "Library",
+        onPress: async () => {
+          await ImagePicker.launchImageLibraryAsync(options)
+            .then(source => {
+              this.onChooseImagePress(source);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        }
+      },
+      {
+        text: "Cancel",
+        onPress: () => console.log("Cancelled"),
+        style: "cancel"
+      }
+    ]);
+  };
 
   componentWillUnmount() {
     this.setState({
       isMounted: false
-    })
+    });
   }
 
   render() {
@@ -260,7 +265,6 @@ export default class UserSettingsScreen extends Component {
           />
         </ScrollView >
       </ImageBackground >
-
     )
   }
 }
@@ -268,32 +272,33 @@ export default class UserSettingsScreen extends Component {
 const styles = StyleSheet.create({
   img: {
     flex: 1,
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover',
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover"
   },
   input: {
     borderWidth: 2,
-    borderColor: 'transparent',
-    borderBottomColor: 'white',
+    borderColor: "transparent",
+    borderBottomColor: "white",
     padding: 10,
     marginTop: 500,
     fontSize: 20,
-    color: 'white',
+    color: "white",
     shadowColor: "#cccfd8",
     shadowOpacity: 0.8,
     shadowRadius: 2,
     shadowOffset: {
       height: 1,
       width: 1
-    },
+    }
   },
   uploadAvatar: {
     borderWidth: 2,
-    borderColor: 'white',
-    marginTop: 300,
+    borderColor: "white",
+    marginTop: 10,
+    marginLeft: 110,
     borderRadius: 100,
     height: 200,
     width: 200
   }
-})
+});
