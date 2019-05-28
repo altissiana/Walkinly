@@ -56,7 +56,7 @@ export default class Terms extends Component {
                         title="Accept"
                         onPress={() => this.props.navigation.navigate('welcome')}
                         style={{
-                            color: 'white', marginTop: 40
+                            color: 'black', marginTop: 40
                         }}
                         titleStyle={{
                             color: 'white', fontSize: 20,
@@ -90,14 +90,14 @@ const styles = StyleSheet.create({
         marginTop: 20,
         fontSize: 22,
         alignSelf: 'center',
-        color: 'white'
+        color: 'black'
     },
     tcL: {
         marginLeft: 10,
         marginTop: 10,
         marginBottom: 10,
         fontSize: 12,
-        color: 'white'
+        color: 'black'
     },
     tcContainer: {
         marginTop: 20,
