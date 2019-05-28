@@ -23,17 +23,29 @@ class ConnectionsScreen extends Component {
   static navigationOptions = {
     headerStyle: {
       height: 40,
-      backgroundColor: 'dodgerblue'
+      backgroundColor: 'black',
+      zIndex: 1,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 12,
+
+      },
+      shadowOpacity: 0.58,
+      shadowRadius: 16.00,
+
+      elevation: 24,
     },
-    headerTitle: "Connections",
+    headerTitle: "Settings",
     headerTitleStyle: {
-      fontSize: 32,
-      color: 'white'
+      fontSize: 30,
+      color: 'white',
+      fontFamily: 'Arial'
     },
     headerTitleContainerStyle: {
       top: -16
     }
-  };
+  }
 
   state = {
     isMounted: false,
@@ -120,59 +132,59 @@ class ConnectionsScreen extends Component {
             this.addConnection();
           }}
         />
-        {this.props.connections 
+        {this.props.connections
           && this.props.connections.map((contact, i) => {
-              return (
-                <TouchableOpacity 
-                  key={'contact' + i}
-                  style={styles.connection}
-                  onPress={() => {
-                    Alert.alert(
-                      `${contact.FirstName} ${contact.LastName}`,
-                      'Would you like to edit or call this connection?',
-                      [
-                        {
-                          text: 'Call',
-                          onPress: () => {
-                            Linking.openURL(`tel:${contact.PhoneNumber}`)
-                          }
-                        },
-                        {
-                          text: 'Edit', 
-                          onPress: () => {
-                            this.editConnection(contact.PhoneNumber, contact.FirstName, contact.LastName);
-                          }
-                        },
-                        {
-                          text: 'Delete',
-                          onPress: () => {
-                            this.deleteConnection(contact.PhoneNumber);
-                          }
-                        },
-                        {
-                          text: 'Cancel',
-                          onPress: () => console.log('Cancelled'),
-                          style: 'cancel',
-                        },
-                      ],
-                      {cancelable: false}
-                    )
-                  }}
-                >
+            return (
+              <TouchableOpacity
+                key={'contact' + i}
+                style={styles.connection}
+                onPress={() => {
+                  Alert.alert(
+                    `${contact.FirstName} ${contact.LastName}`,
+                    'Would you like to edit or call this connection?',
+                    [
+                      {
+                        text: 'Call',
+                        onPress: () => {
+                          Linking.openURL(`tel:${contact.PhoneNumber}`)
+                        }
+                      },
+                      {
+                        text: 'Edit',
+                        onPress: () => {
+                          this.editConnection(contact.PhoneNumber, contact.FirstName, contact.LastName);
+                        }
+                      },
+                      {
+                        text: 'Delete',
+                        onPress: () => {
+                          this.deleteConnection(contact.PhoneNumber);
+                        }
+                      },
+                      {
+                        text: 'Cancel',
+                        onPress: () => console.log('Cancelled'),
+                        style: 'cancel',
+                      },
+                    ],
+                    { cancelable: false }
+                  )
+                }}
+              >
 
-                  <View>
+                <View>
 
-                    <Text>
-                      <Text style={styles.bold}>Name:</Text> {contact.FirstName} {contact.LastName}
-                    </Text>
+                  <Text>
+                    <Text style={styles.bold}>Name:</Text> {contact.FirstName} {contact.LastName}
+                  </Text>
 
-                    <Text>
-                      <Text style={styles.bold}>Phone Number:</Text> {contact.PhoneNumber}
-                    </Text>
+                  <Text>
+                    <Text style={styles.bold}>Phone Number:</Text> {contact.PhoneNumber}
+                  </Text>
 
-                  </View>
+                </View>
 
-                </TouchableOpacity>
+              </TouchableOpacity>
             );
           })
         }
@@ -198,7 +210,7 @@ const styles = StyleSheet.create({
   bold: {
     fontWeight: 'bold'
   },
-  container:{
+  container: {
     flex: 1,
     fontSize: 24
   },

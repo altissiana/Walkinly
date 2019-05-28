@@ -3,7 +3,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { StyleSheet, View, Text, Alert } from "react-native";
 import { Icon } from 'react-native-elements';
-import Polyline from  '@mapbox/polyline';
+import Polyline from '@mapbox/polyline';
 
 class SimpleMap extends React.Component {
   state = {
@@ -15,7 +15,7 @@ class SimpleMap extends React.Component {
     },
     vehicleLocation: {
       coordinates: {
-        latitude: null, 
+        latitude: null,
         longitude: null
       },
       title: 'Your vehicle',
@@ -135,7 +135,7 @@ class SimpleMap extends React.Component {
                 'Would you like to set a new route?',
                 [
                   {
-                    text: 'Yes', 
+                    text: 'Yes',
                     onPress: () => {
                       this.getCurrentPosition()
                         .then((currLoc) => {
@@ -161,7 +161,7 @@ class SimpleMap extends React.Component {
                     style: 'cancel',
                   },
                 ],
-                {cancelable: false}
+                { cancelable: false }
               );
             } else {
               Alert.alert(
@@ -169,7 +169,7 @@ class SimpleMap extends React.Component {
                 'Would you like to set a new route or remove the current route?',
                 [
                   {
-                    text: 'Set new route', 
+                    text: 'Set new route',
                     onPress: () => {
                       this.getCurrentPosition()
                         .then((currLoc) => {
@@ -204,7 +204,7 @@ class SimpleMap extends React.Component {
                     style: 'cancel',
                   },
                 ],
-                {cancelable: false}
+                { cancelable: false }
               );
             }
           }}
@@ -218,7 +218,7 @@ class SimpleMap extends React.Component {
             />
           }
           {
-            this.state.isRouteable == true && <MapView.Polyline 
+            this.state.isRouteable == true && <MapView.Polyline
               coordinates={this.state.coords}
               strokeWidth={2}
               strokeColor="red"
@@ -233,9 +233,9 @@ class SimpleMap extends React.Component {
             />
           }
           {
-            this.state.isRouteable == true && 
+            this.state.isRouteable == true &&
             <Marker
-              coordinate={this.state.coords[this.state.coords.length-1]}
+              coordinate={this.state.coords[this.state.coords.length - 1]}
               title="Route end location"
               description=""
             />
@@ -248,9 +248,9 @@ class SimpleMap extends React.Component {
               description={this.state.vehicleLocation.description}
             />
           }
-          <Text 
+          <Text
             style={
-              this.state.vehicleTooltip 
+              this.state.vehicleTooltip
                 ? {
                   backgroundColor: 'rgb(255, 255, 255)',
                   color: 'rgb(0, 0, 0)',
@@ -265,15 +265,15 @@ class SimpleMap extends React.Component {
                   shadowOpacity: 0.5,
                   bottom: 152,
                   right: 62
-                } 
+                }
                 : styles.invisible
             }
           >
             Marks your vehicle location
           </Text>
-          <Text 
+          <Text
             style={
-              this.state.followUserTooltip 
+              this.state.followUserTooltip
                 ? {
                   backgroundColor: 'rgb(255, 255, 255)',
                   color: 'rgb(0, 0, 0)',
@@ -288,15 +288,15 @@ class SimpleMap extends React.Component {
                   shadowOpacity: 0.5,
                   bottom: 86,
                   right: 62
-                } 
+                }
                 : styles.invisible
             }
           >
             Toggles the map following your location
           </Text>
-          <Text 
+          <Text
             style={
-              this.state.checkInTooltip 
+              this.state.checkInTooltip
                 ? {
                   backgroundColor: 'rgb(255, 255, 255)',
                   color: 'rgb(0, 0, 0)',
@@ -311,7 +311,7 @@ class SimpleMap extends React.Component {
                   shadowOpacity: 0.5,
                   bottom: 20,
                   right: 62
-                } 
+                }
                 : styles.invisible
             }
           >
@@ -319,13 +319,13 @@ class SimpleMap extends React.Component {
           </Text>
         </MapView>
         <View style={styles.mapButtons}>
-          <Icon 
-            reverse 
-            type="ionicon" 
-            name="ios-car" 
-            size={24} 
-            color={"rgba(30, 144, 255, 0.75)"} 
-            onPress={() => 
+          <Icon
+            reverse
+            type="ionicon"
+            name="ios-car"
+            size={24}
+            color={"rgba(30, 144, 255, 0.75)"}
+            onPress={() =>
               this.setVehicleLocation()
             }
             onLongPress={() => {
@@ -341,14 +341,14 @@ class SimpleMap extends React.Component {
               }
             }}
           />
-          <Icon 
-            reverse 
-            type="ionicon" 
-            name="ios-person" 
-            size={24} 
-            color={this.state.followsUser ? "rgba(30, 144, 255, 0.75)" : "rgba(180, 180, 180, 0.75)"} 
+          <Icon
+            reverse
+            type="ionicon"
+            name="ios-person"
+            size={24}
+            color={this.state.followsUser ? "rgba(30, 144, 255, 0.75)" : "rgba(180, 180, 180, 0.75)"}
             onPress={() => {
-              this.setState({followsUser: !this.state.followsUser})
+              this.setState({ followsUser: !this.state.followsUser })
             }}
             onLongPress={() => {
               if (!this.state.followUserTooltip) {
@@ -397,7 +397,16 @@ const styles = StyleSheet.create({
     bottom: 0,
     right: 0,
     justifyContent: "flex-end",
-    alignItems: "center"
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.58,
+    shadowRadius: 16.00,
+
+    elevation: 24,
   },
   map: {
     position: "absolute",
