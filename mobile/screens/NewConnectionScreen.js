@@ -7,6 +7,7 @@ import {
   AsyncStorage
 } from "react-native";
 import { newConnection } from "../actions/Actions";
+import validator from 'validator';
 
 class NewConnectionScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -44,17 +45,19 @@ class NewConnectionScreen extends Component {
 
   saveConnection = async () => {
     await AsyncStorage.getItem("userToken").then(email => {
-      newConnection(
-        email,
-        this.state.PhoneNumber,
-        this.state.FirstName,
-        this.state.LastName
-      )
+      if (validator.isNumeric(this.state.PhoneNumber) && validator.isAlpha(this.state.FirstName) && validator.isAlpha(this.state.LastName)) {
+        newConnection(
+          email,
+          this.state.PhoneNumber,
+          this.state.FirstName,
+          this.state.LastName
+        )
         .then(() => {
           this.props.navigation.navigate("AuthLoading");
         })
-    });
-  };
+      }
+    })
+  }
 
   render() {
     return (
