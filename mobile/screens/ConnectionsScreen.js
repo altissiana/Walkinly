@@ -117,6 +117,7 @@ class ConnectionsScreen extends Component {
 
   render() {
     return (
+<<<<<<< HEAD
       <ScrollView
         contentContainerStyle={styles.alignAndJustCenter}
         style={styles.contentContainer}
@@ -235,11 +236,93 @@ class ConnectionsScreen extends Component {
             }
           })}
       </ScrollView>
+=======
+      <View style={{ backgroundColor: '#F0F0F0', flex: 1 }}>
+        <ScrollView
+          contentContainerStyle={styles.alignAndJustCenter}
+          style={styles.contentContainer}
+          onScroll={({ nativeEvent }) => {
+            if (isCloseToBottom(nativeEvent)) {
+              this.setState({
+                accepted: true
+              });
+            }
+          }}
+          scrollEventThrottle={32}
+        >
+          <Button
+            title="Add Connection"
+            onPress={() => {
+              this.addConnection();
+            }}
+          />
+          {this.props.connections
+            && this.props.connections.map((contact, i) => {
+              if (contact.FirstName !== null && contact.LastName !== null && contact.PhoneNumber !== null) {
+                return (
+                  <TouchableOpacity
+                    key={'contact' + i}
+                    style={styles.connection}
+                    onPress={() => {
+                      Alert.alert(
+                        `${contact.FirstName} ${contact.LastName}`,
+                        'Would you like to edit or call this connection?',
+                        [
+                          {
+                            text: 'Call',
+                            onPress: () => {
+                              Linking.openURL(`tel:${contact.PhoneNumber}`)
+                            }
+                          },
+                          {
+                            text: 'Edit',
+                            onPress: () => {
+                              this.editConnection(contact.PhoneNumber, contact.FirstName, contact.LastName);
+                            }
+                          },
+                          {
+                            text: 'Delete',
+                            onPress: () => {
+                              this.deleteConnection(contact.PhoneNumber);
+                            }
+                          },
+                          {
+                            text: 'Cancel',
+                            onPress: () => console.log('Cancelled'),
+                            style: 'cancel',
+                          },
+                        ],
+                        { cancelable: false }
+                      )
+                    }}
+                  >
+
+                    <View>
+
+                      <Text>
+                        <Text style={styles.bold}>Name:</Text> {contact.FirstName} {contact.LastName}
+                      </Text>
+
+                      <Text>
+                        <Text style={styles.bold}>Phone Number:</Text> {contact.PhoneNumber}
+                      </Text>
+
+                    </View>
+
+                  </TouchableOpacity>
+                )
+              }
+            })
+          }
+        </ScrollView>
+      </View>
+>>>>>>> 5796bdf159c348c59180bf15d7033b848da6394f
     );
   }
 }
 
 const styles = StyleSheet.create({
+<<<<<<< HEAD
   addButton: {
     borderWidth: 2,
     borderColor: "black"
@@ -251,6 +334,8 @@ const styles = StyleSheet.create({
     height: "100%",
     resizeMode: "cover"
   },
+=======
+>>>>>>> 5796bdf159c348c59180bf15d7033b848da6394f
   alignAndJustCenter: {
     alignItems: "center",
     justifyContent: "center"

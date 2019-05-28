@@ -7,12 +7,14 @@ import {
   Image,
   Alert,
   TouchableOpacity,
-  AsyncStorage
+  AsyncStorage,
+  View
 } from "react-native";
 import { Button } from "react-native-elements";
 import { signout, changePassword } from "../actions/Actions";
 import { Permissions, ImagePicker } from "expo";
 import * as firebase from "firebase";
+import validator from 'validator';
 
 import { firebaseConfig } from "../constants/apiKeys";
 
@@ -81,14 +83,16 @@ export default class UserSettingsScreen extends Component {
   };
 
   onChangePasswordPress = () => {
-    changePassword(this.state.email, this.state.newPassword)
+    if (validator.isEmail(this.state.email) && validator.isAscii(this.state.newPassword)) {
+      changePassword(this.state.email, this.state.newPassword)
       .then(() => {
         Alert.alert("Password was changed");
       })
       .catch(error => {
         console.log(error);
-      });
-  };
+      })
+    }
+  }
 
   uploadImageAsync = async (uri, imageName) => {
     const blob = await new Promise((resolve, reject) => {
@@ -189,6 +193,7 @@ export default class UserSettingsScreen extends Component {
     let { image } = this.state;
 
     return (
+<<<<<<< HEAD
       <ScrollView>
         <TouchableOpacity onPress={() => this.imageSelect()}>
           {this.state.image && (
@@ -267,24 +272,105 @@ export default class UserSettingsScreen extends Component {
         />
       </ScrollView>
     );
+=======
+      <View style={{ backgroundColor: '#F0F0F0', flex: 1 }}>
+        <ScrollView>
+          <TouchableOpacity
+            onPress={() => this.imageSelect()}
+          >
+            {this.state.image &&
+              <Image
+                source={this.state.image}
+                style={styles.uploadAvatar}
+              />
+            }
+          </TouchableOpacity>
+
+          <TextInput style={styles.input}
+            value={this.state.newPassword}
+            placeholder='New Password'
+            placeholderTextColor="#000000"
+            autoCapitalize='none'
+            // secureTextEntry={true}? find out how to make this work later!
+            onChangeText={(text) => { this.setState({ newPassword: text }) }}
+          />
+
+          <Button
+            title='Change Password'
+            type='solid'
+            onPress={this.onChangePasswordPress}
+            style={{
+              marginBottom: 20,
+              shadowColor: "#fff",
+
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 3,
+              },
+              shadowOpacity: 0.27,
+              shadowRadius: 4.65,
+
+              elevation: 6,
+            }}
+            buttonStyle={{
+              height: 50,
+              width: 250,
+              backgroundColor: '#e2e4e9',
+            }}
+            titleStyle={{ color: '#767689', fontSize: 20 }}
+          />
+
+          <Button
+            style={{
+              marginBottom: 100,
+              shadowColor: "#fff",
+
+              shadowColor: "#000",
+              shadowOffset: {
+                width: 0,
+                height: 3,
+              },
+              shadowOpacity: 0.27,
+              shadowRadius: 4.65,
+
+              elevation: 6,
+            }}
+            buttonStyle={{
+              height: 50,
+              width: 250,
+              backgroundColor: '#e2e4e9',
+            }}
+            titleStyle={{
+              color: '#767689', fontSize: 20
+            }}
+
+            type='solid'
+            title='Logout'
+            onPress={() => this.handleLogout()}
+          />
+        </ScrollView >
+      </View>
+
+    )
+>>>>>>> 5796bdf159c348c59180bf15d7033b848da6394f
   }
 }
 
 const styles = StyleSheet.create({
-  img: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover"
-  },
   input: {
     borderWidth: 2,
     borderColor: "transparent",
     borderBottomColor: "white",
     padding: 10,
+<<<<<<< HEAD
     marginTop: 40,
+=======
+    marginTop: 500,
+    marginTop: 100,
+>>>>>>> 5796bdf159c348c59180bf15d7033b848da6394f
     fontSize: 20,
-    color: "white",
+    color: 'black',
     shadowColor: "#cccfd8",
     shadowOpacity: 0.8,
     shadowRadius: 2,
