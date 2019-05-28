@@ -19,15 +19,23 @@ class TipsScreen extends Component {
   static navigationOptions = {
     headerStyle: {
       height: 40,
-      backgroundColor: "black",
-      borderWidth: 0,
-      borderColor: "gray",
-      borderTopWidth: 2
+      backgroundColor: 'black',
+      zIndex: 1,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 12
+      },
+      shadowOpacity: 0.58,
+      shadowRadius: 16.00,
+
+      elevation: 24,
     },
-    headerTitle: "Safety Tips",
+    headerTitle: "Tips and Advice",
     headerTitleStyle: {
-      fontSize: 32,
-      color: "white"
+      fontSize: 30,
+      color: 'white',
+      fontFamily: 'Arial'
     },
     headerTitleContainerStyle: {
       top: -16

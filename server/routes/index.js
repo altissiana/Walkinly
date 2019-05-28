@@ -138,7 +138,7 @@ router.post('/newConnection', (req, res, next) => {
   `
 
   conn.query(getUserSql, [userEmail], (err, results, fields) => {
-    
+
     if (err) {
       res.status(409).json({
         error: 'Error adding new connection'

@@ -11,19 +11,31 @@ import validator from 'validator';
 
 class NewConnectionScreen extends Component {
   static navigationOptions = ({ navigation }) => ({
+
     headerStyle: {
       height: 40,
-      backgroundColor: "dodgerblue"
+      backgroundColor: 'black',
+      zIndex: 1,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 12,
+      },
+      shadowOpacity: 0.58,
+      shadowRadius: 16.00,
+
+      elevation: 24,
     },
-    headerTitle: "Add Connection",
+    headerTitle: "Settings",
     headerTitleStyle: {
-      fontSize: 32,
-      color: "white"
+      fontSize: 30,
+      color: 'white',
+      fontFamily: 'Arial'
     },
     headerTitleContainerStyle: {
       top: -16
     }
-  });
+  })
 
   state = {
     FirstName: "",
@@ -44,8 +56,8 @@ class NewConnectionScreen extends Component {
           this.props.navigation.navigate("AuthLoading");
         })
       }
-    });
-  };
+    })
+  }
 
   render() {
     return (

@@ -59,7 +59,7 @@ class SosButton extends Component {
     }
   };
 
-  getUserLocation = isReturned => {
+  getUserLocation = (isReturned) => {
     if (this.state.isMounted) {
       return new Promise((resolve, reject) => {
         navigator.geolocation.getCurrentPosition(position => {
@@ -139,14 +139,9 @@ class SosButton extends Component {
             await this.state.alarmSound.playAsync();
             await this.state.alarmSound.setIsLoopingAsync(true);
           } catch (e) {
-            console.log(
-              `cannot play the sound file or cannot turn on flashlight`,
-              e
-            );
+            console.log(`cannot play the sound file or cannot turn on flashlight`, e);
           }
-          setTimeout(() => {
-            Linking.openURL(`tel:7609099640`);
-          }, 1000);
+          setTimeout(() => { Linking.openURL(`tel:911`) }, 1000)
         } else {
           this.setState({
             labelSOS: "SOS"
@@ -203,7 +198,8 @@ const styles = StyleSheet.create({
     height: 100,
     width: "100%",
     alignItems: "center",
-    justifyContent: "center"
+    justifyContent: "center",
+    borderRadius: 0
   },
   sosText: {
     fontSize: 40,
