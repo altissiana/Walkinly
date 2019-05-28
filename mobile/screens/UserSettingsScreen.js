@@ -14,13 +14,7 @@ import { signout, changePassword } from "../actions/Actions";
 import { Permissions, ImagePicker } from "expo";
 import * as firebase from "firebase";
 
-const firebaseConfig = {
-  apiKey: "",
-  authDomain: "",
-  databaseURL: "",
-  storageBucket: "walkinly.appspot.com",
-  messagingSenderId: ""
-};
+import { firebaseConfig } from '../constants/apiKeys';
 
 firebase.initializeApp(firebaseConfig);
 
