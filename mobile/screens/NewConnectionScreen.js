@@ -37,10 +37,9 @@ class NewConnectionScreen extends Component {
         this.state.PhoneNumber,
         this.state.FirstName,
         this.state.LastName
-      )
-      .then(() => {
+      ).then(() => {
         this.props.navigation.navigate("AuthLoading");
-      })
+      });
     });
   };
 
