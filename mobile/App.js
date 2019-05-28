@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StatusBar, Text, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font, Icon } from 'expo';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -19,7 +19,7 @@ export default class App extends React.Component {
           onError={this._handleLoadingError}
           onFinish={this._handleFinishLoading}
         />
-      );
+      )
     } else {
       return (
         <Provider store={store}>
@@ -28,7 +28,7 @@ export default class App extends React.Component {
             <AppNavigator /> 
           </View>
         </Provider>
-      );
+      )
     }
   }
 
