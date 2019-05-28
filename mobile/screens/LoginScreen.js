@@ -13,6 +13,7 @@ import validator from 'validator';
 import { signin } from '../actions/Actions';
 
 export default class Login extends Component {
+
     state = {
         email: '',
         password: '',

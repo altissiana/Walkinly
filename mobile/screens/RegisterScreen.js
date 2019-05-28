@@ -15,6 +15,7 @@ import validator from 'validator';
 
 export default class Register extends Component {
 
+
     state = {
         firstname: '',
         lastname: '',
@@ -193,7 +194,7 @@ const styles = StyleSheet.create({
         borderRadius: 0,
         borderWidth: 2,
         borderColor: 'transparent',
-        borderBottomColor: '#6a7189',
+        borderBottomColor: 'white',
         padding: 10,
         marginTop: 40,
         fontSize: 25,
