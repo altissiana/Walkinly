@@ -8,7 +8,8 @@ import {
   Button,
   Alert,
   TouchableOpacity,
-  Linking
+  Linking,
+  ImageBackground
 } from "react-native";
 import { connect } from "react-redux";
 import { getConnections, deleteConnection } from "../actions/Actions";
@@ -136,7 +137,7 @@ class ConnectionsScreen extends Component {
           && this.props.connections.map((contact, i) => {
             if (contact.FirstName !== null && contact.LastName !== null && contact.PhoneNumber !== null) {
               return (
-                <TouchableOpacity 
+                <TouchableOpacity
                   key={'contact' + i}
                   style={styles.connection}
                   onPress={() => {
@@ -151,7 +152,7 @@ class ConnectionsScreen extends Component {
                           }
                         },
                         {
-                          text: 'Edit', 
+                          text: 'Edit',
                           onPress: () => {
                             this.editConnection(contact.PhoneNumber, contact.FirstName, contact.LastName);
                           }
@@ -168,7 +169,7 @@ class ConnectionsScreen extends Component {
                           style: 'cancel',
                         },
                       ],
-                      {cancelable: false}
+                      { cancelable: false }
                     )
                   }}
                 >
@@ -186,7 +187,8 @@ class ConnectionsScreen extends Component {
                   </View>
 
                 </TouchableOpacity>
-            )}
+              )
+            }
           })
         }
       </ScrollView>
@@ -195,6 +197,12 @@ class ConnectionsScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+  img: {
+    flex: 1,
+    width: "100%",
+    height: "100%",
+    resizeMode: "cover"
+  },
   alignAndJustCenter: {
     alignItems: "center",
     justifyContent: "center"
