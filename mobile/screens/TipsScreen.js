@@ -4,11 +4,7 @@ import {
   ScrollView,
   View,
   Text,
-  Modal,
-  ImageBackground,
-  TouchableOpacity,
-  Dimensions,
-  Bold
+  ImageBackground
 } from 'react-native'
 
 const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {

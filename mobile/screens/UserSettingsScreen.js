@@ -1,10 +1,8 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, ImageBackground, ScrollView, TextInput, Image, Alert, TouchableOpacity, AsyncStorage } from "react-native";
-import { Button, Avatar } from 'react-native-elements';
+import { StyleSheet, ImageBackground, ScrollView, TextInput, Image, Alert, TouchableOpacity, AsyncStorage } from "react-native";
+import { Button } from 'react-native-elements';
 import { signout, changePassword } from "../actions/Actions";
-import { connect } from "react-redux";
-import { Permissions, Camera, AppLoading, Constants, ImagePicker } from 'expo';
-import { launchCamera, launchImageLibrary } from '../actions/Actions';
+import { Permissions, ImagePicker } from 'expo';
 import * as firebase from 'firebase';
 
 const firebaseConfig = {
@@ -36,12 +34,9 @@ export default class UserSettingsScreen extends Component {
 
   state = {
     isMounted: false,
-    password: "",
-    oldPassword: "",
     isChanging: false,
-    confirmPassword: "",
     newPassword: '',
-    email: "",
+    email: '',
     avatarSource: null,
     hasCameraPermission: null,
     image: null,
@@ -55,7 +50,8 @@ export default class UserSettingsScreen extends Component {
       isMounted: true,
       image: {
         uri: await AsyncStorage.getItem('userPic')
-      }
+      },
+      email: await AsyncStorage.getItem('userToken')
     })
   }
 
@@ -198,14 +194,6 @@ export default class UserSettingsScreen extends Component {
               />
             }
           </TouchableOpacity>
-
-          <TextInput style={styles.input}
-            value={this.state.email}
-            placeholder='Enter your email'
-            placeholderTextColor="#FFFFFF"
-            autoCapitalize='none'
-            onChangeText={(text) => { this.setState({ email: text }) }}
-          />
 
           <TextInput style={styles.input}
             value={this.state.newPassword}
