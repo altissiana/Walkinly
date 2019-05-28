@@ -26,7 +26,7 @@ class NewConnectionScreen extends Component {
 
       elevation: 24,
     },
-    headerTitle: "Settings",
+    headerTitle: "Add Connection",
     headerTitleStyle: {
       fontSize: 30,
       color: 'white',

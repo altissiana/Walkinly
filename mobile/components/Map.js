@@ -5,6 +5,8 @@ import { StyleSheet, View, Text, Alert } from "react-native";
 import { Icon } from 'react-native-elements';
 import Polyline from '@mapbox/polyline';
 
+import { GOOGLE_MAPS_API_KEY as GOOGLE_API_KEY } from '../constants/apiKeys';
+
 class SimpleMap extends React.Component {
   state = {
     userLocation: {
@@ -98,7 +100,7 @@ class SimpleMap extends React.Component {
   setRoute = (currLoc, destLoc, pos) => {
     if (this.state.isMounted) {
       return new Promise(async (resolve, reject) => {
-        let data = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${currLoc}&destination=${destLoc}&key=AIzaSyBmb9R1oZn4_chPvodHHt_yCTUpPjzTcNE&mode=walking`);
+        let data = await fetch(`https://maps.googleapis.com/maps/api/directions/json?origin=${currLoc}&destination=${destLoc}&key=${GOOGLE_API_KEY}&mode=walking`);
         let jsonData = await data.json();
         let points = Polyline.decode(jsonData.routes[0].overview_polyline.points);
         let routeCoords = points.map((point, index) => {
