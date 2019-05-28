@@ -5,9 +5,7 @@ import {
     Text,
     View,
     TextInput,
-    AsyncStorage,
-    ImageBackground,
-
+    ImageBackground
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { register } from '../actions/Actions';
