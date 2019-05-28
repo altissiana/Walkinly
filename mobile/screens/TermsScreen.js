@@ -39,6 +39,7 @@ export default class Terms extends Component {
                                 })
                             }
                         }}
+                        scrollEventThrottle={32}
                     >
                         <Text style={styles.tcL}>{'\u2022'} Welcome to our App. If you continue to browse and use this app, you are agreeing to comply with and be bound by the following terms and conditions of use, which together with our privacy policy govern Walkinly’s relationship with you in relation to this app. If you disagree with any part of these terms and conditions, please do not use our app.</Text>
                         <Text style={styles.tcL}>{'\u2022'} The term ‘Walkinly’ or ‘us’ or ‘we’ refers to the owner of the app whose registered office is 1112 S Casino Center Blvd, Las Vegas, NV 89104. Our company registration number is 000. The term ‘you’ refers to the user or viewer of our app.</Text>
