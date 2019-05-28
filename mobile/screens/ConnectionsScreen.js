@@ -115,94 +115,90 @@ class ConnectionsScreen extends Component {
 
   render() {
     return (
-      <ScrollView
-        contentContainerStyle={styles.alignAndJustCenter}
-        style={styles.contentContainer}
-        onScroll={({ nativeEvent }) => {
-          if (isCloseToBottom(nativeEvent)) {
-            this.setState({
-              accepted: true
-            });
-          }
-        }}
-        scrollEventThrottle={32}
-      >
-        <Button
-          title="Add Connection"
-          onPress={() => {
-            this.addConnection();
-          }}
-        />
-        {this.props.connections
-          && this.props.connections.map((contact, i) => {
-            if (contact.FirstName !== null && contact.LastName !== null && contact.PhoneNumber !== null) {
-              return (
-                <TouchableOpacity
-                  key={'contact' + i}
-                  style={styles.connection}
-                  onPress={() => {
-                    Alert.alert(
-                      `${contact.FirstName} ${contact.LastName}`,
-                      'Would you like to edit or call this connection?',
-                      [
-                        {
-                          text: 'Call',
-                          onPress: () => {
-                            Linking.openURL(`tel:${contact.PhoneNumber}`)
-                          }
-                        },
-                        {
-                          text: 'Edit',
-                          onPress: () => {
-                            this.editConnection(contact.PhoneNumber, contact.FirstName, contact.LastName);
-                          }
-                        },
-                        {
-                          text: 'Delete',
-                          onPress: () => {
-                            this.deleteConnection(contact.PhoneNumber);
-                          }
-                        },
-                        {
-                          text: 'Cancel',
-                          onPress: () => console.log('Cancelled'),
-                          style: 'cancel',
-                        },
-                      ],
-                      { cancelable: false }
-                    )
-                  }}
-                >
-
-                  <View>
-
-                    <Text>
-                      <Text style={styles.bold}>Name:</Text> {contact.FirstName} {contact.LastName}
-                    </Text>
-
-                    <Text>
-                      <Text style={styles.bold}>Phone Number:</Text> {contact.PhoneNumber}
-                    </Text>
-
-                  </View>
-
-                </TouchableOpacity>
-              )
+      <View style={{ backgroundColor: '#F0F0F0', flex: 1 }}>
+        <ScrollView
+          contentContainerStyle={styles.alignAndJustCenter}
+          style={styles.contentContainer}
+          onScroll={({ nativeEvent }) => {
+            if (isCloseToBottom(nativeEvent)) {
+              this.setState({
+                accepted: true
+              });
             }
-          })
-        }
-      </ScrollView>
+          }}
+          scrollEventThrottle={32}
+        >
+          <Button
+            title="Add Connection"
+            onPress={() => {
+              this.addConnection();
+            }}
+          />
+          {this.props.connections
+            && this.props.connections.map((contact, i) => {
+              if (contact.FirstName !== null && contact.LastName !== null && contact.PhoneNumber !== null) {
+                return (
+                  <TouchableOpacity
+                    key={'contact' + i}
+                    style={styles.connection}
+                    onPress={() => {
+                      Alert.alert(
+                        `${contact.FirstName} ${contact.LastName}`,
+                        'Would you like to edit or call this connection?',
+                        [
+                          {
+                            text: 'Call',
+                            onPress: () => {
+                              Linking.openURL(`tel:${contact.PhoneNumber}`)
+                            }
+                          },
+                          {
+                            text: 'Edit',
+                            onPress: () => {
+                              this.editConnection(contact.PhoneNumber, contact.FirstName, contact.LastName);
+                            }
+                          },
+                          {
+                            text: 'Delete',
+                            onPress: () => {
+                              this.deleteConnection(contact.PhoneNumber);
+                            }
+                          },
+                          {
+                            text: 'Cancel',
+                            onPress: () => console.log('Cancelled'),
+                            style: 'cancel',
+                          },
+                        ],
+                        { cancelable: false }
+                      )
+                    }}
+                  >
+
+                    <View>
+
+                      <Text>
+                        <Text style={styles.bold}>Name:</Text> {contact.FirstName} {contact.LastName}
+                      </Text>
+
+                      <Text>
+                        <Text style={styles.bold}>Phone Number:</Text> {contact.PhoneNumber}
+                      </Text>
+
+                    </View>
+
+                  </TouchableOpacity>
+                )
+              }
+            })
+          }
+        </ScrollView>
+      </View>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  img: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    resizeMode: "cover"
-  },
   alignAndJustCenter: {
     alignItems: "center",
     justifyContent: "center"
