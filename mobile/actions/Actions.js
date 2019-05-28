@@ -4,8 +4,7 @@ import axios from "axios";
 
 export function signout() {
   return new Promise((resolve, reject) => {
-    AsyncStorage.removeItem("userToken");
-    AsyncStorage.removeItem('userPic')
+    AsyncStorage.clear()
     store.dispatch({
       type: "LOGIN/REGISTER/LOGOUT",
       payload: {
