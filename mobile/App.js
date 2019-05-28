@@ -19,7 +19,7 @@ export default class App extends React.Component {
           onError={this._handleLoadingError}
           onFinish={this._handleFinishLoading}
         />
-      );
+      )
     } else {
       return (
         <Provider store={store}>
@@ -28,7 +28,7 @@ export default class App extends React.Component {
             <AppNavigator /> 
           </View>
         </Provider>
-      );
+      )
     }
   }
 

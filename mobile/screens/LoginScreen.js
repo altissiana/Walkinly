@@ -8,6 +8,7 @@ import {
     ImageBackground
 } from 'react-native';
 import { Button } from 'react-native-elements';
+import validator from 'validator';
 
 import { signin } from '../actions/Actions';
 
@@ -25,20 +26,20 @@ export default class Login extends Component {
     componentDidMount() {
         this.setState({
             isMounted: true
-        });
+        })
     }
 
     handleLogin = async () => {
-        const { navigation } = this.props;
-        const { email, password } = this.state;
+        const { navigation } = this.props
+        const { email, password } = this.state
 
-        Keyboard.dismiss();
-        this.state.isMounted && this.setState({ loading: true });
+        Keyboard.dismiss()
+        this.state.isMounted && this.setState({ loading: true })
 
-        if (this.state.isMounted) {
+        if (this.state.isMounted && validator.isEmail(email) && validator.isAscii(password)) {
             signin(email, password)
                 .then(() => {
-                    navigation.navigate('Main');
+                    navigation.navigate('AuthLoading');
                 })
                 .catch(err => {
                     this.setState({

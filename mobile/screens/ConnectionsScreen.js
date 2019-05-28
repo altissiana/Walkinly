@@ -122,6 +122,7 @@ class ConnectionsScreen extends Component {
         />
         {this.props.connections 
           && this.props.connections.map((contact, i) => {
+            if (contact.FirstName !== null && contact.LastName !== null && contact.PhoneNumber !== null) {
               return (
                 <TouchableOpacity 
                   key={'contact' + i}
@@ -173,7 +174,7 @@ class ConnectionsScreen extends Component {
                   </View>
 
                 </TouchableOpacity>
-            );
+            )};
           })
         }
       </ScrollView>
