@@ -15,7 +15,6 @@ export default class AuthLoadingScreen extends Component {
 
   // Fetch the token from storage then navigate to appropriate place
   _bootstrapAsync = async () => {
-    // await AsyncStorage.setItem('userToken', 'Tissi')  //delete this after
     const userToken = await AsyncStorage.getItem('userToken')
     if (userToken) {
       await getConnections(userToken)

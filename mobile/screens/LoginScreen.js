@@ -15,6 +15,7 @@ import * as firebase from 'firebase';
 import { signin } from '../actions/Actions';
 
 export default class Login extends Component {
+
     state = {
         email: '',
         password: '',
