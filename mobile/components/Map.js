@@ -398,15 +398,6 @@ const styles = StyleSheet.create({
     right: 0,
     justifyContent: "flex-end",
     alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 12,
-    },
-    shadowOpacity: 0.58,
-    shadowRadius: 16.00,
-
-    elevation: 24,
   },
   map: {
     position: "absolute",

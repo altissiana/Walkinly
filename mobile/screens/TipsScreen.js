@@ -33,7 +33,7 @@ class TipsScreen extends Component {
 
       elevation: 24,
     },
-    headerTitle: "Settings",
+    headerTitle: "Tips and Advice",
     headerTitleStyle: {
       fontSize: 30,
       color: 'white',
