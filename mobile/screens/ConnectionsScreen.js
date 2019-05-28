@@ -36,7 +36,7 @@ class ConnectionsScreen extends Component {
 
       elevation: 24,
     },
-    headerTitle: "Settings",
+    headerTitle: "Connections",
     headerTitleStyle: {
       fontSize: 30,
       color: 'white',

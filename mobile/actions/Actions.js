@@ -29,7 +29,7 @@ export function getConnections(email) {
         store.dispatch({
           type: "GET_CONNECTIONS",
           payload: resp.data
-        }) 
+        })
         resolve();
       })
       .catch(err => {
@@ -156,9 +156,11 @@ export function editConnection(userEmail, phonenumber, firstname, lastname) {
 export function deleteConnection(userEmail, phonenumber) {
   return new Promise((resolve, reject) => {
     axios
-      .delete("http://10.68.0.155:3001/api/deleteConnection", { data: {
-        userEmail, phonenumber
-      }})
+      .delete("http://10.68.0.155:3001/api/deleteConnection", {
+        data: {
+          userEmail, phonenumber
+        }
+      })
       .then(async resp => {
         await getConnections(userEmail)
         resolve()
