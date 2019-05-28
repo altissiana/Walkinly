@@ -5,7 +5,7 @@ import { StyleSheet, View, Text, Alert } from "react-native";
 import { Icon } from 'react-native-elements';
 import Polyline from '@mapbox/polyline';
 
-import GOOGLE_API_KEY from '../constants/apiKeys';
+import { GOOGLE_MAPS_API_KEY as GOOGLE_API_KEY } from '../constants/apiKeys';
 
 class SimpleMap extends React.Component {
   state = {
