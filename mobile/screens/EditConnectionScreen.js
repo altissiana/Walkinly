@@ -4,7 +4,8 @@ import {
   View,
   Button,
   StyleSheet,
-  AsyncStorage
+  AsyncStorage,
+  ImageBackground
 } from "react-native";
 import { editConnection } from "../actions/Actions";
 
@@ -46,9 +47,9 @@ class EditConnectionScreen extends Component {
         this.state.firstname,
         this.state.lastname
       )
-      .then(() => {
-        this.props.navigation.navigate("AuthLoading");
-      })
+        .then(() => {
+          this.props.navigation.navigate("AuthLoading");
+        })
     });
   }
 
