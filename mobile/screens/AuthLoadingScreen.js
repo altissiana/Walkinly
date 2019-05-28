@@ -5,7 +5,6 @@ import {
   StatusBar,
   View,
 } from 'react-native';
-import * as firebase from 'firebase';
 import { getConnections } from '../actions/Actions';
 
 export default class AuthLoadingScreen extends Component {
@@ -19,19 +18,6 @@ export default class AuthLoadingScreen extends Component {
     // await AsyncStorage.setItem('userToken', 'Tissi')  //delete this after
     const userToken = await AsyncStorage.getItem('userToken')
     if (userToken) {
-      const ref = firebase
-        .storage()
-        .ref()
-        .child('images/' + `${userToken}-profile-image`)
-        .getDownloadURL()
-        .then(async url => {
-          if (url) {
-            await AsyncStorage.setItem('userPic', url)
-          }
-        })
-        .catch(err => {
-          console.log(err)
-        })
       await getConnections(userToken)
     }
     this.props.navigation.navigate(userToken ? 'Main' : 'Login')
