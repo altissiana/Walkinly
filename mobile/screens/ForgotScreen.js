@@ -2,17 +2,9 @@ import React, { Component } from 'react'
 import { TextField } from 'react-native'
 import axios from 'axios'
 import { Button } from 'react-native-elements';
-
 import {
-    Keyboard,
-    StyleSheet,
-    Text,
     View,
-    TextInput,
-    AsyncStorage,
-    ImageBackground,
     Form
-
 } from 'react-native';
 
 const title = {

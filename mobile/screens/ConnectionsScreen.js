@@ -15,8 +15,10 @@ import { getConnections, deleteConnection } from "../actions/Actions";
 
 const isCloseToBottom = ({ layoutMeasurement, contentOffset, contentSize }) => {
   const paddingToBottom = 20;
-  return layoutMeasurement.height + contentOffset.y >=
-    contentSize.height - paddingToBottom;
+  return (
+    layoutMeasurement.height + contentOffset.y >=
+    contentSize.height - paddingToBottom
+  );
 };
 
 class ConnectionsScreen extends Component {
@@ -28,8 +30,7 @@ class ConnectionsScreen extends Component {
       shadowColor: "#000",
       shadowOffset: {
         width: 0,
-        height: 12,
-
+        height: 12
       },
       shadowOpacity: 0.58,
       shadowRadius: 16.00,
@@ -68,7 +69,7 @@ class ConnectionsScreen extends Component {
       try {
         getConnections(await AsyncStorage.getItem("userToken"));
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
     }
   };
@@ -77,34 +78,33 @@ class ConnectionsScreen extends Component {
     this.props.navigation.navigate("NewConnection");
   }
 
-  deleteConnection = async (phonenumber) => {
+  deleteConnection = async phonenumber => {
     if (this.state.isMounted) {
-      await AsyncStorage.getItem('userToken').then(email => {
-        deleteConnection(email, phonenumber)
-          .then(() => {
-            this.props.navigation.navigate("AuthLoading");
-          })
-      })
+      await AsyncStorage.getItem("userToken").then(email => {
+        deleteConnection(email, phonenumber).then(() => {
+          this.props.navigation.navigate("AuthLoading");
+        });
+      });
     }
-  }
+  };
 
   editConnection = async (phonenumber, firstname, lastname) => {
     if (this.state.isMounted) {
-      await AsyncStorage.setItem('tempConnPhone', phonenumber)
+      await AsyncStorage.setItem("tempConnPhone", phonenumber)
         .then(async () => {
-          await AsyncStorage.setItem('tempConnFirst', firstname)
+          await AsyncStorage.setItem("tempConnFirst", firstname);
         })
         .then(async () => {
-          await AsyncStorage.setItem('tempConnLast', lastname)
+          await AsyncStorage.setItem("tempConnLast", lastname);
         })
         .then(() => {
-          this.props.navigation.navigate("EditConnection")
+          this.props.navigation.navigate("EditConnection");
         })
         .catch(error => {
-          console.log(error)
-        })
+          console.log(error);
+        });
     }
-  }
+  };
 
   componentWillUnmount() {
     this.setState({
@@ -121,7 +121,7 @@ class ConnectionsScreen extends Component {
           if (isCloseToBottom(nativeEvent)) {
             this.setState({
               accepted: true
-            })
+            });
           }
         }}
         scrollEventThrottle={32}
@@ -134,58 +134,59 @@ class ConnectionsScreen extends Component {
         />
         {this.props.connections
           && this.props.connections.map((contact, i) => {
-            return (
-              <TouchableOpacity
-                key={'contact' + i}
-                style={styles.connection}
-                onPress={() => {
-                  Alert.alert(
-                    `${contact.FirstName} ${contact.LastName}`,
-                    'Would you like to edit or call this connection?',
-                    [
-                      {
-                        text: 'Call',
-                        onPress: () => {
-                          Linking.openURL(`tel:${contact.PhoneNumber}`)
-                        }
-                      },
-                      {
-                        text: 'Edit',
-                        onPress: () => {
-                          this.editConnection(contact.PhoneNumber, contact.FirstName, contact.LastName);
-                        }
-                      },
-                      {
-                        text: 'Delete',
-                        onPress: () => {
-                          this.deleteConnection(contact.PhoneNumber);
-                        }
-                      },
-                      {
-                        text: 'Cancel',
-                        onPress: () => console.log('Cancelled'),
-                        style: 'cancel',
-                      },
-                    ],
-                    { cancelable: false }
-                  )
-                }}
-              >
+            if (contact.FirstName !== null && contact.LastName !== null && contact.PhoneNumber !== null) {
+              return (
+                <TouchableOpacity 
+                  key={'contact' + i}
+                  style={styles.connection}
+                  onPress={() => {
+                    Alert.alert(
+                      `${contact.FirstName} ${contact.LastName}`,
+                      'Would you like to edit or call this connection?',
+                      [
+                        {
+                          text: 'Call',
+                          onPress: () => {
+                            Linking.openURL(`tel:${contact.PhoneNumber}`)
+                          }
+                        },
+                        {
+                          text: 'Edit', 
+                          onPress: () => {
+                            this.editConnection(contact.PhoneNumber, contact.FirstName, contact.LastName);
+                          }
+                        },
+                        {
+                          text: 'Delete',
+                          onPress: () => {
+                            this.deleteConnection(contact.PhoneNumber);
+                          }
+                        },
+                        {
+                          text: 'Cancel',
+                          onPress: () => console.log('Cancelled'),
+                          style: 'cancel',
+                        },
+                      ],
+                      {cancelable: false}
+                    )
+                  }}
+                >
 
-                <View>
+                  <View>
 
-                  <Text>
-                    <Text style={styles.bold}>Name:</Text> {contact.FirstName} {contact.LastName}
-                  </Text>
+                    <Text>
+                      <Text style={styles.bold}>Name:</Text> {contact.FirstName} {contact.LastName}
+                    </Text>
 
-                  <Text>
-                    <Text style={styles.bold}>Phone Number:</Text> {contact.PhoneNumber}
-                  </Text>
+                    <Text>
+                      <Text style={styles.bold}>Phone Number:</Text> {contact.PhoneNumber}
+                    </Text>
 
-                </View>
+                  </View>
 
-              </TouchableOpacity>
-            );
+                </TouchableOpacity>
+            )}
           })
         }
       </ScrollView>
@@ -195,20 +196,20 @@ class ConnectionsScreen extends Component {
 
 const styles = StyleSheet.create({
   alignAndJustCenter: {
-    alignItems: 'center',
-    justifyContent: 'center'
+    alignItems: "center",
+    justifyContent: "center"
   },
   connection: {
-    width: '90%',
+    width: "90%",
     borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: 'rgb(210, 210, 210)',
+    borderStyle: "solid",
+    borderColor: "rgb(210, 210, 210)",
     padding: 10,
     borderRadius: 10,
     marginVertical: 10
   },
   bold: {
-    fontWeight: 'bold'
+    fontWeight: "bold"
   },
   container: {
     flex: 1,
@@ -217,11 +218,11 @@ const styles = StyleSheet.create({
   deleteConnection: {
     fontSize: 20,
     padding: 14,
-    color: 'red',
-    position: 'absolute',
+    color: "red",
+    position: "absolute",
     right: 0
   }
-})
+});
 
 function mapStateToProps(appState, ownProps) {
   return {

@@ -5,12 +5,13 @@ import {
     Text,
     View,
     TextInput,
-    AsyncStorage,
     ImageBackground,
-
+    AsyncStorage
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { register } from '../actions/Actions';
+import * as firebase from 'firebase';
+import validator from 'validator';
 
 export default class Register extends Component {
     state = {
@@ -29,17 +30,56 @@ export default class Register extends Component {
         });
     }
 
-    handleRegister = () => {
+    uploadImageAsync = async (uri, imageName) => {
+      const blob = await new Promise((resolve, reject) => {
+        const xhr = new XMLHttpRequest();
+        xhr.onload = function () {
+          resolve(xhr.response);
+        };
+        xhr.onerror = function (e) {
+          console.log(e);
+          reject(new TypeError('Network request failed'));
+        };
+        xhr.responseType = 'blob';
+        xhr.open('GET', uri, true);
+        xhr.send(null);
+      });
+  
+      const ref = firebase
+        .storage()
+        .ref()
+        .child('images/' + imageName);
+      const snapshot = await ref.put(blob);
+  
+      blob.close();
+  
+      return await snapshot.ref.getDownloadURL();
+    }
+
+    createProfilePic = (email) => {
+      return new Promise(async (resolve, reject) => {
+        let uploadURL = await this.uploadImageAsync('http://chittagongit.com/images/default-profile-icon/default-profile-icon-24.jpg', `${email}-profile-image`)
+        await AsyncStorage.removeItem('userPic')
+        await AsyncStorage.setItem('userPic', uploadURL)
+        resolve()
+      })
+      .catch(error => {
+        console.log(error)
+      })
+    }
+
+    handleRegister = async () => {
         const { navigation } = this.props;
         const { firstname, lastname, email, phonenumber, password } = this.state;
 
         Keyboard.dismiss();
         this.state.isMounted && this.setState({ loading: true });
 
-        if (this.state.isMounted) {
+        if (this.state.isMounted && validator.isEmail(email) && validator.isNumeric(phonenumber) && validator.isAscii(password) && validator.isAlpha(firstname) && validator.isAlpha(lastname)) {
+            await this.createProfilePic(email)
             register(email, password, phonenumber, firstname, lastname)
                 .then(() => {
-                    navigation.navigate('Main');
+                    navigation.navigate('AuthLoading');
                 })
                 .catch(err => {
                     this.setState({
@@ -121,7 +161,7 @@ export default class Register extends Component {
                     <Button
                         type="outline"
                         title="Enter"
-                        onPress={() => this.handleRegister(first)}
+                        onPress={() => this.handleRegister()}
                         style={{
 
                             marginTop: 40,

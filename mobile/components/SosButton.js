@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
-import { Audio } from 'expo';
-import { StyleSheet, View, Linking, AsyncStorage } from 'react-native';
-import { Button } from 'react-native-elements';
-import alarm from '../assets/sounds/alarm.mp3';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { Audio } from "expo";
+import { StyleSheet, View, Linking, AsyncStorage } from "react-native";
+import { Button } from "react-native-elements";
+import alarm from "../assets/sounds/alarm.mp3";
+import { connect } from "react-redux";
 import { setSosLocation, setSosStatus } from "../actions/Actions";
 
 Audio.setIsEnabledAsync(true);
@@ -24,7 +24,7 @@ class SosButton extends Component {
     },
     alarmSound: new Audio.Sound(),
     statusSOS: false,
-    labelSOS: 'SOS',
+    labelSOS: "SOS",
     clickableSOS: true,
     isMounted: false,
     sosLocation: {
@@ -35,12 +35,12 @@ class SosButton extends Component {
       title: "sos",
       description: ""
     }
-  }
+  };
 
   componentDidMount() {
     this.setState({
       isMounted: true
-    })
+    });
   }
 
   setSosLocation = () => {
@@ -70,35 +70,37 @@ class SosButton extends Component {
               latitudeDelta: 0.1,
               longitudeDelta: 0.1
             }
-          })
+          });
           let userLatLng = {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
-          }
-          resolve(userLatLng)
-        })
-      })
+          };
+          resolve(userLatLng);
+        });
+      });
     }
-  }
+  };
 
   sendSOSMessage = async () => {
     if (this.state.isMounted) {
       this.setState({ submitting: true });
-      const name = await AsyncStorage.getItem('userName');
-      const phone = await AsyncStorage.getItem('userPhone');
+      const name = await AsyncStorage.getItem("userName");
+      const phone = await AsyncStorage.getItem("userPhone");
       const userLatLng = await this.getUserLocation(true);
       this.props.connections.forEach(async contact => {
         if (contact.PhoneNumber !== null) {
           this.setState({
             message: {
               to: `${contact.PhoneNumber}`,
-              body: `SOS from ${name}: I may be in trouble! Here's my current location: https://www.google.com/maps/search/?api=1&query=${userLatLng.latitude},${userLatLng.longitude}. Please try to contact me at ${phone}!`
+              body: `SOS from ${name}: I may be in trouble! Here's my current location: https://www.google.com/maps/search/?api=1&query=${
+                userLatLng.latitude
+              },${userLatLng.longitude}. Please try to contact me at ${phone}!`
             }
-          })
-          fetch('http://10.68.0.155:3001/api/messages', {
-            method: 'POST',
+          });
+          fetch("http://10.68.0.155:3001/api/messages", {
+            method: "POST",
             headers: {
-              'Content-Type': 'application/json'
+              "Content-Type": "application/json"
             },
             body: JSON.stringify(this.state.message)
           })
@@ -107,7 +109,7 @@ class SosButton extends Component {
               if (data.success) {
                 this.setState({
                   error: false,
-                  submitting: false,
+                  submitting: false
                 });
               } else {
                 this.setState({
@@ -117,21 +119,21 @@ class SosButton extends Component {
               }
             });
         }
-      })
+      });
     }
-  }
+  };
 
   handleSOSPress = async () => {
     if (this.state.isMounted) {
       if (this.state.clickableSOS) {
         this.setState({
           clickableSOS: false
-        })
+        });
         if (!this.state.statusSOS) {
           this.setState({
-            labelSOS: 'STOP'
-          })
-          this.sendSOSMessage()
+            labelSOS: "STOP"
+          });
+          this.sendSOSMessage();
           try {
             await this.state.alarmSound.loadAsync(alarm);
             await this.state.alarmSound.playAsync();
@@ -139,37 +141,40 @@ class SosButton extends Component {
           } catch (e) {
             console.log(`cannot play the sound file or cannot turn on flashlight`, e);
           }
-          setTimeout(() => { Linking.openURL(`tel:7609099640`) }, 1000)
+          setTimeout(() => { Linking.openURL(`tel:911`) }, 1000)
         } else {
           this.setState({
-            labelSOS: 'SOS'
-          })
+            labelSOS: "SOS"
+          });
           setSosStatus(false);
           try {
-            await this.state.alarmSound.setIsLoopingAsync(false)
+            await this.state.alarmSound.setIsLoopingAsync(false);
             await this.state.alarmSound.stopAsync();
             await this.state.alarmSound.unloadAsync();
           } catch (e) {
-            console.log('cannot stop the sound file or cannot turn off flashlight', e);
+            console.log(
+              "cannot stop the sound file or cannot turn off flashlight",
+              e
+            );
           }
         }
         this.setState({
           statusSOS: !this.state.statusSOS
-        })
+        });
       }
       await setTimeout(() => {
         this.setState({
           clickableSOS: true
-        })
+        });
       }, 5000);
       this.props.navigation.navigate("Home");
     }
-  }
+  };
 
   componentWillUnmount() {
     this.setState({
       isMounted: false
-    })
+    });
   }
 
   render() {
@@ -194,7 +199,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     justifyContent: "center",
-    borderRadius: 0,
+    borderRadius: 0
   },
   sosText: {
     fontSize: 40,
@@ -209,7 +214,7 @@ function mapStateToProps(appState, ownProps) {
   return {
     ...ownProps,
     connections: appState.connections
-  }
+  };
 }
 
 export default connect(mapStateToProps)(SosButton);

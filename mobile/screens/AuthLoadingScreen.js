@@ -10,13 +10,13 @@ import { getConnections } from '../actions/Actions';
 
 export default class AuthLoadingScreen extends Component {
   constructor(props) {
-    super(props);
-    this._bootstrapAsync();
+    super(props)
+    this._bootstrapAsync()
   }
 
   // Fetch the token from storage then navigate to appropriate place
   _bootstrapAsync = async () => {
-    const userToken = await AsyncStorage.getItem('userToken');
+    const userToken = await AsyncStorage.getItem('userToken')
     if (userToken) {
       const ref = firebase
         .storage()
@@ -31,9 +31,9 @@ export default class AuthLoadingScreen extends Component {
         .catch(err => {
           console.log(err)
         })
-      await getConnections(userToken);
+      await getConnections(userToken)
     }
-    this.props.navigation.navigate(userToken ? 'Main' : 'Login');
+    this.props.navigation.navigate(userToken ? 'Main' : 'Login')
   };
 
   // Render loading content
@@ -43,6 +43,6 @@ export default class AuthLoadingScreen extends Component {
         <ActivityIndicator />
         <StatusBar barStyle="default" />
       </View>
-    );
+    )
   }
 }
