@@ -5,14 +5,17 @@ import {
     Text,
     View,
     TextInput,
-    ImageBackground
+    ImageBackground,
+    AsyncStorage
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import validator from 'validator';
+import * as firebase from 'firebase';
 
 import { signin } from '../actions/Actions';
 
 export default class Login extends Component {
+
     state = {
         email: '',
         password: '',
@@ -37,6 +40,20 @@ export default class Login extends Component {
         this.state.isMounted && this.setState({ loading: true })
 
         if (this.state.isMounted && validator.isEmail(email) && validator.isAscii(password)) {
+          await AsyncStorage.removeItem('userPic')
+            firebase
+              .storage()
+              .ref()
+              .child('images/' + `${email}-profile-image`)
+              .getDownloadURL()
+              .then(async url => {
+                if (url) {
+                  await AsyncStorage.setItem('userPic', url)
+                }
+              })
+              .catch(err => {
+                console.log(err)
+              })
             signin(email, password)
                 .then(() => {
                     navigation.navigate('AuthLoading');
